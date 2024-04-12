@@ -6,16 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-public class MainActivity extends AppCompatActivity {
+public class GettingStarted3 extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_getting_started3);
     }
 
     public void onButtonClicked(View view) {
-        Intent intent = new Intent(this, GettingStarted2.class);
+        Intent intent = new Intent(this, login.class);
         startActivity(intent);
     }
 }
