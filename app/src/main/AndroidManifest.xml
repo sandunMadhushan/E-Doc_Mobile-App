@@ -13,6 +13,24 @@
         android:theme="@style/Theme.EDoc"
         tools:targetApi="31">
         <activity
+            android:name=".patient_home"
+            android:exported="false" />
+        <activity
+            android:name=".regsiterdoctordetails"
+            android:exported="false" />
+        <activity
+            android:name=".registerpatientdetails"
+            android:exported="false" />
+        <activity
+            android:name=".registeroption"
+            android:exported="false" />
+        <activity
+            android:name=".doctor_home"
+            android:exported="false" />
+        <activity
+            android:name=".signup"
+            android:exported="false" />
+        <activity
             android:name=".login"
             android:exported="false" />
         <activity
