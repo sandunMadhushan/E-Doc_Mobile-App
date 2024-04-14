@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/device_background"
-    tools:context=".registeroption">
+    tools:context=".registeroption"
+    android:id="@+id/container">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -67,10 +68,11 @@
                     android:textColor="@color/black"
                     android:textSize="21sp"
                     android:gravity="center"
-                    android:onClick="onPatientButtonClicked"
+                    android:onClick="this"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView8"
+                    tools:ignore="OnClick" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/button4"
