@@ -5,13 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".ProfileFragment">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Profile Fragment"
         android:layout_gravity="center"
-        android:textColor="@color/white"
-        android:fontFamily="@font/poppins_semibold"/>
+        android:fontFamily="@font/poppins_semibold"
+        android:text="Profile Fragment"
+        android:textColor="@color/white" />
 
 </FrameLayout>

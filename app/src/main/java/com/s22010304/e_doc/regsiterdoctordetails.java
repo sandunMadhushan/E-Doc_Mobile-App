@@ -14,8 +14,8 @@ public class regsiterdoctordetails extends AppCompatActivity {
         setContentView(R.layout.activity_regsiterdoctordetails);
     }
 
-    public void onButtonClicked(View view){
+    /*public void onButtonClicked(View view){
         Intent intent = new Intent(this, doctor_home.class);
         startActivity(intent);
-    }
+    }*/
 }

@@ -13,10 +13,10 @@
         android:theme="@style/Theme.EDoc"
         tools:targetApi="31">
         <activity
-            android:name=".GettingStarted1"
-            android:exported="true" />
-        <activity
             android:name=".MainActivity2"
+            android:exported="false" />
+        <activity
+            android:name=".GettingStarted1"
             android:exported="true" />
         <activity
             android:name=".patient_home"
@@ -32,7 +32,7 @@
             android:exported="false" />
         <activity
             android:name=".doctor_home"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".signup"
             android:exported="false" />
@@ -47,7 +47,8 @@
             android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

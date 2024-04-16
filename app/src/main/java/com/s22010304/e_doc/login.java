@@ -13,10 +13,10 @@ public class login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
     }
-    public void onButtonClicked(View view) {
+    /*public void onButtonClicked(View view) {
         Intent intent = new Intent(this, doctor_home.class);
         startActivity(intent);
-    }
+    }*/
     public void onTextViewClicked(View view) {
         Intent intent = new Intent(this, signup.class);
         startActivity(intent);

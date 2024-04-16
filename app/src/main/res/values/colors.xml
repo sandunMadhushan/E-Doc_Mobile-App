@@ -7,4 +7,6 @@
     <color name="dark">#1C274C</color>
     <color name="accent">#F5F5FF</color>
     <color name="danger">#D93A3A</color>
+    <color name="lightgrey">#989797</color>
+    <color name="underline">#D8D6D6</color>
 </resources>

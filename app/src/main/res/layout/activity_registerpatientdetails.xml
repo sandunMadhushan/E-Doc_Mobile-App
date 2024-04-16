@@ -201,7 +201,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Enter your NIC"
                         android:textColor="@color/muted"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <TextView
@@ -231,7 +231,7 @@
                         android:layout_height="wrap_content"
                         android:hint="Enter your contact no"
                         android:textColor="@color/muted"
-                        android:textSize="14sp"/>
+                        android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>

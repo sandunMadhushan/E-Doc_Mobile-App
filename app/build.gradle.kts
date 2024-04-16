@@ -6,6 +6,7 @@ android {
     namespace = "com.s22010304.e_doc"
     compileSdk = 34
 
+
     defaultConfig {
         applicationId = "com.s22010304.e_doc"
         minSdk = 28
@@ -40,6 +41,7 @@ dependencies {
 
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
+    implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     implementation("com.android.car.ui:car-ui-lib:2.6.0")
     implementation("com.android.databinding:library:8.3.2")

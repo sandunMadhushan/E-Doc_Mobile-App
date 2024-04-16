@@ -14,8 +14,8 @@ public class registerpatientdetails extends AppCompatActivity {
         setContentView(R.layout.activity_registerpatientdetails);
     }
 
-    public void onButtonClicked(View view){
+    /*public void onButtonClicked(View view){
         Intent intent = new Intent(this, patient_home.class);
         startActivity(intent);
-    }
+    }*/
 }
