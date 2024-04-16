@@ -151,10 +151,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:text="Notify me with E-DOC latest News and\nUpdates through Email (optional)"
-                        android:textSize="12sp"
                         android:fontFamily="@font/poppins_regular"
-                        android:textColor="@color/black"/>
+                        android:text="Notify me with E-DOC latest News and\nUpdates through Email (optional)"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
 
                 </LinearLayout>
 
@@ -166,14 +166,14 @@
                     android:layout_marginTop="32dp"
                     android:layout_marginEnd="32dp"
                     android:background="@drawable/button_background"
+                    android:onClick="onButtonClicked"
                     android:text="Register"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                    android:onClick="onButtonClicked"/>
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -201,12 +201,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:clickable="true"
                         android:fontFamily="@font/poppins_medium"
+                        android:onClick="onTextViewClicked"
                         android:text="Sign In"
                         android:textColor="@color/primary"
-                        android:textSize="14sp"
-                        android:clickable="true"
-                        android:onClick="onTextViewClicked"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
                 <TextView

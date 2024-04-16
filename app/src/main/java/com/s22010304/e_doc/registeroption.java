@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+
 public class registeroption extends AppCompatActivity implements View.OnClickListener {
 
     Button button3;
@@ -23,15 +24,27 @@ public class registeroption extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    @Override
+    /*@Override
     public void onClick(View v) {
         if (v.getId()==R.id.button3){
 
             getSupportFragmentManager().beginTransaction().replace(R.id.container,new HomeFragment()).commit();
         }
+    }*/
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button3) {
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.container, new HomeFragment());
+            fragmentTransaction.addToBackStack(null); // Add this line to add the transaction to the back stack
+            fragmentTransaction.commit();
+        }
     }
 
-    }
+
+}
 
     /*public void onPatientButtonClicked(View view) {
         Intent intent = new Intent(this, registerpatientdetails.class);

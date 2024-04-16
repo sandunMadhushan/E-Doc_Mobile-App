@@ -163,14 +163,14 @@
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:background="@drawable/button_background"
+                    android:onClick="onButtonClicked"
                     android:text="Continue"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-                    android:onClick="onButtonClicked"/>
+                    app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
                 <LinearLayout
                     android:id="@+id/linearLayout2"
@@ -234,7 +234,7 @@
                         android:layout_gravity="bottom|center_vertical"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/google_logo"
-                        android:contentDescription="Google"/>
+                        android:contentDescription="Google" />
 
                     <ImageButton
                         android:id="@+id/imageButton9"
@@ -242,14 +242,14 @@
                         android:layout_height="60dp"
                         android:layout_marginRight="20dp"
                         android:background="@drawable/facebook_logo"
-                        android:contentDescription="Facebook"/>
+                        android:contentDescription="Facebook" />
 
                     <ImageButton
                         android:id="@+id/imageButton8"
                         android:layout_width="60dp"
                         android:layout_height="58dp"
                         android:background="@drawable/apple_logo"
-                        android:contentDescription="Apple"/>
+                        android:contentDescription="Apple" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -277,12 +277,12 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:clickable="true"
                         android:fontFamily="@font/poppins_medium"
+                        android:onClick="onTextViewClicked"
                         android:text="Sign Up"
                         android:textColor="@color/primary"
-                        android:textSize="14sp"
-                        android:clickable="true"
-                        android:onClick="onTextViewClicked"/>
+                        android:textSize="14sp" />
                 </LinearLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
