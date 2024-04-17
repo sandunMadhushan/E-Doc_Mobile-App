@@ -14,13 +14,11 @@
         tools:targetApi="31">
         <activity
             android:name=".MainActivity2"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".GettingStarted1"
             android:exported="true" />
-        <activity
-            android:name=".patient_home"
-            android:exported="false" />
+
         <activity
             android:name=".regsiterdoctordetails"
             android:exported="false" />
@@ -30,9 +28,6 @@
         <activity
             android:name=".registeroption"
             android:exported="false" />
-        <activity
-            android:name=".doctor_home"
-            android:exported="true" />
         <activity
             android:name=".signup"
             android:exported="false" />

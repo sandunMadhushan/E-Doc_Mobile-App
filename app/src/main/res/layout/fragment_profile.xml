@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    tools:context=".ProfileFragment"
+    android:background="@color/lightgrey">
 
     <TextView
         android:layout_width="wrap_content"
@@ -11,6 +12,6 @@
         android:layout_gravity="center"
         android:fontFamily="@font/poppins_semibold"
         android:text="Profile Fragment"
-        android:textColor="@color/white" />
+        android:textColor="@color/black" />
 
 </FrameLayout>
