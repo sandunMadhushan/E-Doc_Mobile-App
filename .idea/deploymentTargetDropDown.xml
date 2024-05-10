@@ -2,13 +2,13 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="GettingStarted1">
-        <State />
-      </entry>
       <entry key="app">
         <State />
       </entry>
       <entry key="doctor">
+        <State />
+      </entry>
+      <entry key="navigationdrawer">
         <State />
       </entry>
     </value>
