@@ -3,7 +3,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/appointmentsfragment"
     android:layout_height="match_parent"
+    android:background="@color/accent"
     tools:context=".AppointmentsFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -116,11 +118,11 @@
 
             <View
                 android:layout_width="350dp"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="20dp"
                 android:layout_height="1dp"
                 android:layout_gravity="center"
-                android:background="@android:color/darker_gray"/>
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:background="@android:color/darker_gray" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -137,15 +139,19 @@
                         android:id="@+id/imageView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/baseline_calendar_month_24" />
+                        app:srcCompat="@drawable/baseline_calendar_month_24"
+                        app:tint="@color/muted" />
 
                     <TextView
                         android:id="@+id/textView27"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="TextView" />
+                        android:text="Sunday, 24 March"
+                        android:textColor="@color/muted" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -158,18 +164,35 @@
                         android:id="@+id/imageView10"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="20sp"
                         android:layout_weight="1"
-                        app:srcCompat="@drawable/baseline_person_24" />
+                        app:srcCompat="@drawable/baseline_access_time_24"
+                        app:tint="@color/muted" />
 
                     <TextView
                         android:id="@+id/textView28"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="TextView" />
+                        android:text="11.00-12.00 AM"
+                        android:textColor="@color/muted" />
                 </LinearLayout>
 
             </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/detailsbtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="@font/poppins_medium"
+                android:text="Details"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                android:background="@drawable/button_background"/>
         </LinearLayout>
 
 
