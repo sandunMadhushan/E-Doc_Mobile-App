@@ -38,7 +38,7 @@
             android:exported="false" />
         <activity
             android:name=".login"
-            android:exported="true" />
+            android:exported="false" />
         <activity
             android:name=".GettingStarted3"
             android:exported="false" />

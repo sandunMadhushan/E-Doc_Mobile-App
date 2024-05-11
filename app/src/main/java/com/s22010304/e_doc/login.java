@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -42,7 +43,7 @@ public class login extends AppCompatActivity {
         FirebaseUser currentUser = auth.getCurrentUser();
         if (currentUser != null) {
             // User is signed in, navigate to ProfileFragment
-            navigateToProfileFragment(currentUser);
+            navigateToMainActivity(currentUser);
             return; // Skip the rest of onCreate method
         }
 
@@ -60,7 +61,7 @@ public class login extends AppCompatActivity {
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Find your ImageButton in the layout
+        // Find ImageButton in the layout
         ImageButton googleSignInButton = findViewById(R.id.googleBtn);
 
         // Set an OnClickListener for the Google sign-in button
@@ -105,7 +106,7 @@ public class login extends AppCompatActivity {
                             // Handle successful sign-in
                             FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (user != null) {
-                                navigateToProfileFragment(user);
+                                navigateToMainActivity(user);
                             }
                         } else {
                             // Handle sign-in failure
@@ -119,6 +120,39 @@ public class login extends AppCompatActivity {
             }
         }
     }
+
+    private void navigateToMainActivity(FirebaseUser user) {
+        String userName = user.getDisplayName();
+        Uri profilePictureUri = user.getPhotoUrl();
+
+        // Create a new instance of the HomeFragment
+        HomeFragment homeFragment = new HomeFragment();
+
+        // Pass necessary data to the fragment using arguments
+        Bundle args = new Bundle();
+        args.putString("userName", userName);
+        if (profilePictureUri != null) {
+            args.putString("profilePictureUri", profilePictureUri.toString());
+        }
+        homeFragment.setArguments(args);
+
+        // Replace the current fragment with the HomeFragment
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, homeFragment)
+                .commit();
+
+        // Navigate to MainActivity
+        Intent intent = new Intent(this, MainActivity.class);
+
+        // Pass user information as extras
+        intent.putExtra("userName", user.getDisplayName());
+        if (user.getPhotoUrl() != null) {
+            intent.putExtra("profilePictureUri", user.getPhotoUrl().toString());
+        }
+        startActivity(intent);
+        finish(); // Close the current activity
+    }
+
 
     private void navigateToProfileFragment(FirebaseUser user) {
         String userName = user.getDisplayName();
@@ -145,6 +179,12 @@ public class login extends AppCompatActivity {
         finish(); // Close the current activity to prevent navigating back to ProfileFragment on back press
     }
 
+    private void saveUserInfoLocally(String userName, String profilePictureUri) {
+        SharedPreferences.Editor editor = getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
+        editor.putString("userName", userName);
+        editor.putString("profilePictureUri", profilePictureUri);
+        editor.apply();
+    }
 
 
     public void onTextViewClicked(View view) {
