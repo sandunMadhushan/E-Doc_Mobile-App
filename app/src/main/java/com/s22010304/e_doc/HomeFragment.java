@@ -1,6 +1,9 @@
 package com.s22010304.e_doc;
 
+import static android.content.Context.MODE_PRIVATE;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -78,6 +81,9 @@ public class HomeFragment extends Fragment {
         // Sign out user from Firebase Authentication
         FirebaseAuth.getInstance().signOut();
 
+        // Clear user info from SharedPreferences
+        clearUserInfoLocally();
+
         // Navigate back to MainActivity
         navigateToLoginActivity();
     }
@@ -105,6 +111,12 @@ public class HomeFragment extends Fragment {
             userName = getArguments().getString("userName");
             profilePictureUri = getArguments().getString("profilePictureUri");
         }
+    }
+
+    // Method to clear user information from SharedPreferences
+    private void clearUserInfoLocally() {
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
+        editor.clear().apply();
     }
 
 
