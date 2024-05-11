@@ -2,4 +2,6 @@
     <string name="app_name">E-Doc</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="client_id">1055224625869-jh1tes925t687h8uur79eao8o23upp1j.apps.googleusercontent.com</string>
+    <string name="default_web_client_id">1055224625869-jh1tes925t687h8uur79eao8o23upp1j.apps.googleusercontent.com</string>
 </resources>

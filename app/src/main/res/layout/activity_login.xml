@@ -228,7 +228,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
 
                     <ImageButton
-                        android:id="@+id/imageButton10"
+                        android:id="@+id/googleBtn"
                         android:layout_width="55dp"
                         android:layout_height="55dp"
                         android:layout_gravity="bottom|center_vertical"
@@ -237,7 +237,7 @@
                         android:contentDescription="Google" />
 
                     <ImageButton
-                        android:id="@+id/imageButton9"
+                        android:id="@+id/facebookBtn"
                         android:layout_width="60dp"
                         android:layout_height="60dp"
                         android:layout_marginRight="20dp"
@@ -245,7 +245,7 @@
                         android:contentDescription="Facebook" />
 
                     <ImageButton
-                        android:id="@+id/imageButton8"
+                        android:id="@+id/appleBtn"
                         android:layout_width="60dp"
                         android:layout_height="58dp"
                         android:background="@drawable/apple_logo"
