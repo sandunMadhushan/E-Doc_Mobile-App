@@ -123,7 +123,10 @@ public class login extends AppCompatActivity {
 
     private void navigateToMainActivity(FirebaseUser user) {
         String userName = user.getDisplayName();
-        Uri profilePictureUri = user.getPhotoUrl();
+        String profilePictureUri = user.getPhotoUrl().toString(); // Convert Uri to String
+
+        // Save user info to SharedPreferences
+        saveUserInfoLocally(userName, profilePictureUri);
 
         // Create a new instance of the HomeFragment
         HomeFragment homeFragment = new HomeFragment();
@@ -144,11 +147,14 @@ public class login extends AppCompatActivity {
         // Navigate to MainActivity
         Intent intent = new Intent(this, MainActivity.class);
 
+        intent.putExtra("userName", userName); // Pass user name as extra
+        intent.putExtra("profilePictureUri", profilePictureUri); // Pass profile picture URI as extra
+
         // Pass user information as extras
-        intent.putExtra("userName", user.getDisplayName());
+        /*intent.putExtra("userName", user.getDisplayName());
         if (user.getPhotoUrl() != null) {
             intent.putExtra("profilePictureUri", user.getPhotoUrl().toString());
-        }
+        }*/
         startActivity(intent);
         finish(); // Close the current activity
     }
@@ -176,7 +182,7 @@ public class login extends AppCompatActivity {
     public void navigateToSignIn() {
         Intent intent = new Intent(this, login.class);
         startActivity(intent);
-        finish(); // Close the current activity to prevent navigating back to ProfileFragment on back press
+        finish(); // Close the current activity to prevent navigating back to HomeFragment on back press
     }
 
     private void saveUserInfoLocally(String userName, String profilePictureUri) {
