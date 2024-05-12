@@ -1,26 +1,30 @@
 package com.s22010304.e_doc;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+//after AppCompatActivity - implements View.OnClickListener
+public class registeroption extends AppCompatActivity  {
 
-public class registeroption extends AppCompatActivity implements View.OnClickListener {
-
-    Button button3;
+    Button btnPatient;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registeroption);
 
-        button3 = findViewById(R.id.button3);
-        button3.setOnClickListener(this);
+        btnPatient = findViewById(R.id.buttonPatient);
+        btnPatient.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(registeroption.this, registerpatientdetails.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -32,16 +36,16 @@ public class registeroption extends AppCompatActivity implements View.OnClickLis
         }
     }*/
 
-    @Override
-    public void onClick(View v) {
-        if (v.getId() == R.id.button3) {
-            FragmentManager fragmentManager = getSupportFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.container, new HomeFragment());
-            fragmentTransaction.addToBackStack(null); // Add this line to add the transaction to the back stack
-            fragmentTransaction.commit();
-        }
-    }
+//    @Override
+//    public void onClick(View v) {
+//        if (v.getId() == R.id.button3) {
+//            FragmentManager fragmentManager = getSupportFragmentManager();
+//            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//            fragmentTransaction.replace(R.id.container, new HomeFragment());
+//            fragmentTransaction.addToBackStack(null); // Add this line to add the transaction to the back stack
+//            fragmentTransaction.commit();
+//        }
+//    }
 
 
 }
