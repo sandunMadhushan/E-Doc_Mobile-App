@@ -17,7 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class signup extends AppCompatActivity {
 
-    TextInputEditText signupName, signupEmail,signupUsername, signupPassword;
+    TextInputEditText signupName, signupEmail, signupUsername, signupPassword;
     TextView loginRedirectText;
     Button signupButton;
     FirebaseDatabase database;
@@ -41,7 +41,7 @@ public class signup extends AppCompatActivity {
 
         String[] option = {"Patient", "Doctor"};
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item,option);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, option);
         selectedOption.setAdapter(adapter);
 
         signupButton.setOnClickListener(new View.OnClickListener() {
@@ -60,7 +60,7 @@ public class signup extends AppCompatActivity {
                 reference.child(username).setValue(helperClass);
 
                 Toast.makeText(signup.this, "You have signup successfully", Toast.LENGTH_SHORT).show();
-                Intent intent =  new Intent(signup.this, login.class);
+                Intent intent = new Intent(signup.this, login.class);
                 startActivity(intent);
             }
         });
@@ -68,14 +68,14 @@ public class signup extends AppCompatActivity {
         loginRedirectText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent =  new Intent(signup.this, login.class);
+                Intent intent = new Intent(signup.this, login.class);
                 startActivity(intent);
             }
         });
 
 
-
     }
+
     public void onTextViewClicked(View view) {
         Intent intent = new Intent(this, login.class);
         startActivity(intent);

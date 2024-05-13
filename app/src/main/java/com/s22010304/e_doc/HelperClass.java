@@ -1,7 +1,7 @@
 package com.s22010304.e_doc;
 
 public class HelperClass {
-String name, email, username, password, selectedOp;
+    String name, email, username, password, selectedOp;
 
     public HelperClass(String name, String email, String username, String password, String selectedOp) {
         this.name = name;

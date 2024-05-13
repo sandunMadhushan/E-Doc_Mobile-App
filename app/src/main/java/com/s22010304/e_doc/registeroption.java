@@ -8,9 +8,10 @@ import android.view.View;
 import android.widget.Button;
 
 //after AppCompatActivity - implements View.OnClickListener
-public class registeroption extends AppCompatActivity  {
+public class registeroption extends AppCompatActivity {
 
     Button btnPatient;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
