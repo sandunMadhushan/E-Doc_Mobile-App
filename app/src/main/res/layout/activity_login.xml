@@ -67,7 +67,7 @@
                     android:layout_marginStart="4dp"
                     android:layout_marginTop="36dp"
                     android:fontFamily="@font/poppins_semibold"
-                    android:text="Email"
+                    android:text="Username"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -86,10 +86,11 @@
                     app:layout_constraintTop_toBottomOf="@+id/textViewName">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/login_username"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:hint="Enter your email"
-                        android:inputType="textEmailAddress"
+                        android:hint="Enter your username"
+                        android:inputType="text"
                         android:textColor="@color/muted"
                         android:textSize="14sp" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -118,6 +119,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textViewEmail">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/login_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Enter your password"
@@ -157,14 +159,14 @@
                 </LinearLayout>
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/signup_button"
+                    android:id="@+id/login_button"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_marginStart="32dp"
                     android:layout_marginEnd="32dp"
                     android:background="@drawable/button_background"
                     android:onClick="onButtonClicked"
-                    android:text="Continue"
+                    android:text="Log In"
                     android:textColor="@color/white"
                     android:textSize="14sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -184,7 +186,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.507"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/signup_button">
+                    app:layout_constraintTop_toBottomOf="@+id/login_button">
 
                     <View
                         android:id="@+id/divider"
@@ -273,7 +275,7 @@
                         android:textSize="14sp" />
 
                     <TextView
-                        android:id="@+id/loginRedirectText"
+                        android:id="@+id/signupRedirectText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
