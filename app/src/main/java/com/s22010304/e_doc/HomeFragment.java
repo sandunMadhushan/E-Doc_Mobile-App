@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -23,6 +25,7 @@ public class HomeFragment extends Fragment {
 
     private String userName;
     private String profilePictureUri;
+    private DrawerLayout drawerLayout;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -43,9 +46,24 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
+        drawerLayout = getActivity().findViewById(R.id.drawer_layout);
+        //View profileImageView = rootView.findViewById(R.id.navImage);
+
+
+
         // Find views by ID
         TextView userNameTextView = view.findViewById(R.id.text_user_name);
         ImageView profileImageView = view.findViewById(R.id.profileImage);
+
+        profileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
+                if (drawer != null) {
+                    drawerLayout.openDrawer(GravityCompat.START);
+                }
+            }
+        });
 
         // Set user name
         if (userName != null) {
