@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.s22010304.e_doc.databinding.ActivityMainBinding;
 
+//uncomment this implement part to enable nav drawer
 public class MainActivity extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     private String userName;
@@ -73,7 +74,9 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             return true;
         });
 
-        binding.navView.setNavigationItemSelectedListener(menuItem -> {
+        //uncomment these two sections for enable nav drawer
+
+        /*binding.navView.setNavigationItemSelectedListener(menuItem -> {
             switch (menuItem.getItemId()){
                 case R.id.nav_home:
                     replaceFragment(new HomeFragment());
@@ -86,17 +89,17 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                     break;
             }
             return true;
-        });
+        });*/
 
-        drawerLayout = findViewById(R.id.drawer_layout);
+        /*drawerLayout = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        /*navigationView.setNavigationItemSelectedListener(this);*/
+        navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null){
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
             navigationView.setCheckedItem(R.id.nav_home);
         }
-
+*/
 
     }
 
@@ -125,8 +128,9 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         finish(); // Close the current activity to prevent navigating back to ProfileFragment on back press
     }
 
+    //uncomment these sections for enable nav drawer
 
-    /*public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+   /* public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         switch (menuItem.getItemId()){
             case R.id.nav_home:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
@@ -136,9 +140,6 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                 break;
             case R.id.nav_share:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new ProfileFragment()).commit();
-                break;
-            case R.id.nav_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new HomeFragment()).commit();
                 break;
             case R.id.nav_logout:
                 Toast.makeText(this, "Logout!", Toast.LENGTH_SHORT).show();
