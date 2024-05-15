@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CalendarView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -84,9 +86,9 @@ public class BookAppointmentFragment extends Fragment {
                     hiddenButtonsLayout2.setVisibility(View.GONE);
                     hiddenButtonsLayout.setVisibility(View.VISIBLE);
                 } else {
-                    initialButton.setBackgroundResource(R.drawable.button_normal);
-                    initialButton.setTextColor(blackColor);
-                    hiddenButtonsLayout.setVisibility(View.GONE);
+//                    initialButton.setBackgroundResource(R.drawable.button_normal);
+//                    initialButton.setTextColor(blackColor);
+//                    hiddenButtonsLayout.setVisibility(View.GONE);
                     button1.setBackgroundResource(R.drawable.button_normal);
                     button2.setBackgroundResource(R.drawable.button_normal);
                     button3.setBackgroundResource(R.drawable.button_normal);
@@ -130,7 +132,7 @@ public class BookAppointmentFragment extends Fragment {
                 } else {
                     initialButton2.setBackgroundResource(R.drawable.button_normal);
                     initialButton2.setTextColor(blackColor);
-                    hiddenButtonsLayout2.setVisibility(View.GONE);
+//                    hiddenButtonsLayout2.setVisibility(View.GONE);
                     button1.setBackgroundResource(R.drawable.button_normal);
                     button2.setBackgroundResource(R.drawable.button_normal);
                     button3.setBackgroundResource(R.drawable.button_normal);
@@ -174,7 +176,7 @@ public class BookAppointmentFragment extends Fragment {
                 } else {
                     initialButton3.setBackgroundResource(R.drawable.button_normal);
                     initialButton3.setTextColor(blackColor);
-                    hiddenButtonsLayout3.setVisibility(View.GONE);
+//                    hiddenButtonsLayout3.setVisibility(View.GONE);
                     button1.setBackgroundResource(R.drawable.button_normal);
                     button2.setBackgroundResource(R.drawable.button_normal);
                     button3.setBackgroundResource(R.drawable.button_normal);
@@ -387,6 +389,46 @@ public class BookAppointmentFragment extends Fragment {
                 isClicked = !isClicked; // Toggle button state
             }
         });
+
+        ImageView messaginTick1;
+        ImageView messaginTick2;
+
+        messaginTick1 = view.findViewById(R.id.messaginTick1);
+        messaginTick2 = view.findViewById(R.id.messaginTick2);
+
+        LinearLayout messagingBtn;
+        LinearLayout videocallBtn;
+
+        messagingBtn = view.findViewById(R.id.messagingBtn);
+        videocallBtn = view.findViewById(R.id.videocallBtn);
+
+        messagingBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                messaginTick1.setVisibility(View.VISIBLE);
+                messaginTick2.setVisibility(View.GONE);
+            }
+        });
+
+        videocallBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                messaginTick1.setVisibility(View.GONE);
+                messaginTick2.setVisibility(View.VISIBLE);
+            }
+        });
+
+        AppCompatButton bookAppointmentBtn;
+
+        bookAppointmentBtn = view.findViewById(R.id.bookappointmntBtn);
+
+        bookAppointmentBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getActivity(), "Appointment Booked Successfully", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
         // Set click listener for Back button
