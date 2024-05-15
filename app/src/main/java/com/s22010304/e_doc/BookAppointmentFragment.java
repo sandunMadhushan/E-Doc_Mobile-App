@@ -130,8 +130,8 @@ public class BookAppointmentFragment extends Fragment {
                     hiddenButtonsLayout.setVisibility(View.GONE);
                     hiddenButtonsLayout2.setVisibility(View.VISIBLE);
                 } else {
-                    initialButton2.setBackgroundResource(R.drawable.button_normal);
-                    initialButton2.setTextColor(blackColor);
+//                    initialButton2.setBackgroundResource(R.drawable.button_normal);
+//                    initialButton2.setTextColor(blackColor);
 //                    hiddenButtonsLayout2.setVisibility(View.GONE);
                     button1.setBackgroundResource(R.drawable.button_normal);
                     button2.setBackgroundResource(R.drawable.button_normal);
@@ -174,8 +174,8 @@ public class BookAppointmentFragment extends Fragment {
                     hiddenButtonsLayout2.setVisibility(View.GONE);
                     hiddenButtonsLayout3.setVisibility(View.VISIBLE);
                 } else {
-                    initialButton3.setBackgroundResource(R.drawable.button_normal);
-                    initialButton3.setTextColor(blackColor);
+//                    initialButton3.setBackgroundResource(R.drawable.button_normal);
+//                    initialButton3.setTextColor(blackColor);
 //                    hiddenButtonsLayout3.setVisibility(View.GONE);
                     button1.setBackgroundResource(R.drawable.button_normal);
                     button2.setBackgroundResource(R.drawable.button_normal);
@@ -430,7 +430,6 @@ public class BookAppointmentFragment extends Fragment {
         });
 
 
-
         // Set click listener for Back button
         BackBtn = view.findViewById(R.id.back_btn);
         BackBtn.setOnClickListener(new View.OnClickListener() {
@@ -439,7 +438,7 @@ public class BookAppointmentFragment extends Fragment {
                 // Navigate back to the Appointments fragment
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new AppointmentsFragment());
+                fragmentTransaction.replace(R.id.fragment_containerBA, new AppointmentsFragment());
                 fragmentTransaction.addToBackStack(null); // Add transaction to the back stack
                 fragmentTransaction.commit();
             }
