@@ -2,11 +2,11 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/primary"
-    tools:context=".HomeFragment"
-    android:id="@+id/fragment_container">
+    tools:context=".HomeFragment">
 
 
     <ScrollView
@@ -43,8 +43,7 @@
                         android:layout_height="56dp"
                         android:layout_marginStart="30dp"
                         android:layout_marginTop="50dp"
-                        app:shapeAppearanceOverlay="@style/loginroundedimageview"
-                         />
+                        app:shapeAppearanceOverlay="@style/loginroundedimageview" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -154,6 +153,7 @@
                             android:orientation="horizontal">
 
                             <LinearLayout
+                                android:id="@+id/drpererabtn"
                                 android:layout_width="158dp"
                                 android:layout_height="200dp"
                                 android:layout_marginStart="30dp"
@@ -511,6 +511,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
 
                         <LinearLayout
+                            android:id="@+id/drpererabtn2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="30dp"
@@ -616,6 +617,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="20dp"
+                        android:paddingBottom="30dp"
                         android:orientation="horizontal"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -626,7 +628,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_weight="1"
-                            android:text="Sign Out" />
+                            android:text="Sign Out"
+                            android:layout_marginStart="30dp"
+                            android:layout_marginEnd="30dp"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:backgroundTint="@color/primary"
+                            android:background="@drawable/button_background"/>
                     </LinearLayout>
 
 

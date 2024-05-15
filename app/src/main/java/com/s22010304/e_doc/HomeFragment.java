@@ -4,17 +4,21 @@ import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -89,6 +93,44 @@ public class HomeFragment extends Fragment {
                 logoutUser();
             }
         });
+
+// Create a ColorStateList with the desired background color
+        ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.primary));
+
+// Set the background color for the MaterialButton
+        logoutButton.setBackgroundTintList(colorStateList);
+
+
+        LinearLayout drpererabtn;
+        LinearLayout drpererabtn2;
+
+        drpererabtn = view.findViewById(R.id.drpererabtn);
+
+        drpererabtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new DoctorDetails());
+                fragmentTransaction.addToBackStack(null); // Optional: Add transaction to the back stack
+                fragmentTransaction.commit();
+            }
+        });
+
+        drpererabtn2 = view.findViewById(R.id.drpererabtn2);
+
+        drpererabtn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new DoctorDetails());
+                fragmentTransaction.addToBackStack(null); // Optional: Add transaction to the back stack
+                fragmentTransaction.commit();
+            }
+        });
+
+
 
         return view;
     }
