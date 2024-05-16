@@ -2,6 +2,7 @@ package com.s22010304.e_doc;
 
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -37,6 +38,31 @@ public class DoctorDetails extends Fragment {
             }
         });
 
+        AppCompatButton bookappointmntBtn;
+        bookappointmntBtn = view.findViewById(R.id.bookappointmntBtn);
+
+        bookappointmntBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BookAppointmentFragment  BookAppointmentFragment = new BookAppointmentFragment();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                transaction.replace(R.id.doctordetalsfragment,BookAppointmentFragment);
+                transaction.commit();
+            }
+        });
+
+        BackBtn = view.findViewById(R.id.back_btn);
+        BackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigate back to the Appointments fragment
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.doctordetalsfragment, new HomeFragment());
+                fragmentTransaction.addToBackStack(null); // Add transaction to the back stack
+                fragmentTransaction.commit();
+            }
+        });
 
 
 

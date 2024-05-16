@@ -438,7 +438,7 @@ public class BookAppointmentFragment extends Fragment {
                 // Navigate back to the Appointments fragment
                 FragmentManager fragmentManager = getParentFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_containerBA, new AppointmentsFragment());
+                fragmentTransaction.replace(R.id.fragment_containerBA, new DoctorDetails());
                 fragmentTransaction.addToBackStack(null); // Add transaction to the back stack
                 fragmentTransaction.commit();
             }
