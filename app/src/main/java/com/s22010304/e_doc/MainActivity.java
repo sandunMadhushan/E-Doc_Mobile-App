@@ -149,11 +149,27 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         return true;
     }*/
 
-    public void onBackPressed() {
+
+    /*public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+    }*/
+
+    @Override
+    public void onBackPressed() {
+        // Add your logic here
+        navigateMainActivity();
+        // Example: navigate to a specific fragment or activity
+        super.onBackPressed();
     }
+
+    public void navigateMainActivity() {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish(); // Close the current activity to prevent navigating back to ProfileFragment on back press
+    }
+
 }
