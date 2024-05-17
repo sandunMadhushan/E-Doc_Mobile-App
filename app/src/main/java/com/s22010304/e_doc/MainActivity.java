@@ -2,6 +2,9 @@ package com.s22010304.e_doc;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.biometric.BiometricManager;
+import androidx.biometric.BiometricPrompt;
+import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
@@ -18,6 +21,8 @@ import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
 import com.s22010304.e_doc.databinding.ActivityMainBinding;
 
+import java.util.concurrent.Executor;
+
 //uncomment this implement part to enable nav drawer
 public class MainActivity extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
@@ -26,6 +31,11 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
     ActivityMainBinding binding;
     private DrawerLayout drawerLayout;
+
+    BiometricPrompt biometricPrompt;
+    BiometricPrompt.PromptInfo promptInfo;
+
+    DrawerLayout drawer_layout;
 
 
     @Override
@@ -101,6 +111,51 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         }
 */
 
+        //Fingerprint auth
+
+        drawer_layout = findViewById(R.id.drawer_layout);
+
+        BiometricManager biometricManager = BiometricManager.from(this);
+        switch (biometricManager.canAuthenticate()){
+            case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
+                Toast.makeText(getApplicationContext(), "Device doesn't have fingerprint", Toast.LENGTH_SHORT).show();
+                break;
+
+            case BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE:
+                Toast.makeText(getApplicationContext(), "Fingerprint is not working", Toast.LENGTH_SHORT).show();
+                break;
+
+            case BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED:
+                Toast.makeText(getApplicationContext(), "No fingerprint assigned", Toast.LENGTH_SHORT).show();
+                break;
+        }
+        Executor executor = ContextCompat.getMainExecutor(this);
+
+        biometricPrompt = new BiometricPrompt(MainActivity.this, executor, new BiometricPrompt.AuthenticationCallback() {
+            @Override
+            public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
+                super.onAuthenticationError(errorCode, errString);
+            }
+
+            @Override
+            public void onAuthenticationSucceeded(@NonNull BiometricPrompt.AuthenticationResult result) {
+                super.onAuthenticationSucceeded(result);
+                Toast.makeText(getApplicationContext(), "Fingerprint Authenticated", Toast.LENGTH_SHORT).show();
+                drawer_layout.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAuthenticationFailed() {
+                super.onAuthenticationFailed();
+            }
+        });
+
+        promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("E-DOC")
+                .setDescription("Use your fingerprint to login").setDeviceCredentialAllowed(true).build();
+
+        biometricPrompt.authenticate(promptInfo);
+
+
     }
 
     private void replaceFragment(Fragment fragment){
@@ -160,9 +215,9 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
     @Override
     public void onBackPressed() {
-        // Add your logic here
-        navigateMainActivity();
-        // Example: navigate to a specific fragment or activity
+        //commented after fingerprint auth
+        //navigateMainActivity();
+
         super.onBackPressed();
     }
 
