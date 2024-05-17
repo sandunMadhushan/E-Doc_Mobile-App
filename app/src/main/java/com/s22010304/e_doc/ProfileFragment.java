@@ -1,21 +1,70 @@
 package com.s22010304.e_doc;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 
 public class ProfileFragment extends Fragment {
+    ConstraintLayout BackBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false);
+        View view = inflater.inflate(R.layout.fragment_profile, container, false);
+
+        BackBtn = view.findViewById(R.id.back_btn);
+        BackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToMainActivity();
+            }
+        });
+
+        AppCompatButton backtohome;
+        backtohome = view.findViewById(R.id.backtohome);
+
+        backtohome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navigateToMainActivity();
+
+            }
+        });
+
+
+        LinearLayout appointment_history;
+        appointment_history = view.findViewById(R.id.appointment_history);
+
+        appointment_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.profilefragment, new AppointmentHistory());
+                fragmentTransaction.addToBackStack(null); // Add transaction to the back stack
+                fragmentTransaction.commit();
+            }
+        });
+
+        return view;
+    }
+
+    private void navigateToMainActivity() {
+        Intent intent = new Intent(requireContext(), MainActivity.class);
+        startActivity(intent);
+        requireActivity().finish(); // Close the current activity to prevent navigating back to the home fragment
     }
 }
 

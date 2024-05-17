@@ -18,4 +18,11 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
+
+    <style name="CalenderViewDateCustomText">
+        <item name="colorControlNormal">@color/danger</item>
+        <item name="colorControlActivated">@color/primary</item>
+        <item name="colorControlHighlight">@color/muted</item>
+        <item name="android:textColor">@drawable/calendar_text_color</item>
+    </style>
 </resources>
