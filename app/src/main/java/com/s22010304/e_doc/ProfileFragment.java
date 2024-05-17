@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 
 public class ProfileFragment extends Fragment {
@@ -42,6 +43,20 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+
+        LinearLayout appointment_history;
+        appointment_history = view.findViewById(R.id.appointment_history);
+
+        appointment_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.profilefragment, new AppointmentHistory());
+                fragmentTransaction.addToBackStack(null); // Add transaction to the back stack
+                fragmentTransaction.commit();
+            }
+        });
 
         return view;
     }
