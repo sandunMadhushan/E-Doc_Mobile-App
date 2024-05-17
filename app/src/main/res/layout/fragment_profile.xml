@@ -312,7 +312,7 @@
                         android:id="@+id/imageView7"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:src="@drawable/baseline_analytics_24"
+                        android:src="@drawable/baseline_message_24_primarycolor"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
@@ -333,7 +333,7 @@
                         android:layout_width="220dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_medium"
-                        android:text="**Need to Update**"
+                        android:text="Messages"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
 
@@ -342,7 +342,7 @@
                         android:layout_width="220dp"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins_regular"
-                        android:text="See your appointment history here"
+                        android:text="See your messages here"
                         android:textColor="@color/muted"
                         android:textSize="12sp" />
                 </LinearLayout>
