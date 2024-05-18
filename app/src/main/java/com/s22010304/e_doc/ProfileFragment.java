@@ -69,6 +69,17 @@ public class ProfileFragment extends Fragment {
             }
         });
 
+        LinearLayout update_location;
+        update_location = view.findViewById(R.id.update_location);
+
+        update_location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(),LocationActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
         return view;
     }
