@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ public class signup extends AppCompatActivity {
     DatabaseReference reference;
 
     Spinner selectedOption;
+    CheckBox TermsnConditions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +41,8 @@ public class signup extends AppCompatActivity {
 
         selectedOption = findViewById(R.id.spinnerOps);
 
+        TermsnConditions = findViewById(R.id.termsandconditions);
+
         String[] option = {"Patient", "Doctor"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, option);
@@ -47,21 +51,36 @@ public class signup extends AppCompatActivity {
         signupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                database = FirebaseDatabase.getInstance();
-                reference = database.getReference("users");
 
-                String name = signupName.getText().toString();
-                String email = signupEmail.getText().toString();
-                String username = signupUsername.getText().toString();
-                String password = signupPassword.getText().toString();
-                String selectedOp = selectedOption.getSelectedItem().toString();
+                if (!validateUsername() | !validatePassword() | !validateName() | !validateEmail()) {
 
-                HelperClass helperClass = new HelperClass(name, email, username, password, selectedOp);
-                reference.child(username).setValue(helperClass);
+                } else {
 
-                Toast.makeText(signup.this, "You have signup successfully", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(signup.this, login.class);
-                startActivity(intent);
+                    if (TermsnConditions.isChecked()){
+
+                        database = FirebaseDatabase.getInstance();
+                        reference = database.getReference("users");
+
+                        String name = signupName.getText().toString();
+                        String email = signupEmail.getText().toString();
+                        String username = signupUsername.getText().toString();
+                        String password = signupPassword.getText().toString();
+                        String selectedOp = selectedOption.getSelectedItem().toString();
+
+                        HelperClass helperClass = new HelperClass(name, email, username, password, selectedOp);
+                        reference.child(username).setValue(helperClass);
+
+                        Toast.makeText(signup.this, "You have signup successfully", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(signup.this, login.class);
+                        startActivity(intent);
+
+                    }
+                    else {
+                        Toast.makeText(signup.this, "Please agree to the terms and conditions", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+
             }
         });
 
@@ -84,5 +103,49 @@ public class signup extends AppCompatActivity {
     public void onButtonClicked(View view) {
         Intent intent = new Intent(this, registeroption.class);
         startActivity(intent);
+    }
+
+    public Boolean validateUsername() {
+        String val = signupUsername.getText().toString();
+        if (val.isEmpty()) {
+            signupUsername.setError("Username cannot be empty");
+            return false;
+        } else {
+            signupUsername.setError(null);
+            return true;
+        }
+    }
+
+    public Boolean validatePassword() {
+        String val = signupPassword.getText().toString();
+        if (val.isEmpty()) {
+            signupPassword.setError("Password cannot be empty");
+            return false;
+        } else {
+            signupPassword.setError(null);
+            return true;
+        }
+    }
+
+    public Boolean validateName() {
+        String val = signupName.getText().toString();
+        if (val.isEmpty()) {
+            signupName.setError("Name cannot be empty");
+            return false;
+        } else {
+            signupName.setError(null);
+            return true;
+        }
+    }
+
+    public Boolean validateEmail() {
+        String val = signupEmail.getText().toString();
+        if (val.isEmpty()) {
+            signupEmail.setError("Email cannot be empty");
+            return false;
+        } else {
+            signupEmail.setError(null);
+            return true;
+        }
     }
 }
