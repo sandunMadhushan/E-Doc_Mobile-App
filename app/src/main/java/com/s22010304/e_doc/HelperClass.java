@@ -1,14 +1,41 @@
 package com.s22010304.e_doc;
 
 public class HelperClass {
-    String name, email, username, password, selectedOp;
+    String name, email, username, password, selectedOp, address, age, contact_no;
 
-    public HelperClass(String name, String email, String username, String password, String selectedOp) {
+    public HelperClass(String name, String email, String username, String password, String selectedOp, String address, String age, String contact_no) {
         this.name = name;
         this.email = email;
         this.username = username;
         this.password = password;
         this.selectedOp = selectedOp;
+        this.address = address;
+        this.age = age;
+        this.contact_no = contact_no;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAge() {
+        return age;
+    }
+
+    public void setAge(String age) {
+        this.age = age;
+    }
+
+    public String getContactno() {
+        return contact_no;
+    }
+
+    public void setContactno(String contact_no) {
+        this.contact_no = contact_no;
     }
 
     public String getSelectedOp() {
