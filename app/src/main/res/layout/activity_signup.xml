@@ -147,7 +147,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/spinnerOps">
 
                         <CheckBox
-                            android:id="@+id/checkBox"
+                            android:id="@+id/termsandconditions"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="@font/poppins_regular"
@@ -156,7 +156,7 @@
                             android:textSize="12sp" />
 
                         <CheckBox
-                            android:id="@+id/checkBox2"
+                            android:id="@+id/latestnews"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
