@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
         // Retrieve saved user information
         retrieveUserInfo();
 
@@ -56,30 +57,90 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         setContentView(binding.getRoot());
 
         // Check if user information is passed from LoginActivity
-        Intent intent = getIntent();
-        if (intent != null && intent.hasExtra("userName") && intent.hasExtra("profilePictureUri")) {
-            userName = intent.getStringExtra("userName");
-            profilePictureUri = intent.getStringExtra("profilePictureUri");
+        Intent i = getIntent();
+        if (i != null && i.hasExtra("userName") && i.hasExtra("profilePictureUri")) {
+            userName = i.getStringExtra("userName");
+            profilePictureUri = i.getStringExtra("profilePictureUri");
         }
 
-        // Replace the current fragment with HomeFragment and pass user information
-        replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+        Intent intent = getIntent();
+
+        String userSelectedOp = intent.getStringExtra("userSelectedOp");
+
+        if ("Patient".equals(userSelectedOp)) {
+            // Replace the current fragment with HomeFragment and pass user information
+            replaceFragment(new HomeFragment());
+            binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+                        break;
+                    case R.id.appointments:
+                        replaceFragment(new AppointmentsFragment());
+                        break;
+                    case R.id.profile:
+                        replaceFragment(new ProfileFragment());
+                        break;
+                }
+                return true;
+            });
+
+        } else if ("Doctor".equals(userSelectedOp)) {
+            replaceFragment(new DoctorHomeFragment());
+            binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        replaceFragment(new DoctorHomeFragment());
+                        break;
+                    case R.id.appointments:
+                        replaceFragment(new AppointmentsFragment());
+                        break;
+                    case R.id.profile:
+                        replaceFragment(new ProfileFragment());
+                        break;
+                }
+                return true;
+            });
+        }
 
         // Set up bottom navigation
         binding.bottomNavigationView.setOnItemSelectedListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.home:
+            int itemId = item.getItemId();
+
+            if (itemId == R.id.home) {
+                if ("Patient".equals(userSelectedOp)) {
                     replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
-                    break;
-                case R.id.appointments:
-                    replaceFragment(new AppointmentsFragment());
-                    break;
-                case R.id.profile:
-                    replaceFragment(new ProfileFragment());
-                    break;
+                }
+                else if ("Doctor".equals(userSelectedOp)) {
+                    replaceFragment(new DoctorHomeFragment());
+                }
+                else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
             }
+            else if (itemId == R.id.appointments) {
+                if ("Patient".equals(userSelectedOp)) {
+                    replaceFragment(new AppointmentsFragment());
+                }
+                else if ("Doctor".equals(userSelectedOp)) {
+                    replaceFragment(new DoctorAppointmentFragment());
+                }
+                else replaceFragment(new AppointmentsFragment());
+            }
+            else if (itemId == R.id.profile) {
+                if ("Patient".equals(userSelectedOp)) {
+                    replaceFragment(new ProfileFragment());
+                }
+                else if ("Doctor".equals(userSelectedOp)) {
+                    replaceFragment(new DoctorProfileFragment());
+                }
+                else replaceFragment(new ProfileFragment());
+            }
+            else {
+                return false;
+            }
+
             return true;
         });
+
 
         //uncomment these two sections for enable nav drawer
 
@@ -113,7 +174,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         drawer_layout = findViewById(R.id.drawer_layout);
 
         BiometricManager biometricManager = BiometricManager.from(this);
-        switch (biometricManager.canAuthenticate()){
+        switch (biometricManager.canAuthenticate()) {
             case BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE:
                 Toast.makeText(getApplicationContext(), "Device doesn't have fingerprint", Toast.LENGTH_SHORT).show();
                 break;
@@ -155,7 +216,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
     }
 
-    private void replaceFragment(Fragment fragment){
+    private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.frame_layout, fragment);

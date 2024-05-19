@@ -8,9 +8,11 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -41,6 +43,7 @@ public class login extends AppCompatActivity {
     TextView signupRedirectText;
 
     FirebaseAuth auth;
+    Spinner selectedOption;
 
     private static final int RC_SIGN_IN = 123; // Request code for sign-in
     private GoogleSignInClient mGoogleSignInClient;
@@ -49,6 +52,7 @@ public class login extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         // Initialize FirebaseAuth instance
         auth = FirebaseAuth.getInstance();
@@ -69,6 +73,13 @@ public class login extends AppCompatActivity {
         signupRedirectText = findViewById(R.id.signupRedirectText);
         loginButton = findViewById(R.id.login_button);
 
+
+        selectedOption = findViewById(R.id.spinnerOps);
+
+        String[] option = {"Patient", "Doctor"};
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, option);
+        selectedOption.setAdapter(adapter);
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -115,6 +126,7 @@ public class login extends AppCompatActivity {
     public void checkUser() {
         String userUsername = loginUsername.getText().toString();
         String userPassword = loginPassword.getText().toString();
+        String userSelectedOp = selectedOption.getSelectedItem().toString();
 
         DatabaseReference reference = FirebaseDatabase.getInstance().getReference("users");
         Query checkUserDatabase = reference.orderByChild("username").equalTo(userUsername);
@@ -126,11 +138,27 @@ public class login extends AppCompatActivity {
                 if (snapshot.exists()) {
                     loginUsername.setError(null);
                     String passwordFromDB = snapshot.child(userUsername).child("password").getValue(String.class);
+                    String selectedOpFromDB = snapshot.child(userUsername).child("selectedOp").getValue(String.class);
 
                     if (passwordFromDB.equals(userPassword)) {
                         loginUsername.setError(null);
-                        Intent intent = new Intent(login.this, MainActivity.class);
-                        startActivity(intent);
+
+                        //check user option is correct
+                        if (selectedOpFromDB.equals(userSelectedOp)) {
+                            Intent intent = new Intent(login.this, MainActivity.class);
+                            intent.putExtra("userSelectedOp", userSelectedOp);
+                            startActivity(intent);
+
+                            /*if (selectedOpFromDB.equals("Patient")) {
+                                Intent intent = new Intent(login.this, MainActivity.class);
+                                intent.putExtra("selectedOp",selectedOpFromDB);
+                                startActivity(intent);
+                            } else {
+                                Toast.makeText(login.this, "Doctor login is still not available", Toast.LENGTH_SHORT).show();
+                            }*/
+                        } else {
+                            Toast.makeText(login.this, "Select 'Login As' correctly", Toast.LENGTH_SHORT).show();
+                        }
                     } else {
                         loginPassword.setError("Invalid Credentials");
                         loginPassword.requestFocus();
