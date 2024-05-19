@@ -37,7 +37,6 @@ public class BookAppointmentFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_appointment, container, false);
 
         // Set the current date in the CalendarView
@@ -45,12 +44,10 @@ public class BookAppointmentFragment extends Fragment {
         CalendarView calendarView = view.findViewById(R.id.calendarView2);
         calendarView.setDate(calendar.getTimeInMillis());
 
-        // Find the initial buttons
         Button initialButton = view.findViewById(R.id.initialButton);
         Button initialButton2 = view.findViewById(R.id.initialButton2);
         Button initialButton3 = view.findViewById(R.id.initialButton3);
 
-        // Find the layout containing the hidden buttons
         final LinearLayout hiddenButtonsLayout = view.findViewById(R.id.hiddenButtonsLayout);
         final LinearLayout hiddenButtonsLayout2 = view.findViewById(R.id.hiddenButtonsLayout2);
         final LinearLayout hiddenButtonsLayout3 = view.findViewById(R.id.hiddenButtonsLayout3);

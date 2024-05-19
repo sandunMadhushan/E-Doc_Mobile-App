@@ -53,9 +53,6 @@ public class HomeFragment extends Fragment {
         drawerLayout = getActivity().findViewById(R.id.drawer_layout);
         //View profileImageView = rootView.findViewById(R.id.navImage);
 
-
-
-        // Find views by ID
         TextView userNameTextView = view.findViewById(R.id.text_user_name);
         ImageView profileImageView = view.findViewById(R.id.profileImage);
 
@@ -81,8 +78,7 @@ public class HomeFragment extends Fragment {
         if (profilePictureUri != null) {
             Glide.with(requireContext()).load(Uri.parse(profilePictureUri)).into(profileImageView);
         } else {
-            // If profilePictureUri is null, you can load a default image or hide the ImageView
-            // For example, you can set a placeholder image:
+            // If profilePictureUri is null, load a default image
             profileImageView.setImageResource(R.drawable.patient_profile_image);
         }
 
@@ -135,8 +131,6 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
-
-
     private void logoutUser() {
         // Sign out user from Firebase Authentication
         FirebaseAuth.getInstance().signOut();
@@ -178,6 +172,4 @@ public class HomeFragment extends Fragment {
         SharedPreferences.Editor editor = requireActivity().getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
         editor.clear().apply();
     }
-
-
 }
