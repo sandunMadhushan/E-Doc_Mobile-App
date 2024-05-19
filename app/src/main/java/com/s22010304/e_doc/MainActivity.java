@@ -28,13 +28,10 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
     private String userName;
     private String profilePictureUri;
-
     ActivityMainBinding binding;
     private DrawerLayout drawerLayout;
-
     BiometricPrompt biometricPrompt;
     BiometricPrompt.PromptInfo promptInfo;
-
     DrawerLayout drawer_layout;
 
 

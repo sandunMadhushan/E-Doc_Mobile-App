@@ -139,8 +139,6 @@ public class login extends AppCompatActivity {
                     loginUsername.setError("User does not exist");
                     loginUsername.requestFocus();
                 }
-
-
             }
 
             @Override
@@ -153,24 +151,20 @@ public class login extends AppCompatActivity {
     private void setupSignIn() {
         // Initialize Google sign-in options
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id)) // Use the web client ID from google-services.json
+                .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
 
-        // Find ImageButton in the layout
         ImageButton googleSignInButton = findViewById(R.id.googleBtn);
 
-        // Set an OnClickListener for the Google sign-in button
         googleSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // When the user clicks the sign-in button:
-                // Sign out any existing user before proceeding with sign-in
+
                 FirebaseAuth.getInstance().signOut();
 
-                // Request the user to choose an account for sign-in
                 mGoogleSignInClient.signOut().addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -195,7 +189,7 @@ public class login extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                // You can now authenticate with Firebase using account.getIdToken()
+                // can now authenticate with Firebase using account.getIdToken()
                 AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
                 auth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -221,7 +215,7 @@ public class login extends AppCompatActivity {
 
     private void navigateToMainActivity(FirebaseUser user) {
         String userName = user.getDisplayName();
-        String profilePictureUri = user.getPhotoUrl().toString(); // Convert Uri to String
+        String profilePictureUri = user.getPhotoUrl().toString();
 
         // Save user info to SharedPreferences
         saveUserInfoLocally(userName, profilePictureUri);
@@ -242,11 +236,10 @@ public class login extends AppCompatActivity {
                 .replace(R.id.fragment_container, homeFragment)
                 .commit();
 
-        // Navigate to MainActivity
         Intent intent = new Intent(this, MainActivity.class);
 
-        intent.putExtra("userName", userName); // Pass user name as extra
-        intent.putExtra("profilePictureUri", profilePictureUri); // Pass profile picture URI as extra
+        intent.putExtra("userName", userName);
+        intent.putExtra("profilePictureUri", profilePictureUri);
 
         // Pass user information as extras
         /*intent.putExtra("userName", user.getDisplayName());
@@ -254,7 +247,7 @@ public class login extends AppCompatActivity {
             intent.putExtra("profilePictureUri", user.getPhotoUrl().toString());
         }*/
         startActivity(intent);
-        finish(); // Close the current activity
+        finish();
     }
 
 
@@ -262,16 +255,13 @@ public class login extends AppCompatActivity {
         String userName = user.getDisplayName();
         Uri profilePictureUri = user.getPhotoUrl();
 
-        // Create a new instance of the ProfileFragment
         HomeFragment homeFragment = new HomeFragment();
 
-        // Pass any necessary data to the fragment using arguments
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri.toString());
         homeFragment.setArguments(args);
 
-        // Replace the current fragment with the ProfileFragment
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, homeFragment) // R.id.fragment_container is the ID of your fragment container view
                 .commit();
