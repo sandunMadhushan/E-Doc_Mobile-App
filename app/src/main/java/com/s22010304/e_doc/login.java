@@ -7,10 +7,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -48,11 +48,23 @@ public class login extends AppCompatActivity {
     private static final int RC_SIGN_IN = 123; // Request code for sign-in
     private GoogleSignInClient mGoogleSignInClient;
 
+    // Variables for tracking the button clicks
+    private int clickCount = 0;
+    private static final int MAX_CLICKS = 5;
+    private static final int TIMEOUT = 2000;
+
+    private Handler handler = new Handler();
+    private Runnable resetCounterRunnable = new Runnable() {
+        @Override
+        public void run() {
+            clickCount = 0;
+        }
+    };
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
 
         // Initialize FirebaseAuth instance
         auth = FirebaseAuth.getInstance();
@@ -73,20 +85,36 @@ public class login extends AppCompatActivity {
         signupRedirectText = findViewById(R.id.signupRedirectText);
         loginButton = findViewById(R.id.login_button);
 
-
         selectedOption = findViewById(R.id.spinnerOps);
 
         String[] option = {"Patient", "Doctor"};
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, option);
         selectedOption.setAdapter(adapter);
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!validateUsername() | !validatePassword()) {
+                clickCount++;
 
+                // Remove any pending reset counter runnables
+                handler.removeCallbacks(resetCounterRunnable);
+
+                if (clickCount == MAX_CLICKS) {
+                    // Reset the counter
+                    clickCount = 0;
+                    // Redirect to Admin Login
+                    Intent intent = new Intent(login.this, AdminLoginActivity.class);
+                    startActivity(intent);
                 } else {
-                    checkUser();
+                    // Post a delayed reset counter runnable
+                    handler.postDelayed(resetCounterRunnable, TIMEOUT);
+
+                    if (!validateUsername() | !validatePassword()) {
+                        // Validation failed, do not proceed
+                    } else {
+                        checkUser();
+                    }
                 }
             }
         });
@@ -98,7 +126,6 @@ public class login extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     public Boolean validateUsername() {
@@ -143,19 +170,11 @@ public class login extends AppCompatActivity {
                     if (passwordFromDB.equals(userPassword)) {
                         loginUsername.setError(null);
 
-                        //check user option is correct
+                        // Check if the user option is correct
                         if (selectedOpFromDB.equals(userSelectedOp)) {
                             Intent intent = new Intent(login.this, MainActivity.class);
                             intent.putExtra("userSelectedOp", userSelectedOp);
                             startActivity(intent);
-
-                            /*if (selectedOpFromDB.equals("Patient")) {
-                                Intent intent = new Intent(login.this, MainActivity.class);
-                                intent.putExtra("selectedOp",selectedOpFromDB);
-                                startActivity(intent);
-                            } else {
-                                Toast.makeText(login.this, "Doctor login is still not available", Toast.LENGTH_SHORT).show();
-                            }*/
                         } else {
                             Toast.makeText(login.this, "Select 'Login As' correctly", Toast.LENGTH_SHORT).show();
                         }
@@ -217,7 +236,7 @@ public class login extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                // can now authenticate with Firebase using account.getIdToken()
+                // Can now authenticate with Firebase using account.getIdToken()
                 AuthCredential authCredential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
                 auth.signInWithCredential(authCredential).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -278,7 +297,6 @@ public class login extends AppCompatActivity {
         finish();
     }
 
-
     private void navigateToProfileFragment(FirebaseUser user) {
         String userName = user.getDisplayName();
         Uri profilePictureUri = user.getPhotoUrl();
@@ -307,7 +325,6 @@ public class login extends AppCompatActivity {
         editor.putString("profilePictureUri", profilePictureUri);
         editor.apply();
     }
-
 
     public void onTextViewClicked(View view) {
         Intent intent = new Intent(this, signup.class);

@@ -67,6 +67,9 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
         String userSelectedOp = intent.getStringExtra("userSelectedOp");
 
+        Intent in = getIntent();
+        String adminUsername = in.getStringExtra("adminUsername");
+
         if ("Patient".equals(userSelectedOp)) {
             // Replace the current fragment with HomeFragment and pass user information
             replaceFragment(new HomeFragment());
@@ -101,6 +104,23 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                 }
                 return true;
             });
+        } else if ("edoc_admin".equals(adminUsername)) {
+            replaceFragment(new AdminHome());
+            binding.bottomNavigationView.setOnItemSelectedListener(item -> {
+                switch (item.getItemId()) {
+                    case R.id.home:
+                        replaceFragment(new DoctorHomeFragment());
+                        break;
+                    case R.id.appointments:
+                        replaceFragment(new AppointmentsFragment());
+                        break;
+                    case R.id.profile:
+                        replaceFragment(new ProfileFragment());
+                        break;
+                }
+                return true;
+            });
+            
         }
 
         // Set up bottom navigation
@@ -113,14 +133,18 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
                     replaceFragment(new DoctorHomeFragment());
-                }
-                else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+                } else if ("edoc_admin".equals(adminUsername)) {
+                    replaceFragment(new DoctorHomeFragment());
+                } else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
             }
             else if (itemId == R.id.appointments) {
                 if ("Patient".equals(userSelectedOp)) {
                     replaceFragment(new AppointmentsFragment());
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
+                    replaceFragment(new DoctorAppointmentFragment());
+                }
+                else if ("edoc_admin".equals(adminUsername)) {
                     replaceFragment(new DoctorAppointmentFragment());
                 }
                 else replaceFragment(new AppointmentsFragment());
@@ -130,6 +154,9 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                     replaceFragment(new ProfileFragment());
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
+                    replaceFragment(new DoctorProfileFragment());
+                }
+                else if ("edoc_admin".equals(adminUsername)) {
                     replaceFragment(new DoctorProfileFragment());
                 }
                 else replaceFragment(new ProfileFragment());
