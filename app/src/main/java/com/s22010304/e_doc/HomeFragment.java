@@ -59,10 +59,10 @@ public class HomeFragment extends Fragment {
         profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
+                /*DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
                 if (drawer != null) {
                     drawerLayout.openDrawer(GravityCompat.START);
-                }
+                }*/
             }
         });
 
