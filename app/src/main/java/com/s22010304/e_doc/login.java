@@ -166,6 +166,8 @@ public class login extends AppCompatActivity {
                     loginUsername.setError(null);
                     String passwordFromDB = snapshot.child(userUsername).child("password").getValue(String.class);
                     String selectedOpFromDB = snapshot.child(userUsername).child("selectedOp").getValue(String.class);
+                    String nameFromDB = snapshot.child(userUsername).child("name").getValue(String.class);
+                    String profilePictureUriFromDB = snapshot.child(userUsername).child("profilePictureUri").getValue(String.class);
 
                     if (passwordFromDB.equals(userPassword)) {
                         loginUsername.setError(null);
@@ -174,6 +176,9 @@ public class login extends AppCompatActivity {
                         if (selectedOpFromDB.equals(userSelectedOp)) {
                             Intent intent = new Intent(login.this, MainActivity.class);
                             intent.putExtra("userSelectedOp", userSelectedOp);
+                            intent.putExtra("nameFromDB", nameFromDB);
+                            intent.putExtra("userName", userUsername);
+                            intent.putExtra("profilePictureUri", profilePictureUriFromDB);
                             startActivity(intent);
                         } else {
                             Toast.makeText(login.this, "Select 'Login As' correctly", Toast.LENGTH_SHORT).show();
@@ -267,35 +272,14 @@ public class login extends AppCompatActivity {
         // Save user info to SharedPreferences
         saveUserInfoLocally(userName, profilePictureUri);
 
-        // Create a new instance of the HomeFragment
-        HomeFragment homeFragment = new HomeFragment();
-
-        // Pass necessary data to the fragment using arguments
-        Bundle args = new Bundle();
-        args.putString("userName", userName);
-        if (profilePictureUri != null) {
-            args.putString("profilePictureUri", profilePictureUri.toString());
-        }
-        homeFragment.setArguments(args);
-
-        // Replace the current fragment with the HomeFragment
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, homeFragment)
-                .commit();
-
         Intent intent = new Intent(this, MainActivity.class);
-
         intent.putExtra("userName", userName);
         intent.putExtra("profilePictureUri", profilePictureUri);
 
-        // Pass user information as extras
-        /*intent.putExtra("userName", user.getDisplayName());
-        if (user.getPhotoUrl() != null) {
-            intent.putExtra("profilePictureUri", user.getPhotoUrl().toString());
-        }*/
         startActivity(intent);
         finish();
     }
+
 
     private void navigateToProfileFragment(FirebaseUser user) {
         String userName = user.getDisplayName();

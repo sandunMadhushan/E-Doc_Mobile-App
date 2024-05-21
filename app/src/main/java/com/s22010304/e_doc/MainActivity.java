@@ -1,11 +1,7 @@
 package com.s22010304.e_doc;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,18 +10,14 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
 import com.s22010304.e_doc.databinding.ActivityMainBinding;
-
-import java.util.concurrent.Executor;
 
 //uncomment this implement part to enable nav drawer
 public class MainActivity extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
+    private String nameFromDB;
     private String userName;
     private String profilePictureUri;
     ActivityMainBinding binding;
@@ -40,35 +32,63 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
 
         // Retrieve saved user information
         retrieveUserInfo();
 
-        // Check if user information is retrieved, if not, display placeholder
+        Intent i = getIntent();
+        if (i != null) {
+            if (i.hasExtra("userName")) {
+                userName = i.getStringExtra("userName");
+            }
+            if (i.hasExtra("profilePictureUri")) {
+                profilePictureUri = i.getStringExtra("profilePictureUri");
+            }
+            if (i.hasExtra("nameFromDB")) {
+                nameFromDB = i.getStringExtra("nameFromDB");
+            }
+
+            // Save user info to SharedPreferences
+            saveUserInfoLocally(userName, profilePictureUri, nameFromDB);
+        }
+
+        if (userName != null && profilePictureUri != null) {
+            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, nameFromDB));
+        } else {
+            replaceFragment(new HomeFragment());
+        }
+
+
+
+            // Check if user information is retrieved, if not, display placeholder
         if (userName != null && profilePictureUri != null) {
             // Replace the current fragment with HomeFragment and pass user information
-            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, nameFromDB));
         } else {
             // Display placeholder image and text
             replaceFragment(new HomeFragment());
         }
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        /*binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());*/
 
         // Check if user information is passed from LoginActivity
-        Intent i = getIntent();
-        if (i != null && i.hasExtra("userName") && i.hasExtra("profilePictureUri")) {
-            userName = i.getStringExtra("userName");
-            profilePictureUri = i.getStringExtra("profilePictureUri");
+        Intent in = getIntent();
+        if (in != null && in.hasExtra("userName") && in.hasExtra("profilePictureUri") && in.hasExtra("nameFromDB")) {
+            userName = in.getStringExtra("userName");
+            profilePictureUri = in.getStringExtra("profilePictureUri");
+            nameFromDB = in.getStringExtra("nameFromDB");
         }
 
         Intent intent = getIntent();
 
         String userSelectedOp = intent.getStringExtra("userSelectedOp");
 
-        Intent in = getIntent();
-        String adminUsername = in.getStringExtra("adminUsername");
+        Intent inten = getIntent();
+        String adminUsername = inten.getStringExtra("adminUsername");
 
         if ("Patient".equals(userSelectedOp)) {
             // Replace the current fragment with HomeFragment and pass user information
@@ -76,7 +96,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
-                        replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+                        replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, nameFromDB));
                         break;
                     case R.id.appointments:
                         replaceFragment(new AppointmentsFragment());
@@ -107,7 +127,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         } else if ("edoc_admin".equals(adminUsername)) {
             binding.bottomNavigationView.setVisibility(View.GONE);
             replaceFragment(new AdminHome());
-            
+
         }
 
         // Set up bottom navigation
@@ -116,12 +136,12 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
             if (itemId == R.id.home) {
                 if ("Patient".equals(userSelectedOp)) {
-                    replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+                    replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, nameFromDB));
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
                     replaceFragment(new DoctorHomeFragment());
                 }
-                else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+                else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, nameFromDB));
             }
             else if (itemId == R.id.appointments) {
                 if ("Patient".equals(userSelectedOp)) {
@@ -235,6 +255,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         SharedPreferences prefs = getSharedPreferences("UserInfo", MODE_PRIVATE);
         userName = prefs.getString("userName", null);
         profilePictureUri = prefs.getString("profilePictureUri", null);
+        nameFromDB = prefs.getString("nameFromDB",null);
     }
 
     public void onButtonClicked(View view) {
@@ -290,6 +311,14 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish(); // Close the current activity to prevent navigating back to ProfileFragment on back press
+    }
+
+    private void saveUserInfoLocally(String userName, String profilePictureUri, String nameFromDB) {
+        SharedPreferences.Editor editor = getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
+        editor.putString("userName", userName);
+        editor.putString("profilePictureUri", profilePictureUri);
+        editor.putString("nameFromDB", nameFromDB);
+        editor.apply();
     }
 
 }
