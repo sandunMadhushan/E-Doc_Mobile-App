@@ -175,6 +175,7 @@ public class login extends AppCompatActivity {
                             Intent intent = new Intent(login.this, MainActivity.class);
                             intent.putExtra("userSelectedOp", userSelectedOp);
                             startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(login.this, "Select 'Login As' correctly", Toast.LENGTH_SHORT).show();
                         }
