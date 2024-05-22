@@ -180,6 +180,7 @@ public class login extends AppCompatActivity {
                             intent.putExtra("userName", userUsername);
                             intent.putExtra("profilePictureUri", profilePictureUriFromDB);
                             startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(login.this, "Select 'Login As' correctly", Toast.LENGTH_SHORT).show();
                         }

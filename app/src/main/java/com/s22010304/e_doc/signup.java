@@ -107,8 +107,16 @@ public class signup extends AppCompatActivity {
 
     public Boolean validateUsername() {
         String val = signupUsername.getText().toString();
+        String noWhiteSpace = "^[\\w]{4,20}$";
+
         if (val.isEmpty()) {
             signupUsername.setError("Username cannot be empty");
+            return false;
+        } else if (val.length() > 20) {
+            signupUsername.setError("Username is too long");
+            return false;
+        } else if (!val.matches(noWhiteSpace)) {
+            signupUsername.setError("Whitespace or special characters are not allowed");
             return false;
         } else {
             signupUsername.setError(null);
@@ -118,8 +126,13 @@ public class signup extends AppCompatActivity {
 
     public Boolean validatePassword() {
         String val = signupPassword.getText().toString();
+        String passwordVal = "^(?=.*[a-zA-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$";
+
         if (val.isEmpty()) {
             signupPassword.setError("Password cannot be empty");
+            return false;
+        } else if (!val.matches(passwordVal)) {
+            signupPassword.setError("Password must be at least 4 characters long, contain at least one letter, one special character, and have no spaces");
             return false;
         } else {
             signupPassword.setError(null);
@@ -132,7 +145,11 @@ public class signup extends AppCompatActivity {
         if (val.isEmpty()) {
             signupName.setError("Name cannot be empty");
             return false;
-        } else {
+        } else if (val.length() > 20) {
+            signupName.setError("Name is too long. Enter abc.comfirst name and last name");
+            return false;
+        }
+        else {
             signupName.setError(null);
             return true;
         }
@@ -140,8 +157,13 @@ public class signup extends AppCompatActivity {
 
     public Boolean validateEmail() {
         String val = signupEmail.getText().toString();
+        String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
+
         if (val.isEmpty()) {
             signupEmail.setError("Email cannot be empty");
+            return false;
+        } else if (!val.matches(emailPattern)) {
+            signupEmail.setError("Invalid email address");
             return false;
         } else {
             signupEmail.setError(null);

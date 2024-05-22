@@ -1,5 +1,13 @@
 package com.s22010304.e_doc;
 
+
+import androidx.annotation.NonNull;
+import androidx.biometric.BiometricManager;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import android.view.MenuItem;
+import android.widget.Toast;
+import com.google.android.material.navigation.NavigationView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -11,6 +19,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+
+import java.util.concurrent.Executor;
 
 import com.s22010304.e_doc.databinding.ActivityMainBinding;
 
@@ -76,14 +86,13 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         setContentView(binding.getRoot());*/
 
         // Check if user information is passed from LoginActivity
-        Intent in = getIntent();
-        if (in != null && in.hasExtra("userName") && in.hasExtra("profilePictureUri") && in.hasExtra("nameFromDB")) {
-            userName = in.getStringExtra("userName");
-            profilePictureUri = in.getStringExtra("profilePictureUri");
-            nameFromDB = in.getStringExtra("nameFromDB");
+        Intent intent = getIntent();
+        if (intent != null && intent.hasExtra("userName") && intent.hasExtra("profilePictureUri") && intent.hasExtra("nameFromDB")) {
+            userName = intent.getStringExtra("userName");
+            profilePictureUri = intent.getStringExtra("profilePictureUri");
+            nameFromDB = intent.getStringExtra("nameFromDB");
         }
 
-        Intent intent = getIntent();
 
         String userSelectedOp = intent.getStringExtra("userSelectedOp");
 
