@@ -1,11 +1,7 @@
 package com.s22010304.e_doc;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.biometric.BiometricManager;
 import androidx.biometric.BiometricPrompt;
-import androidx.core.content.ContextCompat;
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -14,20 +10,16 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.Toast;
 
-import com.google.android.material.navigation.NavigationView;
 import com.s22010304.e_doc.databinding.ActivityMainBinding;
-
-import java.util.concurrent.Executor;
 
 //uncomment this implement part to enable nav drawer
 public class MainActivity extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     private String userName;
     private String profilePictureUri;
+    private String name;
     ActivityMainBinding binding;
     private DrawerLayout drawerLayout;
     BiometricPrompt biometricPrompt;
@@ -47,7 +39,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         // Check if user information is retrieved, if not, display placeholder
         if (userName != null && profilePictureUri != null) {
             // Replace the current fragment with HomeFragment and pass user information
-            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
         } else {
             // Display placeholder image and text
             replaceFragment(new HomeFragment());
@@ -57,18 +49,23 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         setContentView(binding.getRoot());
 
         // Check if user information is passed from LoginActivity
-        Intent i = getIntent();
-        if (i != null && i.hasExtra("userName") && i.hasExtra("profilePictureUri")) {
-            userName = i.getStringExtra("userName");
-            profilePictureUri = i.getStringExtra("profilePictureUri");
-        }
-
         Intent intent = getIntent();
+        if (intent != null)
+            if (intent.hasExtra("userName")){
+                userName = intent.getStringExtra("userName");
+            }
+            if (intent.hasExtra("profilePictureUri")) {
+                profilePictureUri = intent.getStringExtra("profilePictureUri");
+            }
+            if (intent.hasExtra("name")){
+                name = intent.getStringExtra("name");
+
+            }
 
         String userSelectedOp = intent.getStringExtra("userSelectedOp");
 
-        Intent in = getIntent();
-        String adminUsername = in.getStringExtra("adminUsername");
+
+        String adminUsername = intent.getStringExtra("adminUsername");
 
         if ("Patient".equals(userSelectedOp)) {
             // Replace the current fragment with HomeFragment and pass user information
@@ -76,7 +73,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
-                        replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+                        replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
                         break;
                     case R.id.appointments:
                         replaceFragment(new AppointmentsFragment());
@@ -89,7 +86,8 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             });
 
         } else if ("Doctor".equals(userSelectedOp)) {
-            replaceFragment(new DoctorHomeFragment());
+
+            replaceFragment(DoctorProfileFragment.newInstance(userName, profilePictureUri, name));
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
@@ -116,12 +114,12 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
             if (itemId == R.id.home) {
                 if ("Patient".equals(userSelectedOp)) {
-                    replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+                    replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
                     replaceFragment(new DoctorHomeFragment());
                 }
-                else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri));
+                else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
             }
             else if (itemId == R.id.appointments) {
                 if ("Patient".equals(userSelectedOp)) {

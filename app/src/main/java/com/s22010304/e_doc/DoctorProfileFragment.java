@@ -9,6 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 public class DoctorProfileFragment extends Fragment {
+    public static Fragment newInstance(String userName, String profilePictureUri, String name) {
+        return null;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

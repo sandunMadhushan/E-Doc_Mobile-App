@@ -8,7 +8,6 @@ import android.content.res.ColorStateList;
 import android.net.Uri;
 import android.os.Bundle;
 
-import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -29,6 +28,7 @@ public class HomeFragment extends Fragment {
 
     private String userName;
     private String profilePictureUri;
+    private String name;
     private DrawerLayout drawerLayout;
 
     public HomeFragment() {
@@ -56,7 +56,7 @@ public class HomeFragment extends Fragment {
         TextView userNameTextView = view.findViewById(R.id.text_user_name);
         ImageView profileImageView = view.findViewById(R.id.profileImage);
 
-        profileImageView.setOnClickListener(new View.OnClickListener() {
+       /* profileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DrawerLayout drawer = getActivity().findViewById(R.id.drawer_layout);
@@ -64,12 +64,14 @@ public class HomeFragment extends Fragment {
                     drawerLayout.openDrawer(GravityCompat.START);
                 }
             }
-        });
+        });*/
 
         // Set user name
-        if (userName != null) {
-            userNameTextView.setText(userName);
-        } else {
+        if (name != null) {
+            userNameTextView.setText(name);
+        } else if (userName != null) {
+            userNameTextView.setText(userName);}
+        else {
             // If userName is null, display placeholder text
             userNameTextView.setText("User");
         }
@@ -149,11 +151,12 @@ public class HomeFragment extends Fragment {
         requireActivity().finish(); // Close the current activity to prevent navigating back to the home fragment
     }
 
-    public static HomeFragment newInstance(String userName, String profilePictureUri) {
+    public static HomeFragment newInstance(String userName, String profilePictureUri, String name) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
+        args.putString("name",name);
         fragment.setArguments(args);
         return fragment;
     }
