@@ -1,5 +1,16 @@
 package com.s22010304.e_doc;
 
+
+
+import androidx.annotation.NonNull;
+import androidx.biometric.BiometricManager;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import android.view.MenuItem;
+import android.widget.Toast;
+import com.google.android.material.navigation.NavigationView;
+
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.biometric.BiometricPrompt;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -12,11 +23,17 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 
+
+import java.util.concurrent.Executor;
+
 import com.s22010304.e_doc.databinding.ActivityMainBinding;
+
+
 
 //uncomment this implement part to enable nav drawer
 public class MainActivity extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
+    private String nameFromDB;
     private String userName;
     private String profilePictureUri;
     private String name;
@@ -32,24 +49,53 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
 
         // Retrieve saved user information
         retrieveUserInfo();
 
-        // Check if user information is retrieved, if not, display placeholder
+        Intent i = getIntent();
+        if (i != null) {
+            if (i.hasExtra("userName")) {
+                userName = i.getStringExtra("userName");
+            }
+            if (i.hasExtra("profilePictureUri")) {
+                profilePictureUri = i.getStringExtra("profilePictureUri");
+            }
+            if (i.hasExtra("nameFromDB")) {
+                nameFromDB = i.getStringExtra("nameFromDB");
+            }
+
+            // Save user info to SharedPreferences
+            saveUserInfoLocally(userName, profilePictureUri, nameFromDB);
+        }
+
+        if (userName != null && profilePictureUri != null) {
+            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, nameFromDB));
+        } else {
+            replaceFragment(new HomeFragment());
+        }
+
+
+
+            // Check if user information is retrieved, if not, display placeholder
         if (userName != null && profilePictureUri != null) {
             // Replace the current fragment with HomeFragment and pass user information
+         
             replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
         } else {
             // Display placeholder image and text
             replaceFragment(new HomeFragment());
         }
 
-        binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        /*binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());*/
 
         // Check if user information is passed from LoginActivity
         Intent intent = getIntent();
+
         if (intent != null)
             if (intent.hasExtra("userName")){
                 userName = intent.getStringExtra("userName");
@@ -73,7 +119,10 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
+
+
                         replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
+
                         break;
                     case R.id.appointments:
                         replaceFragment(new AppointmentsFragment());
@@ -105,7 +154,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         } else if ("edoc_admin".equals(adminUsername)) {
             binding.bottomNavigationView.setVisibility(View.GONE);
             replaceFragment(new AdminHome());
-            
+
         }
 
         // Set up bottom navigation
@@ -114,12 +163,17 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
             if (itemId == R.id.home) {
                 if ("Patient".equals(userSelectedOp)) {
+
+
                     replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
+
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
                     replaceFragment(new DoctorHomeFragment());
                 }
+
                 else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
+
             }
             else if (itemId == R.id.appointments) {
                 if ("Patient".equals(userSelectedOp)) {
@@ -233,6 +287,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         SharedPreferences prefs = getSharedPreferences("UserInfo", MODE_PRIVATE);
         userName = prefs.getString("userName", null);
         profilePictureUri = prefs.getString("profilePictureUri", null);
+        nameFromDB = prefs.getString("nameFromDB",null);
     }
 
     public void onButtonClicked(View view) {
@@ -288,6 +343,14 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         finish(); // Close the current activity to prevent navigating back to ProfileFragment on back press
+    }
+
+    private void saveUserInfoLocally(String userName, String profilePictureUri, String nameFromDB) {
+        SharedPreferences.Editor editor = getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
+        editor.putString("userName", userName);
+        editor.putString("profilePictureUri", profilePictureUri);
+        editor.putString("nameFromDB", nameFromDB);
+        editor.apply();
     }
 
 }

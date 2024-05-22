@@ -29,20 +29,12 @@ public class HomeFragment extends Fragment {
     private String userName;
     private String profilePictureUri;
     private String name;
+
     private DrawerLayout drawerLayout;
 
     public HomeFragment() {
         // Required empty public constructor
     }
-
-    /*@Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            userName = getArguments().getString("userName");
-            profilePictureUri = getArguments().getString("profilePictureUri");
-        }
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,7 +43,6 @@ public class HomeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
         drawerLayout = getActivity().findViewById(R.id.drawer_layout);
-        //View profileImageView = rootView.findViewById(R.id.navImage);
 
         TextView userNameTextView = view.findViewById(R.id.text_user_name);
         ImageView profileImageView = view.findViewById(R.id.profileImage);
@@ -66,6 +57,7 @@ public class HomeFragment extends Fragment {
             }
         });*/
 
+
         // Set user name
         if (name != null) {
             userNameTextView.setText(name);
@@ -73,14 +65,14 @@ public class HomeFragment extends Fragment {
             userNameTextView.setText(userName);}
         else {
             // If userName is null, display placeholder text
+
             userNameTextView.setText("User");
         }
 
-        // Load profile picture using Glide library
+
         if (profilePictureUri != null) {
             Glide.with(requireContext()).load(Uri.parse(profilePictureUri)).into(profileImageView);
         } else {
-            // If profilePictureUri is null, load a default image
             profileImageView.setImageResource(R.drawable.patient_profile_image);
         }
 
@@ -92,71 +84,56 @@ public class HomeFragment extends Fragment {
             }
         });
 
-// Create a ColorStateList with the desired background color
         ColorStateList colorStateList = ColorStateList.valueOf(getResources().getColor(R.color.primary));
-
-// Set the background color for the MaterialButton
         logoutButton.setBackgroundTintList(colorStateList);
 
-
-        LinearLayout drpererabtn;
-        LinearLayout drpererabtn2;
-
-        drpererabtn = view.findViewById(R.id.drpererabtn);
-
-        drpererabtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new DoctorDetails());
-                fragmentTransaction.addToBackStack(null); // Optional: Add transaction to the back stack
-                fragmentTransaction.commit();
-            }
-        });
-
-        drpererabtn2 = view.findViewById(R.id.drpererabtn2);
-
-        drpererabtn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getParentFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.replace(R.id.fragment_container, new DoctorDetails());
-                fragmentTransaction.addToBackStack(null); // Optional: Add transaction to the back stack
-                fragmentTransaction.commit();
-            }
-        });
-
-
+        // Handle clicks on doctor details buttons
+        setupDoctorDetailsButtons(view);
 
         return view;
     }
 
+    private void setupDoctorDetailsButtons(View view) {
+        LinearLayout drpererabtn = view.findViewById(R.id.drpererabtn);
+        LinearLayout drpererabtn2 = view.findViewById(R.id.drpererabtn2);
+
+        View.OnClickListener doctorDetailsClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getParentFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.fragment_container, new DoctorDetails());
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        };
+
+        drpererabtn.setOnClickListener(doctorDetailsClickListener);
+        drpererabtn2.setOnClickListener(doctorDetailsClickListener);
+    }
+
     private void logoutUser() {
-        // Sign out user from Firebase Authentication
         FirebaseAuth.getInstance().signOut();
-
-        // Clear user info from SharedPreferences
         clearUserInfoLocally();
-
-        // Navigate back to MainActivity
         navigateToLoginActivity();
     }
 
-    // Method to navigate back to LoginActivity
     private void navigateToLoginActivity() {
         Intent intent = new Intent(requireContext(), login.class);
         startActivity(intent);
-        requireActivity().finish(); // Close the current activity to prevent navigating back to the home fragment
+        requireActivity().finish();
     }
 
+
+
     public static HomeFragment newInstance(String userName, String profilePictureUri, String name) {
+ master
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
         args.putString("name",name);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -167,10 +144,10 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             userName = getArguments().getString("userName");
             profilePictureUri = getArguments().getString("profilePictureUri");
+            nameFromDB = getArguments().getString("nameFromDB");
         }
     }
 
-    // Method to clear user information from SharedPreferences
     private void clearUserInfoLocally() {
         SharedPreferences.Editor editor = requireActivity().getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
         editor.clear().apply();
