@@ -28,7 +28,8 @@ public class HomeFragment extends Fragment {
 
     private String userName;
     private String profilePictureUri;
-    private String nameFromDB;
+    private String name;
+
     private DrawerLayout drawerLayout;
 
     public HomeFragment() {
@@ -56,11 +57,15 @@ public class HomeFragment extends Fragment {
             }
         });*/
 
-        if (nameFromDB != null) {
-            userNameTextView.setText(nameFromDB);
+
+        // Set user name
+        if (name != null) {
+            userNameTextView.setText(name);
         } else if (userName != null) {
-            userNameTextView.setText(userName);
-        } else {
+            userNameTextView.setText(userName);}
+        else {
+            // If userName is null, display placeholder text
+
             userNameTextView.setText("User");
         }
 
@@ -119,12 +124,16 @@ public class HomeFragment extends Fragment {
         requireActivity().finish();
     }
 
-    public static HomeFragment newInstance(String userName, String profilePictureUri, String nameFromDB) {
+
+
+    public static HomeFragment newInstance(String userName, String profilePictureUri, String name) {
+ master
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
-        args.putString("nameFromDB", nameFromDB);
+        args.putString("name",name);
+
         fragment.setArguments(args);
         return fragment;
     }

@@ -166,19 +166,15 @@ public class login extends AppCompatActivity {
                     loginUsername.setError(null);
                     String passwordFromDB = snapshot.child(userUsername).child("password").getValue(String.class);
                     String selectedOpFromDB = snapshot.child(userUsername).child("selectedOp").getValue(String.class);
-                    String nameFromDB = snapshot.child(userUsername).child("name").getValue(String.class);
-                    String profilePictureUriFromDB = snapshot.child(userUsername).child("profilePictureUri").getValue(String.class);
 
                     if (passwordFromDB.equals(userPassword)) {
                         loginUsername.setError(null);
 
                         // Check if the user option is correct
                         if (selectedOpFromDB.equals(userSelectedOp)) {
-                            Intent intent = new Intent(login.this, MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.putExtra("userSelectedOp", userSelectedOp);
-                            intent.putExtra("nameFromDB", nameFromDB);
-                            intent.putExtra("userName", userUsername);
-                            intent.putExtra("profilePictureUri", profilePictureUriFromDB);
+
                             startActivity(intent);
                             finish();
                         } else {

@@ -124,6 +124,7 @@ public class signup extends AppCompatActivity {
         }
     }
 
+
     public Boolean validatePassword() {
         String val = signupPassword.getText().toString();
         String passwordVal = "^(?=.*[a-zA-Z])(?=.*[@#$%^&+=])(?=\\S+$).{4,}$";
@@ -139,6 +140,7 @@ public class signup extends AppCompatActivity {
             return true;
         }
     }
+
 
     public Boolean validateName() {
         String val = signupName.getText().toString();
@@ -170,4 +172,5 @@ public class signup extends AppCompatActivity {
             return true;
         }
     }
+
 }
