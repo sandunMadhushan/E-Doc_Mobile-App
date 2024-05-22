@@ -127,7 +127,7 @@ public class HomeFragment extends Fragment {
 
 
     public static HomeFragment newInstance(String userName, String profilePictureUri, String name) {
- master
+
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
@@ -144,7 +144,7 @@ public class HomeFragment extends Fragment {
         if (getArguments() != null) {
             userName = getArguments().getString("userName");
             profilePictureUri = getArguments().getString("profilePictureUri");
-            nameFromDB = getArguments().getString("nameFromDB");
+
         }
     }
 
