@@ -35,15 +35,12 @@ public class ApproveDoctor extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         // Reference to the Firebase Realtime Database
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("users");
-
-        // Query to filter only the doctors
-        Query doctorQuery = databaseReference.orderByChild("selectedOp").equalTo("Doctor");
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("doctors_details");
 
         // Setting up FirebaseRecyclerOptions with the filtered query
-        FirebaseRecyclerOptions<MainModel> options =
-                new FirebaseRecyclerOptions.Builder<MainModel>()
-                        .setQuery(doctorQuery, MainModel.class)
+        FirebaseRecyclerOptions<DoctorSingleModel> options =
+                new FirebaseRecyclerOptions.Builder<DoctorSingleModel>()
+                        .setQuery(databaseReference, DoctorSingleModel.class)
                         .build();
 
         mainAdapter = new MainAdapter(options);
