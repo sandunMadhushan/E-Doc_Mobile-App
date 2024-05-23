@@ -27,7 +27,7 @@ public class DoctorProfileFragment extends Fragment {
     private TextView nameTextView, emailTextView, usernameTextView;
     private EditText addressEditText, nicEditText, slmcNoEditText, contactNoEditText, specialAreaEditText, workAddressEditText, homeAddressEditText;
 
-    private String username; // Assuming you have a way to get the logged-in user's username
+    private String username;
 
     @Nullable
     @Override
