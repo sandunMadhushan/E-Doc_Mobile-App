@@ -197,7 +197,7 @@
                         android:clickable="true"
                         android:fontFamily="@font/poppins_medium"
                         android:onClick="onTextViewClicked"
-                        android:text="Go back to user login"
+                        android:text="Go back to userModel login"
                         android:textColor="@color/primary"
                         android:textSize="14sp" />
                 </LinearLayout>
