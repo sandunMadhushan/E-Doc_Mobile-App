@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
         } else if ("Doctor".equals(userSelectedOp)) {
 
-            replaceFragment(DoctorProfileFragment.newInstance(userName, profilePictureUri, name));
+            replaceFragment(new DoctorHomeFragment());
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
