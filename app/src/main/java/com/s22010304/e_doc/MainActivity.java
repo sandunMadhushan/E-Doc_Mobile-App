@@ -6,6 +6,8 @@ import androidx.annotation.NonNull;
 import androidx.biometric.BiometricManager;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
 import com.google.android.material.navigation.NavigationView;
@@ -33,6 +35,7 @@ import com.s22010304.e_doc.databinding.ActivityMainBinding;
 //uncomment this implement part to enable nav drawer
 public class MainActivity extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
+    String username;
     private String nameFromDB;
     private String userName;
     private String profilePictureUri;
@@ -112,6 +115,9 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
 
         String adminUsername = intent.getStringExtra("adminUsername");
+
+        String retrievedUsername = UserManager.getInstance().getUsername();
+
 
         if ("Patient".equals(userSelectedOp)) {
             // Replace the current fragment with HomeFragment and pass user information
