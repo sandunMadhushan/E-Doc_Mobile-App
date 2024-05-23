@@ -8,11 +8,15 @@ public class DoctorDetailsModel {
     public String nic;
     public String slmcNo;
     public String contactNo;
+    public String specialArea;
+    public String workAddress;
+    public String homeAddress;
 
     // Default constructor required for calls to DataSnapshot.getValue(DoctorDetails.class)
-    public DoctorDetailsModel() {}
+    public DoctorDetailsModel() {
+    }
 
-    public DoctorDetailsModel(String name, String email, String username, String address, String nic, String slmcNo, String contactNo) {
+    public DoctorDetailsModel(String name, String email, String username, String address, String nic, String slmcNo, String contactNo, String specialArea, String workAddress, String homeAddress) {
         this.name = name;
         this.email = email;
         this.username = username;
@@ -20,6 +24,9 @@ public class DoctorDetailsModel {
         this.nic = nic;
         this.slmcNo = slmcNo;
         this.contactNo = contactNo;
+        this.specialArea = specialArea;
+        this.workAddress = workAddress;
+        this.homeAddress = homeAddress;
     }
 
     // Getters and setters if needed

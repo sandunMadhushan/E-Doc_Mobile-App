@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -23,7 +25,7 @@ public class DoctorProfileFragment extends Fragment {
     private DatabaseReference doctorsDetailsRef;
 
     private TextView nameTextView, emailTextView, usernameTextView;
-    private EditText addressEditText, nicEditText, slmcNoEditText, contactNoEditText;
+    private EditText addressEditText, nicEditText, slmcNoEditText, contactNoEditText, specialAreaEditText, workAddressEditText, homeAddressEditText;
 
     private String username; // Assuming you have a way to get the logged-in user's username
 
@@ -32,7 +34,7 @@ public class DoctorProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doctor_profile, container, false);
 
-       username = UserManager.getInstance().getUsername();
+        username = UserManager.getInstance().getUsername();
 
 
         // Initialize views
@@ -43,6 +45,9 @@ public class DoctorProfileFragment extends Fragment {
         nicEditText = view.findViewById(R.id.nicEditText);
         slmcNoEditText = view.findViewById(R.id.slmcNoEditText);
         contactNoEditText = view.findViewById(R.id.contactNoEditText);
+        specialAreaEditText = view.findViewById(R.id.specialAreaEditText);
+        workAddressEditText = view.findViewById(R.id.workAddressEditText);
+        homeAddressEditText = view.findViewById(R.id.homeAddressEditText);
 
         usernameTextView.setText(username);
 
@@ -54,12 +59,12 @@ public class DoctorProfileFragment extends Fragment {
         fetchUserData();
 
 
-
         // Handle form submission
         view.findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 submitDoctorDetails();
+                Toast.makeText(getActivity(), "Profile Updated Successfully", Toast.LENGTH_LONG).show();
             }
         });
 
@@ -93,8 +98,12 @@ public class DoctorProfileFragment extends Fragment {
         String nic = nicEditText.getText().toString();
         String slmcNo = slmcNoEditText.getText().toString();
         String contactNo = contactNoEditText.getText().toString();
+        String specialArea = specialAreaEditText.getText().toString();
+        String workAddress = workAddressEditText.getText().toString();
+        String homeAddress = homeAddressEditText.getText().toString();
 
-        DoctorDetailsModel doctorDetailsModel = new DoctorDetailsModel(name, email, username, address, nic, slmcNo, contactNo);
+
+        DoctorDetailsModel doctorDetailsModel = new DoctorDetailsModel(name, email, username, address, nic, slmcNo, contactNo, specialArea, workAddress, homeAddress);
         doctorsDetailsRef.child(username).setValue(doctorDetailsModel);
     }
 }
