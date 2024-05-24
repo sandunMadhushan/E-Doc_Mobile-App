@@ -62,6 +62,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<DoctorSingleModel, Main
                 intent.putExtra("username", clickedItem.getUsername());
                 // Start the activity
                 itemView.getContext().startActivity(intent);
+
             }
         }
 

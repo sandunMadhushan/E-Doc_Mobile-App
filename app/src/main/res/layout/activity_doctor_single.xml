@@ -2,14 +2,17 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/white">
 
 
     <androidx.cardview.widget.CardView
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:elevation="6dp"
+        app:cardBackgroundColor="@color/accent"
         app:cardCornerRadius="6dp"
         app:cardUseCompatPadding="true">
 
@@ -91,7 +94,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="40dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -110,6 +112,7 @@
                     android:gravity="center_vertical"
                     android:text="name here"
                     android:textColor="@color/black"
+                    android:textIsSelectable="true"
                     android:textSize="20dp" />
 
             </LinearLayout>
@@ -119,7 +122,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -137,6 +139,7 @@
                     android:gravity="center_vertical"
                     android:text="email"
                     android:textColor="@color/black"
+                    android:textIsSelectable="true"
                     android:textSize="20dp" />
 
             </LinearLayout>
@@ -146,25 +149,32 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="157dp"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
                     android:text="SLMC Reg. No :"
                     android:textColor="@color/black"
                     android:textSize="20dp" />
 
                 <TextView
                     android:id="@+id/SLMCRegTextView"
-                    android:layout_width="match_parent"
+                    android:layout_width="130dp"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:text="reg no"
                     android:textColor="@color/black"
+                    android:textIsSelectable="true"
                     android:textSize="20dp" />
+
+                <ImageView
+                    android:id="@+id/copy_icon"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/baseline_content_copy_24"
+                    />
 
             </LinearLayout>
 
@@ -173,7 +183,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -191,6 +200,7 @@
                     android:gravity="center_vertical"
                     android:text="nic"
                     android:textColor="@color/black"
+                    android:textIsSelectable="true"
                     android:textSize="20dp" />
 
             </LinearLayout>
@@ -200,7 +210,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -218,6 +227,7 @@
                     android:gravity="center_vertical"
                     android:text="special area"
                     android:textColor="@color/black"
+                    android:textIsSelectable="true"
                     android:textSize="20dp" />
 
             </LinearLayout>
@@ -227,7 +237,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -245,6 +254,7 @@
                     android:gravity="center_vertical"
                     android:text="contact no"
                     android:textColor="@color/black"
+                    android:textIsSelectable="true"
                     android:textSize="20dp" />
 
             </LinearLayout>
@@ -254,7 +264,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -272,6 +281,7 @@
                     android:gravity="center_vertical"
                     android:text="work address"
                     android:textColor="@color/black"
+                    android:textIsSelectable="true"
                     android:textSize="20dp" />
 
             </LinearLayout>
@@ -281,7 +291,6 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="20dp"
-                android:gravity="center"
                 android:orientation="horizontal">
 
                 <TextView
@@ -299,6 +308,7 @@
                     android:gravity="center_vertical"
                     android:text="home address"
                     android:textColor="@color/black"
+                    android:textIsSelectable="true"
                     android:textSize="20dp" />
 
             </LinearLayout>
@@ -337,7 +347,7 @@
                     android:background="@drawable/completed_button_background"
                     android:text="Approve"
                     android:textAllCaps="false"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:textStyle="bold" />
 
                 <View
