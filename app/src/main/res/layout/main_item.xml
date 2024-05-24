@@ -16,6 +16,7 @@
             android:id="@+id/img1"
             android:layout_width="80dp"
             android:layout_height="80dp"
+            android:layout_marginTop="10dp"
             android:src="@mipmap/ic_launcher"
             app:civ_border_color="#FF000000"
             app:civ_border_width="2dp" />
@@ -43,12 +44,24 @@
             android:textColor="@color/black"
             android:textSize="25dp" />
 
+        <TextView
+            android:id="@+id/usernameTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/slmcTextView"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@+id/img1"
+            android:text="username"
+            android:textColor="@color/black"
+            android:textSize="25dp" />
+
+
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/approveBtn"
+            android:id="@+id/detailsBtn"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/img1"
+            android:layout_below="@+id/usernameTextView"
             android:layout_marginEnd="20dp"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="10dp"
