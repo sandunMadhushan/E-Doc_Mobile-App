@@ -1,11 +1,17 @@
 package com.s22010304.e_doc;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
@@ -31,6 +37,7 @@ public class DoctorSingle extends AppCompatActivity {
 
     Button checkBtn, approveBtn;
     ConstraintLayout back_btn;
+    ImageView copy_icon;
 
     private String username;
 
@@ -62,6 +69,8 @@ public class DoctorSingle extends AppCompatActivity {
         approveBtn = findViewById(R.id.approveBtn);
         back_btn = findViewById(R.id.back_btn);
 
+        copy_icon= findViewById(R.id.copy_icon);
+
         doctorsDetailsRef = FirebaseDatabase.getInstance().getReference("doctors_details");
         fetchUserData();
 
@@ -72,6 +81,34 @@ public class DoctorSingle extends AppCompatActivity {
                 startActivity(intent1);
             }
         });
+
+        checkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://www.srilankamedicalcouncil.org/images/donotdelete/3wJrKqXdUmQPyGJC210801.php";
+                Intent sendIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+                Intent chooser = Intent.createChooser(sendIntent, "Choose Your Browser");
+                if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(chooser);
+                }
+            }
+        });
+
+
+        copy_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager clipboardManager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clipData = ClipData.newPlainText("Text",SLMCRegTextView.getText().toString());
+                clipboardManager.setPrimaryClip(clipData);
+
+                copy_icon.setImageDrawable(getResources().getDrawable(R.drawable.baseline_check_circle_24));
+
+                Toast.makeText(DoctorSingle.this, "SLMC Reg.No. copied to clipboard", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
 
     }
 

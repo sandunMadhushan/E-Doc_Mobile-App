@@ -5,6 +5,7 @@
     android:layout_height="wrap_content"
     android:elevation="6dp"
     app:cardCornerRadius="6dp"
+    app:cardBackgroundColor="@color/accent"
     app:cardUseCompatPadding="true">
 
     <RelativeLayout
