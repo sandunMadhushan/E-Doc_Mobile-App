@@ -13,16 +13,16 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainAdapter extends FirebaseRecyclerAdapter<MainModel, MainAdapter.myViewHolder> {
+public class MainAdapter extends FirebaseRecyclerAdapter<DoctorSingleModel, MainAdapter.myViewHolder> {
 
-    public MainAdapter(@NonNull FirebaseRecyclerOptions<MainModel> options) {
+    public MainAdapter(@NonNull FirebaseRecyclerOptions<DoctorSingleModel> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull MainModel model) {
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull DoctorSingleModel model) {
         holder.name.setText(model.getName());
-        holder.email.setText(model.getEmail());
+        holder.slmcNo.setText(model.getslmcNo());
 
     }
 
@@ -35,12 +35,12 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel, MainAdapter.
 
     class myViewHolder extends RecyclerView.ViewHolder {
         CircleImageView img;
-        TextView name, email;
+        TextView name, slmcNo;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nameTextView);
-            email = itemView.findViewById(R.id.usernameTextView);
+            slmcNo = itemView.findViewById(R.id.slmcTextView);
         }
     }
 }

@@ -33,13 +33,13 @@
 
 
         <TextView
-            android:id="@+id/usernameTextView"
+            android:id="@+id/slmcTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/nameTextView"
             android:layout_marginLeft="10dp"
             android:layout_toRightOf="@+id/img1"
-            android:text="username"
+            android:text="slmc no"
             android:textColor="@color/black"
             android:textSize="25dp" />
 
