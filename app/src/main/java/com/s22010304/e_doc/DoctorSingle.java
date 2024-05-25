@@ -157,6 +157,7 @@ public class DoctorSingle extends AppCompatActivity {
                 DoctorDetailsModel doctorDetailsModel = dataSnapshot.getValue(DoctorDetailsModel.class);
                 if (doctorDetailsModel != null) {
                     nameTextView.setText(doctorDetailsModel.name);
+                    nameTextView2.setText(doctorDetailsModel.name);
                     emailTextView.setText(doctorDetailsModel.email);
                     usernameTextView.setText(doctorDetailsModel.username);
                     SLMCRegTextView.setText(doctorDetailsModel.slmcNo);
