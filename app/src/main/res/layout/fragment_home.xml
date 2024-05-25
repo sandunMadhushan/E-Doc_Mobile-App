@@ -500,141 +500,38 @@
                             android:textSize="12sp" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout9"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/topdoctorsRV"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="vertical"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
-
-                        <LinearLayout
-                            android:id="@+id/drpererabtn2"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginBottom="20dp"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="10dp"
-                                android:src="@drawable/doc4_topdoctor"
-                                app:shapeAppearanceOverlay="@style/roundedimageview" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
-                                    android:fontFamily="@font/poppins_medium"
-                                    android:text="Dr. Perera"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="10dp"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="Dentist - Hemas"
-                                    android:textColor="@color/muted"
-                                    android:textSize="12sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:gravity="center_vertical"
-                                    android:text=" 4.5 (738 reviews)"
-                                    android:textColor="@color/black"
-                                    android:textSize="12sp"
-                                    app:drawableLeftCompat="@drawable/rating_icon" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginStart="30dp"
-                            android:layout_marginBottom="20dp"
-                            android:orientation="horizontal">
-
-                            <com.google.android.material.imageview.ShapeableImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginEnd="10dp"
-                                android:src="@drawable/doc6_topdoctor"
-                                app:shapeAppearanceOverlay="@style/roundedimageview" />
-
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="match_parent"
-                                android:orientation="vertical">
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="10dp"
-                                    android:layout_marginBottom="10dp"
-                                    android:fontFamily="@font/poppins_medium"
-                                    android:text="Dr. Silva"
-                                    android:textColor="@color/black"
-                                    android:textSize="14sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="10dp"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:text="Physiotherapist - Nawaloka"
-                                    android:textColor="@color/muted"
-                                    android:textSize="12sp" />
-
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:fontFamily="@font/poppins_regular"
-                                    android:gravity="center_vertical"
-                                    android:text=" 4.5 (738 reviews)"
-                                    android:textColor="@color/black"
-                                    android:textSize="12sp"
-                                    app:drawableLeftCompat="@drawable/rating_icon" />
-                            </LinearLayout>
-                        </LinearLayout>
-
-                    </LinearLayout>
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout6" />
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_marginTop="20dp"
-                        android:paddingBottom="30dp"
                         android:orientation="horizontal"
+                        android:paddingBottom="30dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout9">
+                        app:layout_constraintTop_toBottomOf="@+id/topdoctorsRV">
 
                         <com.google.android.material.button.MaterialButton
                             android:id="@+id/btn_logout"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Sign Out"
                             android:layout_marginStart="30dp"
                             android:layout_marginEnd="30dp"
-                            android:textColor="@color/white"
-                            android:textSize="16sp"
+                            android:layout_weight="1"
+                            android:background="@drawable/button_background"
                             android:backgroundTint="@color/primary"
-                            android:background="@drawable/button_background"/>
+                            android:text="Sign Out"
+                            android:textColor="@color/white"
+                            android:textSize="16sp" />
                     </LinearLayout>
 
 
