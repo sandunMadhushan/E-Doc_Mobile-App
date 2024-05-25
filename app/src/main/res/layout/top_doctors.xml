@@ -1,22 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:cardCornerRadius="6dp"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="150dp"
     android:elevation="6dp"
     app:cardBackgroundColor="@color/accent"
+    app:cardCornerRadius="6dp"
     app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:id="@+id/linearLayout9"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_marginTop="10dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+        android:gravity="center_vertical"
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/drpererabtn2"
@@ -24,11 +22,12 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="30dp"
             android:layout_marginBottom="20dp"
+            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <com.google.android.material.imageview.ShapeableImageView
-                android:layout_width="wrap_content"
                 android:id="@+id/proPicImg"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/doc4_topdoctor"
@@ -36,7 +35,8 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="vertical">
 
                 <TextView
@@ -44,7 +44,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:fontFamily="@font/poppins_medium"
                     android:text="Dr. Perera"
                     android:textColor="@color/black"
@@ -54,25 +54,34 @@
                     android:id="@+id/specialAreaTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
+                    android:layout_marginBottom="5dp"
                     android:fontFamily="@font/poppins_regular"
                     android:text="Dentist - Hemas"
                     android:textColor="@color/muted"
                     android:textSize="12sp" />
 
-                <TextView
+                <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="@font/poppins_regular"
                     android:gravity="center_vertical"
-                    android:text=" 4.5 (738 reviews)"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:drawableLeftCompat="@drawable/rating_icon" />
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/rating_icon" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="3dp"
+                        android:fontFamily="@font/poppins_regular"
+                        android:gravity="center_vertical"
+                        android:text="4.5 (738 reviews)"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+                </LinearLayout>
             </LinearLayout>
         </LinearLayout>
-
-
     </LinearLayout>
-
 </androidx.cardview.widget.CardView>

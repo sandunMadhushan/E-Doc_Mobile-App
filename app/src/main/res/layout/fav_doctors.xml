@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="240dp"
+    android:layout_height="280dp"
+    android:layout_marginStart="20dp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="230dp"
+        android:layout_height="270dp"
+        android:elevation="8dp"
+        app:cardBackgroundColor="@color/accent"
+        app:cardCornerRadius="6dp"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:id="@+id/drpererabtn"
+            android:layout_width="220dp"
+            android:layout_height="270dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <com.google.android.material.imageview.ShapeableImageView
+                android:id="@+id/img"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:scaleType="centerCrop"
+                android:src="@drawable/doc4"
+                app:shapeAppearanceOverlay="@style/toproundedimageview" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/nameTV"
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="5dp"
+                    android:fontFamily="@font/poppins_medium"
+                    android:text="Dr.Perera"
+                    android:textColor="@color/black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/rating1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="4.5"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    app:drawableLeftCompat="@drawable/rating_icon" />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/specialAreaTV"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/poppins_regular"
+                android:paddingBottom="8dp"
+                android:text="Dentist - Hemas"
+                android:textColor="@color/muted"
+                android:textSize="14sp" />
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+</LinearLayout>

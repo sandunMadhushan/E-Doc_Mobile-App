@@ -13,6 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fillViewport="true"
+        android:scrollbars="none"
         tools:layout_editor_absoluteX="1dp"
         tools:layout_editor_absoluteY="1dp">
 
@@ -136,213 +137,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <HorizontalScrollView
-                        android:id="@+id/horizontalScrollView2"
-                        android:layout_width="0dp"
-                        android:layout_height="220dp"
-                        android:fillViewport="true"
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/fav_doctorsRv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="30dp"
+                        android:layout_marginEnd="30dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="210dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="30dp"
-                            android:orientation="horizontal">
-
-                            <LinearLayout
-                                android:id="@+id/drpererabtn"
-                                android:layout_width="158dp"
-                                android:layout_height="200dp"
-                                android:layout_marginStart="30dp"
-                                android:orientation="vertical">
-
-                                <com.google.android.material.imageview.ShapeableImageView
-                                    android:id="@+id/imageButton11"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="1"
-                                    android:contentDescription="dr1"
-                                    android:scaleType="centerCrop"
-                                    android:src="@drawable/doc4"
-                                    app:shapeAppearanceOverlay="@style/toproundedimageview" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/doctorid1"
-                                        android:layout_width="100dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="Dr.Perera"
-                                        android:textColor="@color/black" />
-
-                                    <TextView
-                                        android:id="@+id/rating1"
-                                        android:layout_width="60dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="4.5"
-                                        android:textAlignment="center"
-                                        android:textColor="@color/black"
-                                        app:drawableLeftCompat="@drawable/rating_icon" />
-                                </LinearLayout>
-
-                                <TextView
-                                    android:id="@+id/doctrdetal1"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Dentist - Hemas"
-                                    android:textColor="@color/muted" />
-                            </LinearLayout>
-
-
-                            <LinearLayout
-                                android:layout_width="158dp"
-                                android:layout_height="200dp"
-                                android:layout_marginStart="20dp"
-                                android:orientation="vertical">
-
-                                <com.google.android.material.imageview.ShapeableImageView
-                                    android:id="@+id/imageButton12"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="1"
-                                    android:background="@drawable/doc5"
-                                    android:contentDescription="dr2"
-                                    app:shapeAppearanceOverlay="@style/toproundedimageview" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/doctorid2"
-                                        android:layout_width="100dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="Dr.Mansa"
-                                        android:textColor="@color/black" />
-
-                                    <TextView
-                                        android:id="@+id/rating2"
-                                        android:layout_width="60dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="4.5"
-                                        android:textAlignment="center"
-                                        android:textColor="@color/black"
-                                        app:drawableLeftCompat="@drawable/rating_icon" />
-                                </LinearLayout>
-
-                                <TextView
-                                    android:id="@+id/doctrdetal2"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:text="Physiotherapist - Hemas"
-                                    android:textColor="@color/muted" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="158dp"
-                                android:layout_height="200dp"
-                                android:layout_marginStart="20dp"
-                                android:orientation="vertical">
-
-                                <com.google.android.material.imageview.ShapeableImageView
-                                    android:id="@+id/imageButton13"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="1"
-                                    android:background="@drawable/doc4"
-                                    android:contentDescription="dr3"
-                                    app:shapeAppearanceOverlay="@style/toproundedimageview" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/doctorid3"
-                                        android:layout_width="100dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="Dr.Perera"
-                                        android:textColor="@color/black" />
-
-                                    <TextView
-                                        android:id="@+id/rating3"
-                                        android:layout_width="60dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="4.5"
-                                        android:textAlignment="center"
-                                        android:textColor="@color/black"
-                                        app:drawableLeftCompat="@drawable/rating_icon" />
-                                </LinearLayout>
-
-                                <TextView
-                                    android:id="@+id/doctrdetal3"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Dentist - Hemas"
-                                    android:textColor="@color/muted" />
-                            </LinearLayout>
-
-                            <LinearLayout
-                                android:layout_width="158dp"
-                                android:layout_height="200dp"
-                                android:layout_marginStart="20dp"
-                                android:layout_marginEnd="20dp"
-                                android:orientation="vertical">
-
-                                <com.google.android.material.imageview.ShapeableImageView
-                                    android:id="@+id/imageButton14"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="0dp"
-                                    android:layout_weight="1"
-                                    android:background="@drawable/doc5"
-                                    android:contentDescription="dr4"
-                                    app:shapeAppearanceOverlay="@style/toproundedimageview" />
-
-                                <LinearLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <TextView
-                                        android:id="@+id/doctorid4"
-                                        android:layout_width="100dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="Dr.Mansa"
-                                        android:textColor="@color/black" />
-
-                                    <TextView
-                                        android:id="@+id/rating4"
-                                        android:layout_width="60dp"
-                                        android:layout_height="wrap_content"
-                                        android:text="4.5"
-                                        android:textAlignment="center"
-                                        android:textColor="@color/black"
-                                        app:drawableLeftCompat="@drawable/rating_icon" />
-                                </LinearLayout>
-
-                                <TextView
-                                    android:id="@+id/doctrdetal4"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="Physiotherapist - Hemas"
-                                    android:textColor="@color/muted" />
-                            </LinearLayout>
-                        </LinearLayout>
-                    </HorizontalScrollView>
+                        app:layout_constraintTop_toBottomOf="@+id/linearLayout5" />
 
                     <HorizontalScrollView
                         android:id="@+id/horizontalScrollView3"
                         android:layout_width="411dp"
                         android:layout_height="93dp"
                         android:fillViewport="true"
+                        android:scrollbars="none"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
@@ -473,7 +283,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView2">
+                        app:layout_constraintTop_toBottomOf="@+id/fav_doctorsRv">
 
                         <TextView
                             android:id="@+id/textView17"

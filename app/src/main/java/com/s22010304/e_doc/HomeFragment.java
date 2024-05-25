@@ -31,8 +31,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeFragment extends Fragment {
 
-    RecyclerView recyclerView;
+    RecyclerView topdoc_recyclerView, favdoc_recyclerView;
     TopDoctorAdapter topDoctorAdapter;
+    FavDoctorAdapter favDoctorAdapter;
 
     private String userName;
     private String profilePictureUri;
@@ -70,8 +71,8 @@ public class HomeFragment extends Fragment {
         if (name != null) {
             userNameTextView.setText(name);
         } else if (userName != null) {
-            userNameTextView.setText(userName);}
-        else {
+            userNameTextView.setText(userName);
+        } else {
             // If userName is null, display placeholder text
 
             userNameTextView.setText("User");
@@ -99,8 +100,8 @@ public class HomeFragment extends Fragment {
         /*setupDoctorDetailsButtons(view);*/
 
 
-        recyclerView = view.findViewById(R.id.topdoctorsRV);
-        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+        topdoc_recyclerView = view.findViewById(R.id.topdoctorsRV);
+        topdoc_recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("approved_doctors");
         FirebaseRecyclerOptions<TopDoctorSingleModel> options =
@@ -109,8 +110,16 @@ public class HomeFragment extends Fragment {
                         .build();
 
         topDoctorAdapter = new TopDoctorAdapter(options);
-        recyclerView.setAdapter(topDoctorAdapter);
+        topdoc_recyclerView.setAdapter(topDoctorAdapter);
 
+        favdoc_recyclerView = view.findViewById(R.id.fav_doctorsRv);
+        favdoc_recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext(), LinearLayoutManager.HORIZONTAL, false));
+        options = new FirebaseRecyclerOptions.Builder<TopDoctorSingleModel>()
+                .setQuery(databaseReference, TopDoctorSingleModel.class)
+                .build();
+
+        favDoctorAdapter = new FavDoctorAdapter(options);
+        favdoc_recyclerView.setAdapter(favDoctorAdapter);
 
 
         return view;
@@ -121,12 +130,14 @@ public class HomeFragment extends Fragment {
     public void onStart() {
         super.onStart();
         topDoctorAdapter.startListening();
+        favDoctorAdapter.startListening();
     }
 
     @Override
     public void onStop() {
         super.onStop();
         topDoctorAdapter.stopListening();
+        favDoctorAdapter.stopListening();
     }
 
 
@@ -162,14 +173,13 @@ public class HomeFragment extends Fragment {
     }
 
 
-
     public static HomeFragment newInstance(String userName, String profilePictureUri, String name) {
 
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
-        args.putString("name",name);
+        args.putString("name", name);
 
         fragment.setArguments(args);
         return fragment;
