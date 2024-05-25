@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -39,6 +40,7 @@ import com.google.firebase.database.ValueEventListener;
 public class login extends AppCompatActivity {
 
     TextInputEditText loginUsername, loginPassword;
+    String username;
     Button loginButton;
     TextView signupRedirectText;
 
@@ -152,6 +154,7 @@ public class login extends AppCompatActivity {
 
     public void checkUser() {
         String userUsername = loginUsername.getText().toString();
+        UserManager.getInstance().setUsername(userUsername);
         String userPassword = loginPassword.getText().toString();
         String userSelectedOp = selectedOption.getSelectedItem().toString();
 
@@ -172,9 +175,11 @@ public class login extends AppCompatActivity {
 
                         // Check if the user option is correct
                         if (selectedOpFromDB.equals(userSelectedOp)) {
-                            Intent intent = new Intent(login.this, MainActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.putExtra("userSelectedOp", userSelectedOp);
+                            intent.putExtra("username",userUsername);
                             startActivity(intent);
+                            finish();
                         } else {
                             Toast.makeText(login.this, "Select 'Login As' correctly", Toast.LENGTH_SHORT).show();
                         }
@@ -267,35 +272,14 @@ public class login extends AppCompatActivity {
         // Save user info to SharedPreferences
         saveUserInfoLocally(userName, profilePictureUri);
 
-        // Create a new instance of the HomeFragment
-        HomeFragment homeFragment = new HomeFragment();
-
-        // Pass necessary data to the fragment using arguments
-        Bundle args = new Bundle();
-        args.putString("userName", userName);
-        if (profilePictureUri != null) {
-            args.putString("profilePictureUri", profilePictureUri.toString());
-        }
-        homeFragment.setArguments(args);
-
-        // Replace the current fragment with the HomeFragment
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, homeFragment)
-                .commit();
-
         Intent intent = new Intent(this, MainActivity.class);
-
         intent.putExtra("userName", userName);
         intent.putExtra("profilePictureUri", profilePictureUri);
 
-        // Pass user information as extras
-        /*intent.putExtra("userName", user.getDisplayName());
-        if (user.getPhotoUrl() != null) {
-            intent.putExtra("profilePictureUri", user.getPhotoUrl().toString());
-        }*/
         startActivity(intent);
         finish();
     }
+
 
     private void navigateToProfileFragment(FirebaseUser user) {
         String userName = user.getDisplayName();

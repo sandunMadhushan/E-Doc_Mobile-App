@@ -59,4 +59,11 @@ dependencies {
     implementation("androidx.biometric:biometric:1.1.0")
     implementation ("com.google.android.gms:play-services-maps:18.2.0")
     implementation ("com.google.android.gms:play-services-location:21.0.1")
+
+    implementation("com.firebaseui:firebase-ui-database:8.0.2")
+
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation ("com.github.bumptech.glide:glide:4.16.0")
+    implementation ("de.hdodenhof:circleimageview:3.1.0")
+    implementation("com.google.firebase:firebase-analytics")
 }
