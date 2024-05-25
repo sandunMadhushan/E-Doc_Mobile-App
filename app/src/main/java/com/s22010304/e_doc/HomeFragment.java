@@ -12,6 +12,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,10 +23,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class HomeFragment extends Fragment {
+
+    RecyclerView recyclerView;
+    TopDoctorAdapter topDoctorAdapter;
 
     private String userName;
     private String profilePictureUri;
@@ -88,12 +96,41 @@ public class HomeFragment extends Fragment {
         logoutButton.setBackgroundTintList(colorStateList);
 
         // Handle clicks on doctor details buttons
-        setupDoctorDetailsButtons(view);
+        /*setupDoctorDetailsButtons(view);*/
+
+
+        recyclerView = view.findViewById(R.id.topdoctorsRV);
+        recyclerView.setLayoutManager(new LinearLayoutManager(view.getContext()));
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("approved_doctors");
+        FirebaseRecyclerOptions<TopDoctorSingleModel> options =
+                new FirebaseRecyclerOptions.Builder<TopDoctorSingleModel>()
+                        .setQuery(databaseReference, TopDoctorSingleModel.class)
+                        .build();
+
+        topDoctorAdapter = new TopDoctorAdapter(options);
+        recyclerView.setAdapter(topDoctorAdapter);
+
+
 
         return view;
     }
 
-    private void setupDoctorDetailsButtons(View view) {
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        topDoctorAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        topDoctorAdapter.stopListening();
+    }
+
+
+    /*private void setupDoctorDetailsButtons(View view) {
         LinearLayout drpererabtn = view.findViewById(R.id.drpererabtn);
         LinearLayout drpererabtn2 = view.findViewById(R.id.drpererabtn2);
 
@@ -110,7 +147,7 @@ public class HomeFragment extends Fragment {
 
         drpererabtn.setOnClickListener(doctorDetailsClickListener);
         drpererabtn2.setOnClickListener(doctorDetailsClickListener);
-    }
+    }*/
 
     private void logoutUser() {
         FirebaseAuth.getInstance().signOut();
