@@ -24,6 +24,7 @@ public class FavDoctorAdapter extends FirebaseRecyclerAdapter<TopDoctorSingleMod
     protected void onBindViewHolder(@NonNull FavDoctorAdapter.myViewHolder myViewHolder, int i, @NonNull TopDoctorSingleModel model) {
         myViewHolder.name.setText(model.getName());
         myViewHolder.specialArea.setText(model.getSpecialArea());
+        myViewHolder.username.setText(model.getUsername());
     }
 
     @NonNull
@@ -35,12 +36,14 @@ public class FavDoctorAdapter extends FirebaseRecyclerAdapter<TopDoctorSingleMod
 
     public class myViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView name, specialArea;
+        TextView name, specialArea, username;
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nameTV);
             specialArea = itemView.findViewById(R.id.specialAreaTV);
+            username = itemView.findViewById(R.id.usernameTextView);
+            itemView.setOnClickListener(this);
         }
 
         @Override
@@ -48,11 +51,11 @@ public class FavDoctorAdapter extends FirebaseRecyclerAdapter<TopDoctorSingleMod
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) { // Ensure the position is valid
                 TopDoctorSingleModel clickedItem = getItem(position); // Get the clicked item
-                Intent intent = new Intent(itemView.getContext(), DoctorSingle.class);
+                Intent intent = new Intent(itemView.getContext(), DoctorDetailsSingle.class);
                 // Pass the username to the DoctorSingle activity
-                intent.putExtra("name", clickedItem.getName());
+                intent.putExtra("username", clickedItem.getUsername());
                 // Start the activity
-                //itemView.getContext().startActivity(intent);
+                itemView.getContext().startActivity(intent);
 
             }
         }

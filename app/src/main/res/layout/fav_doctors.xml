@@ -66,6 +66,12 @@
                 android:text="Dentist - Hemas"
                 android:textColor="@color/muted"
                 android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/usernameTextView"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:visibility="gone" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

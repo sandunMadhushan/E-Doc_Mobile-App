@@ -80,6 +80,12 @@
                         android:text="4.5 (738 reviews)"
                         android:textColor="@color/black"
                         android:textSize="12sp" />
+
+                    <TextView
+                        android:id="@+id/usernameTextView"
+                        android:layout_width="0dp"
+                        android:layout_height="0dp"
+                        android:visibility="gone" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

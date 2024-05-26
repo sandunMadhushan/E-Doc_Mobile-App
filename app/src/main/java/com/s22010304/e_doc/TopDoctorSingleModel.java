@@ -2,11 +2,13 @@ package com.s22010304.e_doc;
 
 public class TopDoctorSingleModel {
 
-    String name, specialArea;
+    String name, specialArea, username;
 
-    public TopDoctorSingleModel(String name, String specialAre) {
+
+    public TopDoctorSingleModel(String name, String specialArea, String username) {
         this.name = name;
-        this.specialArea = specialAre;
+        this.specialArea = specialArea;
+        this.username = username;
     }
 
     public TopDoctorSingleModel() {
@@ -24,7 +26,15 @@ public class TopDoctorSingleModel {
         return specialArea;
     }
 
-    public void setSpecialArea(String specialAre) {
-        this.specialArea = specialAre;
+    public void setSpecialArea(String specialArea) {
+        this.specialArea = specialArea;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
