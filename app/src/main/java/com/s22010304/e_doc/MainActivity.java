@@ -158,6 +158,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                 return true;
             });
         } else if ("edoc_admin".equals(adminUsername)) {
+            intent.putExtra("adminUsername",adminUsername);
             binding.bottomNavigationView.setVisibility(View.GONE);
             replaceFragment(new AdminHome());
 
