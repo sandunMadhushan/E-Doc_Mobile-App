@@ -4,6 +4,8 @@ public class UserModel {
     public String name;
     public String email;
     public String username;
+    public String password;
+    public String selectedOp;
 
     // Default constructor required for calls to DataSnapshot.getValue(User.class)
     public UserModel() {}
@@ -12,6 +14,8 @@ public class UserModel {
         this.name = name;
         this.email = email;
         this.username = username;
+        this.password = password;
+        this.selectedOp = selectedOp;
     }
 
     // Getters and setters if needed
@@ -38,5 +42,21 @@ public class UserModel {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSelectedOp() {
+        return selectedOp;
+    }
+
+    public void setSelectedOp(String selectedOp) {
+        this.selectedOp = selectedOp;
     }
 }

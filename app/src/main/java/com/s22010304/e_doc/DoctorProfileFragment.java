@@ -19,6 +19,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
+import com.google.firebase.messaging.RemoteMessage;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 public class DoctorProfileFragment extends Fragment {
     private DatabaseReference usersRef;
@@ -63,8 +69,11 @@ public class DoctorProfileFragment extends Fragment {
         view.findViewById(R.id.submitButton).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                submitDoctorDetails();
-                Toast.makeText(getActivity(), "Profile Updated Successfully", Toast.LENGTH_LONG).show();
+                if (validateFields()) {
+                    submitDoctorDetails();
+                    Toast.makeText(getActivity(), "Profile Updated Successfully", Toast.LENGTH_LONG).show();
+                    sendNotificationToAdmin();
+                }
             }
         });
 
@@ -106,4 +115,80 @@ public class DoctorProfileFragment extends Fragment {
         DoctorDetailsModel doctorDetailsModel = new DoctorDetailsModel(name, email, username, address, nic, slmcNo, contactNo, specialArea, workAddress, homeAddress);
         doctorsDetailsRef.child(username).setValue(doctorDetailsModel);
     }
+
+    private void sendNotificationToAdmin() {
+        DatabaseReference adminTokenRef = FirebaseDatabase.getInstance().getReference("admin_fcm_tokens").child("edoc_admin");
+        adminTokenRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()) {
+                    String adminFCMToken = dataSnapshot.getValue(String.class);
+                    if (adminFCMToken != null) {
+                        sendNotification(adminFCMToken);
+                    } else {
+                        Log.e("Admin Token", "Admin FCM token is null");
+                    }
+                } else {
+                    Log.e("Admin Token", "Admin FCM token not found");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Firebase", "Error reading admin FCM token", databaseError.toException());
+            }
+        });
+    }
+
+    private void sendNotification(String adminFCMToken) {
+        FirebaseMessaging fm = FirebaseMessaging.getInstance();
+        fm.send(new RemoteMessage.Builder(adminFCMToken + "@gcm.googleapis.com")
+                .setMessageId(Integer.toString(new Random().nextInt(9999)))
+                .addData("title", "New Doctor Approval Pending")
+                .addData("body", "You have new doctor approval pending")
+                .build());
+    }
+
+    private boolean validateFields() {
+        if (addressEditText.getText().toString().isEmpty()) {
+            addressEditText.setError("Address is required");
+            addressEditText.requestFocus();
+            return false;
+        }
+        if (nicEditText.getText().toString().isEmpty()) {
+            nicEditText.setError("NIC is required");
+            nicEditText.requestFocus();
+            return false;
+        }
+        if (slmcNoEditText.getText().toString().isEmpty()) {
+            slmcNoEditText.setError("SLMC No is required");
+            slmcNoEditText.requestFocus();
+            return false;
+        }
+        if (contactNoEditText.getText().toString().isEmpty()) {
+            contactNoEditText.setError("Contact No is required");
+            contactNoEditText.requestFocus();
+            return false;
+        }
+        if (specialAreaEditText.getText().toString().isEmpty()) {
+            specialAreaEditText.setError("Special Area is required");
+            specialAreaEditText.requestFocus();
+            return false;
+        }
+        if (workAddressEditText.getText().toString().isEmpty()) {
+            workAddressEditText.setError("Work Address is required");
+            workAddressEditText.requestFocus();
+            return false;
+        }
+        if (homeAddressEditText.getText().toString().isEmpty()) {
+            homeAddressEditText.setError("Home Address is required");
+            homeAddressEditText.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+
+
+
 }
