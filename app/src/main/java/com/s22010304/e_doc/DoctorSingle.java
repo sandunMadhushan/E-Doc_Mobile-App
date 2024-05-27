@@ -23,6 +23,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -154,18 +155,28 @@ public class DoctorSingle extends AppCompatActivity {
         doctorsDetailsRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DoctorDetailsModel doctorDetailsModel = dataSnapshot.getValue(DoctorDetailsModel.class);
-                if (doctorDetailsModel != null) {
-                    nameTextView.setText(doctorDetailsModel.name);
-                    nameTextView2.setText(doctorDetailsModel.name);
-                    emailTextView.setText(doctorDetailsModel.email);
-                    usernameTextView.setText(doctorDetailsModel.username);
-                    SLMCRegTextView.setText(doctorDetailsModel.slmcNo);
-                    NICTextView.setText(doctorDetailsModel.nic);
-                    ConNoTextView.setText(doctorDetailsModel.contactNo);
-                    WorkAddressTextView.setText(doctorDetailsModel.workAddress);
-                    homeAddressTextView.setText(doctorDetailsModel.homeAddress);
-                    SpecialAreTextView.setText(doctorDetailsModel.specialArea);
+                DoctorDetailsModeltoSingle doctorDetailsModeltoSingle = dataSnapshot.getValue(DoctorDetailsModeltoSingle.class);
+                if (doctorDetailsModeltoSingle != null) {
+                    nameTextView.setText(doctorDetailsModeltoSingle.name);
+                    nameTextView2.setText(doctorDetailsModeltoSingle.name);
+                    emailTextView.setText(doctorDetailsModeltoSingle.email);
+                    usernameTextView.setText(doctorDetailsModeltoSingle.username);
+                    SLMCRegTextView.setText(doctorDetailsModeltoSingle.slmcNo);
+                    NICTextView.setText(doctorDetailsModeltoSingle.nic);
+                    ConNoTextView.setText(doctorDetailsModeltoSingle.contactNo);
+                    WorkAddressTextView.setText(doctorDetailsModeltoSingle.workAddress);
+                    homeAddressTextView.setText(doctorDetailsModeltoSingle.homeAddress);
+                    SpecialAreTextView.setText(doctorDetailsModeltoSingle.specialArea);
+
+                    // Load image using Glide or Picasso
+                    String iurl = doctorDetailsModeltoSingle.iurl;
+                    if (iurl != null && !iurl.isEmpty()) {
+                        Glide.with(DoctorSingle.this)
+                                .load(iurl)
+                                .placeholder(R.drawable.baseline_person_24_lavendar) // Placeholder image while loading
+                                .error(R.drawable.ic_launcher_background) // Error image if loading fails
+                                .into(img1);
+                    }
                 }
             }
 
@@ -175,6 +186,7 @@ public class DoctorSingle extends AppCompatActivity {
             }
         });
     }
+
 
     private void submitDoctorDetails() {
         String name = nameTextView.getText().toString();
@@ -187,8 +199,9 @@ public class DoctorSingle extends AppCompatActivity {
         String workAddress = WorkAddressTextView.getText().toString();
         String homeAddress = homeAddressTextView.getText().toString();
         String address = homeAddressTextView.getText().toString();
+        String imageUrl = img1.toString();
 
-        DoctorDetailsModel approvedDoctorDetailsModel = new DoctorDetailsModel(name, email, username, address, nic, slmcNo, contactNo, specialArea, workAddress, homeAddress);
+        DoctorDetailsModeltoSingle approvedDoctorDetailsModel = new DoctorDetailsModeltoSingle(name, email, username, address, nic, slmcNo, contactNo, specialArea, workAddress, homeAddress, imageUrl);
         approvedDoctorsDetailsRef.child(username).setValue(approvedDoctorDetailsModel)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
