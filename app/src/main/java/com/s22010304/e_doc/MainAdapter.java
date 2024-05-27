@@ -31,7 +31,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<MainModel, MainAdapter.
 
         Glide.with(holder.img.getContext())
                 .load(model.getiurl()).
-                placeholder(R.drawable.google_logo)
+                placeholder(R.drawable.baseline_person_24_lavendar)
                 .circleCrop()
                 .error(R.drawable.ic_launcher_background)
                 .into(holder.img);

@@ -12,8 +12,10 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.imageview.ShapeableImageView;
 
 public class TopDoctorAdapter extends FirebaseRecyclerAdapter<TopDoctorSingleModel, TopDoctorAdapter.myViewHolder> {
     public TopDoctorAdapter(@NonNull FirebaseRecyclerOptions<TopDoctorSingleModel> options) {
@@ -25,6 +27,12 @@ public class TopDoctorAdapter extends FirebaseRecyclerAdapter<TopDoctorSingleMod
         myViewHolder.name.setText(model.getName());
         myViewHolder.specialArea.setText(model.getSpecialArea());
         myViewHolder.username.setText(model.getUsername());
+
+        Glide.with(myViewHolder.img.getContext())
+                .load(model.getiurl())
+                .placeholder(R.drawable.baseline_person_24_lavendar)
+                .centerCrop()
+                .error(R.drawable.ic_launcher_background).into(myViewHolder.img);
 
     }
 
@@ -38,11 +46,13 @@ public class TopDoctorAdapter extends FirebaseRecyclerAdapter<TopDoctorSingleMod
     public class myViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView name, specialArea, username;
+        ShapeableImageView img;
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
             name = itemView.findViewById(R.id.nameTV);
             specialArea = itemView.findViewById(R.id.specialAreaTV);
             username = itemView.findViewById(R.id.usernameTextView);
+            img = itemView.findViewById(R.id.proPicImg);
             itemView.setOnClickListener(this);
         }
 
