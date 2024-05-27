@@ -38,9 +38,9 @@ public class ApproveDoctor extends AppCompatActivity {
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference().child("doctors_details");
 
         // Setting up FirebaseRecyclerOptions with the filtered query
-        FirebaseRecyclerOptions<DoctorSingleModel> options =
-                new FirebaseRecyclerOptions.Builder<DoctorSingleModel>()
-                        .setQuery(databaseReference, DoctorSingleModel.class)
+        FirebaseRecyclerOptions<MainModel> options =
+                new FirebaseRecyclerOptions.Builder<MainModel>()
+                        .setQuery(databaseReference, MainModel.class)
                         .build();
 
         mainAdapter = new MainAdapter(options);

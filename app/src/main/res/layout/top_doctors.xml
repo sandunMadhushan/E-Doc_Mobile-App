@@ -27,8 +27,8 @@
 
             <com.google.android.material.imageview.ShapeableImageView
                 android:id="@+id/proPicImg"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
                 android:layout_marginEnd="10dp"
                 android:src="@drawable/doc4_topdoctor"
                 app:shapeAppearanceOverlay="@style/roundedimageview" />

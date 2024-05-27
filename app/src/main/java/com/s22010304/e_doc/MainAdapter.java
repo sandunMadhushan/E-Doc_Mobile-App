@@ -11,22 +11,30 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MainAdapter extends FirebaseRecyclerAdapter<DoctorSingleModel, MainAdapter.myViewHolder> {
+public class MainAdapter extends FirebaseRecyclerAdapter<MainModel, MainAdapter.myViewHolder> {
 
-    public MainAdapter(@NonNull FirebaseRecyclerOptions<DoctorSingleModel> options) {
+    public MainAdapter(@NonNull FirebaseRecyclerOptions<MainModel> options) {
         super(options);
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull DoctorSingleModel model) {
+    protected void onBindViewHolder(@NonNull myViewHolder holder, int position, @NonNull MainModel model) {
         holder.name.setText(model.getName());
         holder.slmcNo.setText(model.getslmcNo());
         holder.username.setText(model.getUsername());
+
+        Glide.with(holder.img.getContext())
+                .load(model.getiurl()).
+                placeholder(R.drawable.baseline_person_24_lavendar)
+                .circleCrop()
+                .error(R.drawable.ic_launcher_background)
+                .into(holder.img);
 
     }
 
@@ -44,10 +52,11 @@ public class MainAdapter extends FirebaseRecyclerAdapter<DoctorSingleModel, Main
 
         public myViewHolder(@NonNull View itemView) {
             super(itemView);
-            name = itemView.findViewById(R.id.nameTextView);
-            slmcNo = itemView.findViewById(R.id.slmcTextView);
-            username = itemView.findViewById(R.id.usernameTextView);
-            detailsBtn = itemView.findViewById(R.id.detailsBtn);
+            name = (TextView) itemView.findViewById(R.id.nameTextView);
+            slmcNo = (TextView) itemView.findViewById(R.id.slmcTextView);
+            username = (TextView) itemView.findViewById(R.id.usernameTextView);
+            detailsBtn =(Button) itemView.findViewById(R.id.detailsBtn);
+            img = (CircleImageView) itemView.findViewById(R.id.img1);
             detailsBtn.setOnClickListener(this);
         }
 
@@ -56,7 +65,7 @@ public class MainAdapter extends FirebaseRecyclerAdapter<DoctorSingleModel, Main
         public void onClick(View v) {
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) { // Ensure the position is valid
-                DoctorSingleModel clickedItem = getItem(position); // Get the clicked item
+                MainModel clickedItem = getItem(position); // Get the clicked item
                 Intent intent = new Intent(itemView.getContext(), DoctorSingle.class);
                 // Pass the username to the DoctorSingle activity
                 intent.putExtra("username", clickedItem.getUsername());

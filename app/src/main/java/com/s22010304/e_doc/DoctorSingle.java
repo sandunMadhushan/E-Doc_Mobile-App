@@ -5,6 +5,8 @@ import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -23,6 +26,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
+import com.bumptech.glide.signature.ObjectKey;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -154,18 +162,41 @@ public class DoctorSingle extends AppCompatActivity {
         doctorsDetailsRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                DoctorDetailsModel doctorDetailsModel = dataSnapshot.getValue(DoctorDetailsModel.class);
-                if (doctorDetailsModel != null) {
-                    nameTextView.setText(doctorDetailsModel.name);
-                    nameTextView2.setText(doctorDetailsModel.name);
-                    emailTextView.setText(doctorDetailsModel.email);
-                    usernameTextView.setText(doctorDetailsModel.username);
-                    SLMCRegTextView.setText(doctorDetailsModel.slmcNo);
-                    NICTextView.setText(doctorDetailsModel.nic);
-                    ConNoTextView.setText(doctorDetailsModel.contactNo);
-                    WorkAddressTextView.setText(doctorDetailsModel.workAddress);
-                    homeAddressTextView.setText(doctorDetailsModel.homeAddress);
-                    SpecialAreTextView.setText(doctorDetailsModel.specialArea);
+                DoctorDetailsModeltoSingle doctorDetailsModeltoSingle = dataSnapshot.getValue(DoctorDetailsModeltoSingle.class);
+                if (doctorDetailsModeltoSingle != null) {
+                    nameTextView.setText(doctorDetailsModeltoSingle.name);
+                    nameTextView2.setText(doctorDetailsModeltoSingle.name);
+                    emailTextView.setText(doctorDetailsModeltoSingle.email);
+                    usernameTextView.setText(doctorDetailsModeltoSingle.username);
+                    SLMCRegTextView.setText(doctorDetailsModeltoSingle.slmcNo);
+                    NICTextView.setText(doctorDetailsModeltoSingle.nic);
+                    ConNoTextView.setText(doctorDetailsModeltoSingle.contactNo);
+                    WorkAddressTextView.setText(doctorDetailsModeltoSingle.workAddress);
+                    homeAddressTextView.setText(doctorDetailsModeltoSingle.homeAddress);
+                    SpecialAreTextView.setText(doctorDetailsModeltoSingle.specialArea);
+
+                    // Load image using Glide or Picasso
+                    String iurl = doctorDetailsModeltoSingle.iurl;
+                    if (iurl != null && !iurl.isEmpty()) {
+                        Glide.with(DoctorSingle.this)
+                                .load(iurl)
+                                .placeholder(R.drawable.baseline_person_24_lavendar)
+                                .error(R.drawable.ic_launcher_background)
+                                .into(new CustomTarget<Drawable>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                        img1.setImageDrawable(resource);
+                                        // Set image URL as tag
+                                        img1.setTag(iurl);
+                                    }
+
+                                    @Override
+                                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                                    }
+                                });
+
+
+                    }
                 }
             }
 
@@ -175,6 +206,7 @@ public class DoctorSingle extends AppCompatActivity {
             }
         });
     }
+
 
     private void submitDoctorDetails() {
         String name = nameTextView.getText().toString();
@@ -186,9 +218,11 @@ public class DoctorSingle extends AppCompatActivity {
         String specialArea = SpecialAreTextView.getText().toString();
         String workAddress = WorkAddressTextView.getText().toString();
         String homeAddress = homeAddressTextView.getText().toString();
-        String address = homeAddressTextView.getText().toString();
 
-        DoctorDetailsModel approvedDoctorDetailsModel = new DoctorDetailsModel(name, email, username, address, nic, slmcNo, contactNo, specialArea, workAddress, homeAddress);
+        // Retrieve the image URL from Glide
+        String iurl = (String) img1.getTag();
+
+        DoctorDetailsModeltoSingle approvedDoctorDetailsModel = new DoctorDetailsModeltoSingle(name, email, username, homeAddress, nic, slmcNo, contactNo, specialArea, workAddress, homeAddress, iurl);
         approvedDoctorsDetailsRef.child(username).setValue(approvedDoctorDetailsModel)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
@@ -214,5 +248,6 @@ public class DoctorSingle extends AppCompatActivity {
                     }
                 });
     }
+
 
 }
