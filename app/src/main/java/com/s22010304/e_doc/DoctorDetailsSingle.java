@@ -1,13 +1,16 @@
 package com.s22010304.e_doc;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
@@ -16,6 +19,9 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.transition.Transition;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +32,7 @@ public class DoctorDetailsSingle extends AppCompatActivity {
 
     private DatabaseReference approvedDoctorsDetailsRef;
     TextView nameTextView, SpecialAreTextView;
+    ImageView img;
     ConstraintLayout back_btn;
     private String username;
 
@@ -50,6 +57,7 @@ public class DoctorDetailsSingle extends AppCompatActivity {
 
         nameTextView = findViewById(R.id.nameTextView);
         SpecialAreTextView = findViewById(R.id.SpecialAreTextView);
+        img = findViewById(R.id.img);
 
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(v -> onBackPressed());
@@ -74,6 +82,29 @@ public class DoctorDetailsSingle extends AppCompatActivity {
                 if (doctorDetailsModel != null) {
                     nameTextView.setText(doctorDetailsModel.name);
                     SpecialAreTextView.setText(doctorDetailsModel.specialArea);
+
+                    // Load image using Glide or Picasso
+                    String iurl = doctorDetailsModel.iurl;
+                    if (iurl != null && !iurl.isEmpty()) {
+                        Glide.with(DoctorDetailsSingle.this)
+                                .load(iurl)
+                                .placeholder(R.drawable.baseline_person_24_lavendar)
+                                .error(R.drawable.baseline_person_24_primary)
+                                .into(new CustomTarget<Drawable>() {
+                                    @Override
+                                    public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {
+                                        img.setImageDrawable(resource);
+                                        // Set image URL as tag
+                                        img.setTag(iurl);
+                                    }
+
+                                    @Override
+                                    public void onLoadCleared(@Nullable Drawable placeholder) {
+                                    }
+                                });
+
+
+                    }
                 }
             }
 
