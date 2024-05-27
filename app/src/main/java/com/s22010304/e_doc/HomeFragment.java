@@ -15,6 +15,7 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,11 +69,10 @@ public class HomeFragment extends Fragment {
 
 
         // Set user name
-        if (name != null) {
-            userNameTextView.setText(name);
-        } else if (userName != null) {
+        if (userName != null) {
+            Log.d("UserName", "Username: " + userName);
             userNameTextView.setText(userName);
-        } else {
+        }  else {
             // If userName is null, display placeholder text
 
             userNameTextView.setText("User");
