@@ -32,7 +32,7 @@ public class FavDoctorAdapter extends FirebaseRecyclerAdapter<TopDoctorSingleMod
                 .load(model.getiurl())
                 .placeholder(R.drawable.baseline_person_24_lavendar)
                 .centerCrop()
-                .error(R.drawable.ic_launcher_background).into(myViewHolder.img);
+                .error(R.drawable.baseline_person_24_primary).into(myViewHolder.img);
     }
 
     @NonNull
