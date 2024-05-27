@@ -75,16 +75,16 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             saveUserInfoLocally(userName, profilePictureUri, nameFromDB);
         }
 
-        if (userName != null && profilePictureUri != null) {
+       /* if (userName != null || profilePictureUri != null) {
             replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, nameFromDB));
         } else {
             replaceFragment(new HomeFragment());
         }
-
+*/
 
 
             // Check if user information is retrieved, if not, display placeholder
-        if (userName != null && profilePictureUri != null) {
+        if (userName != null || profilePictureUri != null) {
             // Replace the current fragment with HomeFragment and pass user information
          
             replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
-                        replaceFragment(new DoctorHomeFragment());
+                        replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name));
                         break;
                     case R.id.appointments:
                         replaceFragment(new AppointmentsFragment());
