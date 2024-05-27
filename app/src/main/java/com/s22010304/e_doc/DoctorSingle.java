@@ -181,7 +181,7 @@ public class DoctorSingle extends AppCompatActivity {
                         Glide.with(DoctorSingle.this)
                                 .load(iurl)
                                 .placeholder(R.drawable.baseline_person_24_lavendar)
-                                .error(R.drawable.ic_launcher_background)
+                                .error(R.drawable.baseline_person_24_primary)
                                 .into(new CustomTarget<Drawable>() {
                                     @Override
                                     public void onResourceReady(@NonNull Drawable resource, @Nullable Transition<? super Drawable> transition) {

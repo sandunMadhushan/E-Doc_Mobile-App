@@ -3,6 +3,7 @@ package com.s22010304.e_doc;
 import static android.app.Activity.RESULT_OK;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class DoctorProfileFragment extends Fragment {
     private Uri iurl;
     private CircleImageView img1;
     private String username;
+    ProgressDialog dialog;
 
     @Nullable
     @Override
@@ -80,6 +82,13 @@ public class DoctorProfileFragment extends Fragment {
         usersRef = FirebaseDatabase.getInstance().getReference("users");
         doctorsDetailsRef = FirebaseDatabase.getInstance().getReference("doctors_details");
         firebaseStorage = FirebaseStorage.getInstance();
+
+        dialog = new ProgressDialog(getContext());
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Please wait...");
+        dialog.setCancelable(false);
+        dialog.setTitle("Profile updating");
+        dialog.setCanceledOnTouchOutside(false);
 
         // Fetch user data
         fetchUserData();
@@ -156,6 +165,7 @@ public class DoctorProfileFragment extends Fragment {
     }
 
     private void uploadProfileImageAndSubmitDetails() {
+        dialog.show();
         if (iurl != null) {
             final StorageReference reference = firebaseStorage.getReference().child("doctor_pro_pics")
                     .child(System.currentTimeMillis() + "");
@@ -201,7 +211,12 @@ public class DoctorProfileFragment extends Fragment {
         doctorsDetailsRef.child(username).setValue(doctorDetailsModel).addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void unused) {
+                dialog.dismiss();
                 Toast.makeText(getActivity(), "Profile updated successfully", Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), DoctorProfileViewDetails.class);
+                intent.putExtra("username", username);
+                startActivity(intent);
+                getActivity().finish();
                 sendNotificationToAdmin();
             }
         }).addOnFailureListener(new OnFailureListener() {
