@@ -199,9 +199,9 @@ public class DoctorSingle extends AppCompatActivity {
         String workAddress = WorkAddressTextView.getText().toString();
         String homeAddress = homeAddressTextView.getText().toString();
         String address = homeAddressTextView.getText().toString();
-        String imageUrl = img1.toString();
+        String iurl = img1.toString();
 
-        DoctorDetailsModeltoSingle approvedDoctorDetailsModel = new DoctorDetailsModeltoSingle(name, email, username, address, nic, slmcNo, contactNo, specialArea, workAddress, homeAddress, imageUrl);
+        DoctorDetailsModeltoSingle approvedDoctorDetailsModel = new DoctorDetailsModeltoSingle(name, email, username, address, nic, slmcNo, contactNo, specialArea, workAddress, homeAddress, iurl);
         approvedDoctorsDetailsRef.child(username).setValue(approvedDoctorDetailsModel)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
