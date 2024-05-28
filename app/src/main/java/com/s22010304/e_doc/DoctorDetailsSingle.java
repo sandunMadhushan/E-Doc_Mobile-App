@@ -12,6 +12,7 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
@@ -34,6 +35,7 @@ public class DoctorDetailsSingle extends AppCompatActivity {
     TextView nameTextView, SpecialAreTextView;
     ImageView img;
     ConstraintLayout back_btn;
+    AppCompatButton bookappointmntBtn;
     private String username;
 
     @Override
@@ -59,19 +61,53 @@ public class DoctorDetailsSingle extends AppCompatActivity {
         SpecialAreTextView = findViewById(R.id.SpecialAreTextView);
         img = findViewById(R.id.img);
 
+        bookappointmntBtn = findViewById(R.id.bookappointmntBtn);
+        bookappointmntBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fetchUserDataAndNavigate(); // Load data and navigate to BookAppointmentFragment
+            }
+        });
+
         back_btn = findViewById(R.id.back_btn);
         back_btn.setOnClickListener(v -> onBackPressed());
 
         approvedDoctorsDetailsRef = FirebaseDatabase.getInstance().getReference("approved_doctors");
 
+        // Fetch user data
         fetchUserData();
+    }
 
-        /*back_btn.setOnClickListener(new View.OnClickListener() {
+    private void fetchUserDataAndNavigate() {
+        approvedDoctorsDetailsRef.child(username).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                DoctorDetailsModel doctorDetailsModel = dataSnapshot.getValue(DoctorDetailsModel.class);
+                if (doctorDetailsModel != null) {
+                    loadBookAppointmentFragment(doctorDetailsModel.name, doctorDetailsModel.specialArea);
+                }
             }
-        });*/
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Firebase", "Error while reading users data", databaseError.toException());
+            }
+        });
+    }
+
+    private void loadBookAppointmentFragment(String name, String specialArea) {
+        Bundle bundle = new Bundle();
+        bundle.putString("doctorName", name);
+        bundle.putString("specialArea", specialArea);
+
+        BookAppointmentFragment bookAppointmentFragment = new BookAppointmentFragment();
+        bookAppointmentFragment.setArguments(bundle);
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.doctordetalssingle, bookAppointmentFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void fetchUserData() {
@@ -102,8 +138,6 @@ public class DoctorDetailsSingle extends AppCompatActivity {
                                     public void onLoadCleared(@Nullable Drawable placeholder) {
                                     }
                                 });
-
-
                     }
                 }
             }
@@ -114,6 +148,4 @@ public class DoctorDetailsSingle extends AppCompatActivity {
             }
         });
     }
-
-
 }

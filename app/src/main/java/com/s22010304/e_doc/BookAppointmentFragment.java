@@ -18,6 +18,9 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.Calendar;
 
 public class BookAppointmentFragment extends Fragment {
@@ -36,6 +39,12 @@ public class BookAppointmentFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_appointment, container, false);
+
+        Bundle args = getArguments();
+        if (args != null){
+            String doctorName = args.getString("doctorName", "");
+            String specialArea = args.getString("specialArea", "");
+        }
 
         initializeViews(view);
 
@@ -136,25 +145,50 @@ public class BookAppointmentFragment extends Fragment {
         AppCompatButton bookAppointmentBtn = requireView().findViewById(R.id.bookappointmntBtn);
         bookAppointmentBtn.setOnClickListener(v -> {
             if (selectedDate != null && selectedPhase != null && selectedTime != null && selectedMode != null) {
-                String message = "Appointment Booked Successfully on " + selectedDate + " during " + selectedPhase + " at " + selectedTime + " via " + selectedMode;
-                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+                // Get doctor's name and special area from arguments
+                Bundle args = getArguments();
+                if (args != null) {
+                    String doctorName = args.getString("doctorName", "");
+                    String specialArea = args.getString("specialArea", "");
 
-                AppointmentsFragment appointmentsFragment = new AppointmentsFragment();
-                Bundle bundle = new Bundle();
-                bundle.putString("selectedDate", selectedDate);
-                bundle.putString("selectedTime", selectedTime);
-                bundle.putString("selectedMode", selectedMode);
-                appointmentsFragment.setArguments(bundle);
+                    // Sanitize the doctor's name to remove invalid characters
+                    String sanitizedDoctorName = doctorName.replaceAll("[.#$\\[\\]]", "_");
 
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_containerBA, appointmentsFragment)
-                        .addToBackStack(null)
-                        .commit();
+                    // Get a reference to the "new_appointments" node
+                    DatabaseReference newAppointmentsRef = FirebaseDatabase.getInstance().getReference("new_appointments")
+                            .child(sanitizedDoctorName)
+                            .child(selectedDate);
 
+                    // Construct the appointment object
+                    Appointment appointment = new Appointment(selectedDate, selectedPhase, selectedTime, selectedMode);
+                    appointment.setDoctorName(doctorName);
+                    appointment.setSpecialArea(specialArea);
+
+                    // Push the appointment data to the database
+                    newAppointmentsRef.push().setValue(appointment)
+                            .addOnSuccessListener(aVoid -> {
+                                String message = "Appointment Booked Successfully on " + selectedDate + " during " + selectedPhase + " at " + selectedTime + " via " + selectedMode;
+                                Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
+                                // Navigate to AppointmentsFragment
+                                AppointmentsFragment appointmentsFragment = new AppointmentsFragment();
+                                getParentFragmentManager().beginTransaction()
+                                        .replace(R.id.fragment_containerBA, appointmentsFragment)
+                                        .addToBackStack(null)
+                                        .commit();
+                            })
+                            .addOnFailureListener(e -> {
+                                Toast.makeText(getActivity(), "Failed to book appointment. Please try again.", Toast.LENGTH_LONG).show();
+                                Log.e("Firebase", "Error booking appointment", e);
+                            });
+                }
             } else {
                 Toast.makeText(getActivity(), "Please select date, phase, time, and mode.", Toast.LENGTH_LONG).show();
             }
         });
+
+
+
 
 
         ConstraintLayout backBtn = requireView().findViewById(R.id.back_btn);
