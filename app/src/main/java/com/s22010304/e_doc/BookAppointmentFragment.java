@@ -138,6 +138,19 @@ public class BookAppointmentFragment extends Fragment {
             if (selectedDate != null && selectedPhase != null && selectedTime != null && selectedMode != null) {
                 String message = "Appointment Booked Successfully on " + selectedDate + " during " + selectedPhase + " at " + selectedTime + " via " + selectedMode;
                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
+
+                AppointmentsFragment appointmentsFragment = new AppointmentsFragment();
+                Bundle bundle = new Bundle();
+                bundle.putString("selectedDate", selectedDate);
+                bundle.putString("selectedTime", selectedTime);
+                bundle.putString("selectedMode", selectedMode);
+                appointmentsFragment.setArguments(bundle);
+
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_containerBA, appointmentsFragment)
+                        .addToBackStack(null)
+                        .commit();
+
             } else {
                 Toast.makeText(getActivity(), "Please select date, phase, time, and mode.", Toast.LENGTH_LONG).show();
             }
