@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
         if ("Patient".equals(userSelectedOp)) {
             // Replace the current fragment with HomeFragment and pass user information
-            replaceFragment(new HomeFragment());
+            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
@@ -142,7 +142,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
         } else if ("Doctor".equals(userSelectedOp)) {
 
-            replaceFragment(new DoctorHomeFragment());
+            replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name));
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
