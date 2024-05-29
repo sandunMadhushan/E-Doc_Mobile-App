@@ -37,6 +37,8 @@ public class DoctorDetailsSingle extends AppCompatActivity {
     ConstraintLayout back_btn;
     AppCompatButton bookappointmntBtn;
     private String username;
+    private String userName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,8 @@ public class DoctorDetailsSingle extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             username = intent.getStringExtra("username");
+            userName = intent.getStringExtra("userName");
+
         } else {
             finish();
             return;
@@ -84,7 +88,7 @@ public class DoctorDetailsSingle extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 DoctorDetailsModel doctorDetailsModel = dataSnapshot.getValue(DoctorDetailsModel.class);
                 if (doctorDetailsModel != null) {
-                    loadBookAppointmentFragment(doctorDetailsModel.name, doctorDetailsModel.specialArea);
+                    loadBookAppointmentFragment(doctorDetailsModel.name, doctorDetailsModel.specialArea, doctorDetailsModel.username);
                 }
             }
 
@@ -95,10 +99,12 @@ public class DoctorDetailsSingle extends AppCompatActivity {
         });
     }
 
-    private void loadBookAppointmentFragment(String name, String specialArea) {
+    private void loadBookAppointmentFragment(String name, String specialArea, String username) {
         Bundle bundle = new Bundle();
         bundle.putString("doctorName", name);
         bundle.putString("specialArea", specialArea);
+        bundle.putString("username", username);
+        bundle.putString("userName", userName);
 
         BookAppointmentFragment bookAppointmentFragment = new BookAppointmentFragment();
         bookAppointmentFragment.setArguments(bundle);

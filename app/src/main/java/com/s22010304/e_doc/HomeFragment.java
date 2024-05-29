@@ -109,7 +109,7 @@ public class HomeFragment extends Fragment {
                         .setQuery(databaseReference, TopDoctorSingleModel.class)
                         .build();
 
-        topDoctorAdapter = new TopDoctorAdapter(options);
+        topDoctorAdapter = new TopDoctorAdapter(options, userName);
         topdoc_recyclerView.setAdapter(topDoctorAdapter);
 
         favdoc_recyclerView = view.findViewById(R.id.fav_doctorsRv);
@@ -118,7 +118,7 @@ public class HomeFragment extends Fragment {
                 .setQuery(databaseReference, TopDoctorSingleModel.class)
                 .build();
 
-        favDoctorAdapter = new FavDoctorAdapter(options);
+        favDoctorAdapter = new FavDoctorAdapter(options, userName);
         favdoc_recyclerView.setAdapter(favDoctorAdapter);
 
 

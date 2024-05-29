@@ -18,8 +18,13 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.Calendar;
 
@@ -32,6 +37,7 @@ public class BookAppointmentFragment extends Fragment {
     CalendarView calendarView;
     LinearLayout messagingBtn, videocallBtn;
     String selectedDate, selectedPhase, selectedTime, selectedMode;
+    String loggedInUsername;
 
     public BookAppointmentFragment() {}
 
@@ -57,19 +63,17 @@ public class BookAppointmentFragment extends Fragment {
             public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
                 String curDate = String.valueOf(dayOfMonth);
                 String Year = String.valueOf(year);
-                String Month = String.valueOf(month+1);
+                String Month = String.valueOf(month + 1);
 
                 selectedDate = (Year + "/" + Month + "/" + curDate);
-
             }
         });
 
-
-
+        // Get the logged-in user's username
+        getCurrentLoggedInUsername();
 
         return view;
     }
-
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -150,6 +154,9 @@ public class BookAppointmentFragment extends Fragment {
                 if (args != null) {
                     String doctorName = args.getString("doctorName", "");
                     String specialArea = args.getString("specialArea", "");
+                    String username = args.getString("username", "");
+                    String userName = args.getString("userName", "");
+
 
                     // Sanitize the doctor's name to remove invalid characters
                     String sanitizedDoctorName = doctorName.replaceAll("[.#$\\[\\]]", "_");
@@ -157,15 +164,18 @@ public class BookAppointmentFragment extends Fragment {
                     // Get a reference to the "new_appointments" node
                     DatabaseReference newAppointmentsRef = FirebaseDatabase.getInstance().getReference("new_appointments")
                             .child(sanitizedDoctorName)
-                            .child(selectedDate);
+                            .child(selectedDate)
+                            .child(userName);
 
                     // Construct the appointment object
                     Appointment appointment = new Appointment(selectedDate, selectedPhase, selectedTime, selectedMode);
                     appointment.setDoctorName(doctorName);
                     appointment.setSpecialArea(specialArea);
+                    appointment.setusername(username);
+                    appointment.setloggedusername(userName);
 
                     // Push the appointment data to the database
-                    newAppointmentsRef.push().setValue(appointment)
+                    newAppointmentsRef.setValue(appointment)
                             .addOnSuccessListener(aVoid -> {
                                 String message = "Appointment Booked Successfully on " + selectedDate + " during " + selectedPhase + " at " + selectedTime + " via " + selectedMode;
                                 Toast.makeText(getActivity(), message, Toast.LENGTH_LONG).show();
@@ -186,10 +196,6 @@ public class BookAppointmentFragment extends Fragment {
                 Toast.makeText(getActivity(), "Please select date, phase, time, and mode.", Toast.LENGTH_LONG).show();
             }
         });
-
-
-
-
 
         ConstraintLayout backBtn = requireView().findViewById(R.id.back_btn);
         backBtn.setOnClickListener(v -> getParentFragmentManager().beginTransaction()
@@ -214,7 +220,6 @@ public class BookAppointmentFragment extends Fragment {
         }
     }
 
-
     private void toggleTimeButton(int row, int col) {
         for (Button[] buttons : timeButtons) {
             for (Button button : buttons) {
@@ -238,4 +243,31 @@ public class BookAppointmentFragment extends Fragment {
         }
         return null;
     }
+
+    private void getCurrentLoggedInUsername() {
+        FirebaseUser currentUser = FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser != null) {
+            String userId = currentUser.getUid();
+            DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+            userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        loggedInUsername = snapshot.child("username").getValue(String.class);
+                    } else {
+                        Toast.makeText(getActivity(), "User data not found.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getActivity(), "Failed to retrieve user data.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(getActivity(), "No user logged in.", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
 }

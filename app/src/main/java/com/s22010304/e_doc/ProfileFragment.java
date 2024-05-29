@@ -18,6 +18,17 @@ import android.widget.LinearLayout;
 public class ProfileFragment extends Fragment {
     ConstraintLayout BackBtn;
 
+    public static Fragment newInstance(String userName, String profilePictureUri, String name) {
+        ProfileFragment fragment = new ProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("userName", userName);
+        args.putString("profilePictureUri", profilePictureUri);
+        args.putString("name", name);
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
