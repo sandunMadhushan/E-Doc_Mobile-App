@@ -7,6 +7,8 @@ public class Appointment {
     private String selectedMode;
     private String doctorName;
     private String specialArea;
+    private String username;
+    private String loggedusername;
 
     public Appointment() {
         // Default constructor required for Firebase
@@ -66,5 +68,21 @@ public class Appointment {
 
     public void setSpecialArea(String specialArea) {
         this.specialArea = specialArea;
+    }
+
+    public String getusername() {
+        return username;
+    }
+
+    public void setusername(String username) {
+        this.username = username;
+    }
+
+    public String getloggedusername() {
+        return loggedusername;
+    }
+
+    public void setloggedusername(String loggedusername) {
+        this.loggedusername = loggedusername;
     }
 }

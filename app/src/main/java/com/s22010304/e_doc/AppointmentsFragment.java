@@ -23,16 +23,22 @@ public class AppointmentsFragment extends Fragment {
 
     public AppointmentsFragment() {}
 
+    public static Fragment newInstance(String userName, String profilePictureUri, String name) {
+        AppointmentsFragment fragment = new AppointmentsFragment();
+        Bundle args = new Bundle();
+        args.putString("userName", userName);
+        args.putString("profilePictureUri", profilePictureUri);
+        args.putString("name", name);
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentAppointmentsBinding.inflate(inflater, container, false);
-        binding.detailsbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                loadBookAppointmentFragment();
-            }
-        });
+
         return binding.getRoot();
     }
 
@@ -45,16 +51,7 @@ public class AppointmentsFragment extends Fragment {
         if (args != null) {
             String date = args.getString("selectedDate");
             String time = args.getString("selectedTime");
-            //String mode = args.getString("selectedMode");
 
-            TextView dateTextView = view.findViewById(R.id.textView27);
-            TextView timeTextView = view.findViewById(R.id.textView28);
-            //TextView modeTextView = view.findViewById(R.id.modeTextView);
-
-            String formattedDate = formatDateString(date);
-
-            dateTextView.setText(formattedDate);
-            timeTextView.setText(time);
            // modeTextView.setText("Mode: " + mode);
         }
     }
