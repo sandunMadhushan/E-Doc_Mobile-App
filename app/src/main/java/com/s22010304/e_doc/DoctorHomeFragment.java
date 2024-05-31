@@ -96,7 +96,7 @@ public class DoctorHomeFragment extends Fragment {
                             for (DataSnapshot dateSnapshot : monthSnapshot.getChildren()) {
                                 for (DataSnapshot appointmentSnapshot : dateSnapshot.getChildren()) {
                                     AppointmentRequestsModel appointment = appointmentSnapshot.getValue(AppointmentRequestsModel.class);
-                                    if (appointment != null || loggedInUsername.equals(appointment.getLoggedusername())) {
+                                    if (appointment != null || loggedInUsername.equals(appointment.getLoggedusername()) && "pending".equals(appointment.getStatus())) {
                                         recycleList.add(appointment);
                                     }
                                 }
