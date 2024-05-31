@@ -183,6 +183,10 @@ public class BookAppointmentFragment extends Fragment {
 
                                 // Navigate to AppointmentsFragment
                                 AppointmentsFragment appointmentsFragment = new AppointmentsFragment();
+                                Bundle bundle = new Bundle();
+                                bundle.putString("userName", userName);
+                                appointmentsFragment.setArguments(bundle);
+
                                 getParentFragmentManager().beginTransaction()
                                         .replace(R.id.fragment_containerBA, appointmentsFragment)
                                         .addToBackStack(null)

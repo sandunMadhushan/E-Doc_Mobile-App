@@ -184,7 +184,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             }
             else if (itemId == R.id.appointments) {
                 if ("Patient".equals(userSelectedOp)) {
-                    replaceFragment(new AppointmentsFragment());
+                    replaceFragment(AppointmentsFragment.newInstance(userName, profilePictureUri, name));
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
                     replaceFragment(DoctorAppointmentFragment.newInstance(userName, profilePictureUri, name));
