@@ -16,4 +16,20 @@ public class DoctorAppointmentFragment extends Fragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_doctor_appointment, container, false);
     }
+
+
+
+    public static DoctorAppointmentFragment newInstance(String userName, String profilePictureUri, String name) {
+
+        DoctorAppointmentFragment fragment = new DoctorAppointmentFragment();
+        Bundle args = new Bundle();
+        args.putString("userName", userName);
+        args.putString("profilePictureUri", profilePictureUri);
+        args.putString("name", name);
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
 }
