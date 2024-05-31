@@ -68,5 +68,6 @@ dependencies {
     implementation("com.karumi:dexter:6.2.3")
     implementation("com.google.firebase:firebase-storage:21.0.0")
     implementation ("com.airbnb.android:lottie:6.4.0")
+    implementation("com.squareup.picasso:picasso:2.8")
 
 }

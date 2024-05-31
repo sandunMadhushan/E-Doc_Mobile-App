@@ -8,8 +8,7 @@
     android:padding="10dp"
     app:cardBackgroundColor="@color/accent"
     app:cardCornerRadius="6dp"
-    app:cardUseCompatPadding="true"
-    tools:context=".AppointmentSingleRecyclerItem">
+    app:cardUseCompatPadding="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -81,7 +80,7 @@
             android:background="@android:color/darker_gray" />
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
@@ -91,9 +90,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-                <View
-                    android:layout_width="10sp"
-                    android:layout_height="10dp"/>
+
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -120,9 +117,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-                <View
-                    android:layout_width="10sp"
-                    android:layout_height="10dp"/>
+
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -144,14 +139,21 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp">
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:orientation="horizontal">
-                <View
-                    android:layout_width="20sp"
-                    android:layout_height="10dp"/>
+
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -159,7 +161,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
-                    app:srcCompat="@drawable/baseline_sell_24"
+                    app:srcCompat="@drawable/baseline_smartphone_24"
                     app:tint="@color/muted" />
 
                 <TextView
@@ -168,7 +170,36 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="Messaging"
+                    android:text="Video Call"
+                    android:textColor="@color/muted"
+                    android:textSize="14sp" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:orientation="horizontal">
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    app:srcCompat="@drawable/baseline_info_outline_24"
+                    app:tint="@color/muted" />
+
+                <TextView
+                    android:id="@+id/statusTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="1"
+                    android:text="pending"
                     android:textColor="@color/muted"
                     android:textSize="14sp" />
             </LinearLayout>

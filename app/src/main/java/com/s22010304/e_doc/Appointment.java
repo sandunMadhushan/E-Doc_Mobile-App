@@ -9,16 +9,18 @@ public class Appointment {
     private String specialArea;
     private String username;
     private String loggedusername;
+    private String status;
 
     public Appointment() {
         // Default constructor required for Firebase
     }
 
-    public Appointment(String selectedDate, String selectedPhase, String selectedTime, String selectedMode) {
+    public Appointment(String selectedDate, String selectedPhase, String selectedTime, String selectedMode, String status) {
         this.selectedDate = selectedDate;
         this.selectedPhase = selectedPhase;
         this.selectedTime = selectedTime;
         this.selectedMode = selectedMode;
+        this.status = status;
     }
 
     // Getters and setters
@@ -84,5 +86,13 @@ public class Appointment {
 
     public void setloggedusername(String loggedusername) {
         this.loggedusername = loggedusername;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

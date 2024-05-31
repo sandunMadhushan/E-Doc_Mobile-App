@@ -6,20 +6,33 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.s22010304.e_doc.databinding.FragmentAppointmentsBinding;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
 public class AppointmentsFragment extends Fragment {
+    RecyclerView recyclerView;
+    ArrayList<Appointment> recycleList;
+    FirebaseDatabase firebaseDatabase;
     private FragmentAppointmentsBinding binding;
+    private String loggedInUsername;
 
     public AppointmentsFragment() {}
 
@@ -45,6 +58,45 @@ public class AppointmentsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+        recyclerView = binding.rv;
+        recycleList = new ArrayList<>();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
+        NewAppointmentAdapter recycleAdapter = new NewAppointmentAdapter(recycleList,getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(recycleAdapter);
+
+        firebaseDatabase.getReference().child("new_appointments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot doctorSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot yearSnapshot : doctorSnapshot.getChildren()) {
+                        for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
+                            for (DataSnapshot dateSnapshot : monthSnapshot.getChildren()) {
+                                for (DataSnapshot appointmentSnapshot : dateSnapshot.getChildren()) {
+                                    Appointment appointment = appointmentSnapshot.getValue(Appointment.class);
+                                    if (appointment != null || loggedInUsername.equals(appointment.getloggedusername())) {
+                                        recycleList.add(appointment);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                recycleAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle possible errors
+            }
+        });
 
         // Get arguments from the bundle
         Bundle args = getArguments();
