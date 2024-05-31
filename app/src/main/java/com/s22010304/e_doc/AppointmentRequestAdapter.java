@@ -1,6 +1,7 @@
 package com.s22010304.e_doc;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -51,9 +54,9 @@ public class AppointmentRequestAdapter extends RecyclerView.Adapter<AppointmentR
         return list.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        ImageView drImageView;
+        ImageView drImageView, approve, decline;
         TextView dateTextView, timeTextView, modeTextView, patientNameTV;
 
         public ViewHolder(@NonNull View itemView) {
@@ -65,7 +68,37 @@ public class AppointmentRequestAdapter extends RecyclerView.Adapter<AppointmentR
             modeTextView = itemView.findViewById(R.id.modeTextView);
             patientNameTV = itemView.findViewById(R.id.patientNameTV);
 
+            approve = itemView.findViewById(R.id.approve);
+            decline = itemView.findViewById(R.id.decline);
+            approve.setOnClickListener(this);
+
         }
+
+        @Override
+        public void onClick(View v) {
+            // Get the position of the clicked item
+            int position = getAdapterPosition();
+            if (position != RecyclerView.NO_POSITION) {
+                // Get the AppointmentRequestsModel associated with the clicked item
+                AppointmentRequestsModel model = list.get(position);
+
+                // Assuming you have a reference to your Firebase database
+                DatabaseReference approvedAppointmentsRef = FirebaseDatabase.getInstance().getReference()
+                        .child("approved_appointments")
+                        .child(model.getLoggedusername()); // Node named after the logged-in user
+
+                // Store the details under the user's node in Firebase without generating a unique ID
+                approvedAppointmentsRef.child("patientUsername").setValue(model.getLoggedusername());
+                approvedAppointmentsRef.child("selectedDate").setValue(model.getSelectedDate());
+                approvedAppointmentsRef.child("selectedTime").setValue(model.getSelectedTime());
+                approvedAppointmentsRef.child("selectedMode").setValue(model.getSelectedMode());
+
+                // Optionally, you can remove the item from the RecyclerView
+                list.remove(position);
+                notifyItemRemoved(position);
+            }
+        }
+
     }
 
 }

@@ -105,7 +105,7 @@ public class DoctorDetailsSingle extends AppCompatActivity {
         bundle.putString("specialArea", specialArea);
         bundle.putString("username", username);
         bundle.putString("userName", userName);
-
+        Log.d("doctorsingle", "loadBookAppointmentFragment: "+ userName);
         BookAppointmentFragment bookAppointmentFragment = new BookAppointmentFragment();
         bookAppointmentFragment.setArguments(bundle);
 

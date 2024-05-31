@@ -6,6 +6,7 @@ public class AppointmentRequestsModel {
     private String selectedTime;
     private String selectedMode;
     private String loggedusername;
+    private String status;
 
     public AppointmentRequestsModel() {
     }
@@ -47,5 +48,13 @@ public class AppointmentRequestsModel {
 
     public void setLoggedusername(String loggedusername) {
         this.loggedusername = loggedusername;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
