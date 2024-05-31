@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
-                    replaceFragment(new DoctorHomeFragment());
+                    replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name));
                 }
 
                 else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
@@ -187,7 +187,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                     replaceFragment(new AppointmentsFragment());
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
-                    replaceFragment(new DoctorAppointmentFragment());
+                    replaceFragment(DoctorAppointmentFragment.newInstance(userName, profilePictureUri, name));
                 }
                 else replaceFragment(new AppointmentsFragment());
             }
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                     replaceFragment(new ProfileFragment());
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
-                    replaceFragment(new DoctorProfileFragment());
+                    replaceFragment(DoctorProfileFragment.newInstance(userName, profilePictureUri, name));
                 }
                 else replaceFragment(new ProfileFragment());
             }

@@ -328,4 +328,19 @@ public class DoctorProfileFragment extends Fragment {
         }
         return true;
     }
+
+
+    public static DoctorProfileFragment newInstance(String userName, String profilePictureUri, String name) {
+
+        DoctorProfileFragment fragment = new DoctorProfileFragment();
+        Bundle args = new Bundle();
+        args.putString("userName", userName);
+        args.putString("profilePictureUri", profilePictureUri);
+        args.putString("name", name);
+
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+
 }
