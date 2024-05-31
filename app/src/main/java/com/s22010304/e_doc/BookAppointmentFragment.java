@@ -36,7 +36,7 @@ public class BookAppointmentFragment extends Fragment {
     private int primaryColor, blackColor;
     CalendarView calendarView;
     LinearLayout messagingBtn, videocallBtn;
-    String selectedDate, selectedPhase, selectedTime, selectedMode;
+    String selectedDate, selectedPhase, selectedTime, selectedMode, status;
     String loggedInUsername;
 
     public BookAppointmentFragment() {}
@@ -168,11 +168,12 @@ public class BookAppointmentFragment extends Fragment {
                             .child(userName);
 
                     // Construct the appointment object
-                    Appointment appointment = new Appointment(selectedDate, selectedPhase, selectedTime, selectedMode);
+                    Appointment appointment = new Appointment(selectedDate, selectedPhase, selectedTime, selectedMode,status);
                     appointment.setDoctorName(doctorName);
                     appointment.setSpecialArea(specialArea);
                     appointment.setusername(username);
                     appointment.setloggedusername(userName);
+                    appointment.setStatus("pending");
 
                     // Push the appointment data to the database
                     newAppointmentsRef.setValue(appointment)
