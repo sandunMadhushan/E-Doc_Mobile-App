@@ -7,7 +7,11 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +22,20 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 public class DoctorHomeFragment extends Fragment {
+
+    RecyclerView recyclerView;
+    ArrayList<AppointmentRequestsModel> recycleList;
+    FirebaseDatabase firebaseDatabase;
+
+    private String loggedInUsername;
 
     private String userName;
     private String profilePictureUri;
@@ -57,6 +73,47 @@ public class DoctorHomeFragment extends Fragment {
                 logoutUser();
             }
         });
+
+
+        recyclerView = view.findViewById(R.id.rv);
+        recycleList = new ArrayList<>();
+
+        firebaseDatabase = FirebaseDatabase.getInstance();
+
+        AppointmentRequestAdapter recycleAdapter = new AppointmentRequestAdapter(recycleList,getContext());
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(recycleAdapter);
+
+        firebaseDatabase.getReference().child("new_appointments").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot doctorSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot yearSnapshot : doctorSnapshot.getChildren()) {
+                        for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
+                            for (DataSnapshot dateSnapshot : monthSnapshot.getChildren()) {
+                                for (DataSnapshot appointmentSnapshot : dateSnapshot.getChildren()) {
+                                    AppointmentRequestsModel appointment = appointmentSnapshot.getValue(AppointmentRequestsModel.class);
+                                    if (appointment != null || loggedInUsername.equals(appointment.getLoggedusername())) {
+                                        recycleList.add(appointment);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                recycleAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle possible errors
+            }
+        });
+
+
 
 
         return view;
