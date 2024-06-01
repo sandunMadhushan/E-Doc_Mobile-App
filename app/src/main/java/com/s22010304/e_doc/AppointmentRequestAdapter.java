@@ -76,24 +76,32 @@ public class AppointmentRequestAdapter extends RecyclerView.Adapter<AppointmentR
 
         @Override
         public void onClick(View v) {
-            // Get the position of the clicked item
             int position = getAdapterPosition();
             if (position != RecyclerView.NO_POSITION) {
-                // Get the AppointmentRequestsModel associated with the clicked item
                 AppointmentRequestsModel model = list.get(position);
 
-                // Assuming you have a reference to your Firebase database
                 DatabaseReference approvedAppointmentsRef = FirebaseDatabase.getInstance().getReference()
                         .child("approved_appointments")
-                        .child(model.getLoggedusername()); // Node named after the logged-in user
+                        .child(model.getLoggedusername());
 
-                // Store the details under the user's node in Firebase without generating a unique ID
                 approvedAppointmentsRef.child("patientUsername").setValue(model.getLoggedusername());
                 approvedAppointmentsRef.child("selectedDate").setValue(model.getSelectedDate());
                 approvedAppointmentsRef.child("selectedTime").setValue(model.getSelectedTime());
                 approvedAppointmentsRef.child("selectedMode").setValue(model.getSelectedMode());
 
-                // Optionally, you can remove the item from the RecyclerView
+
+                DatabaseReference appointmentRef = FirebaseDatabase.getInstance().getReference()
+                        .child("new_appointments")
+                        .child(model.getDoctorName())
+                        .child(model.getSelectedDate().split("/")[0])
+                        .child(model.getSelectedDate().split("/")[1])
+                        .child(model.getSelectedDate().split("/")[2])
+                        .child(model.getLoggedusername());
+
+
+                appointmentRef.child("status").setValue("approved");
+
+
                 list.remove(position);
                 notifyItemRemoved(position);
             }

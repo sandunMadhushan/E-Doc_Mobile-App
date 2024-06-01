@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,8 +40,9 @@ public class DoctorHomeFragment extends Fragment {
 
     private String userName;
     private String profilePictureUri;
+    private String name;
 
-    public DoctorHomeFragment(){}
+    public DoctorHomeFragment() {}
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,12 +53,16 @@ public class DoctorHomeFragment extends Fragment {
         TextView userNameTextView = view.findViewById(R.id.text_user_name);
         ImageView profileImageView = view.findViewById(R.id.profileImage);
 
+        if (getArguments() != null) {
+            userName = getArguments().getString("userName");
+            profilePictureUri = getArguments().getString("profilePictureUri");
+            loggedInUsername = getArguments().getString("loggedInUsername");
+        }
 
         if (userName != null) {
             userNameTextView.setText(userName);
-        }  else {
+        } else {
             // If userName is null, display placeholder text
-
             userNameTextView.setText("Doctor");
         }
 
@@ -74,49 +80,48 @@ public class DoctorHomeFragment extends Fragment {
             }
         });
 
-
         recyclerView = view.findViewById(R.id.rv);
         recycleList = new ArrayList<>();
 
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        AppointmentRequestAdapter recycleAdapter = new AppointmentRequestAdapter(recycleList,getContext());
+        AppointmentRequestAdapter recycleAdapter = new AppointmentRequestAdapter(recycleList, getContext());
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(recycleAdapter);
 
-        firebaseDatabase.getReference().child("new_appointments").addListenerForSingleValueEvent(new ValueEventListener() {
+        loadPendingAppointments(recycleAdapter);
+
+        return view;
+    }
+
+    private void loadPendingAppointments(AppointmentRequestAdapter recycleAdapter) {
+        firebaseDatabase.getReference().child("new_appointments").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot doctorSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot yearSnapshot : doctorSnapshot.getChildren()) {
+                recycleList.clear(); // Clear the list to avoid duplicates
+                    for (DataSnapshot yearSnapshot : snapshot.getChildren()) {
                         for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
                             for (DataSnapshot dateSnapshot : monthSnapshot.getChildren()) {
                                 for (DataSnapshot appointmentSnapshot : dateSnapshot.getChildren()) {
                                     AppointmentRequestsModel appointment = appointmentSnapshot.getValue(AppointmentRequestsModel.class);
-                                    if (appointment != null || loggedInUsername.equals(appointment.getLoggedusername()) && "pending".equals(appointment.getStatus())) {
+                                    if (appointment != null  && "pending".equals(appointment.getStatus())) {
                                         recycleList.add(appointment);
                                     }
                                 }
                             }
                         }
                     }
+                    recycleAdapter.notifyDataSetChanged();
                 }
-                recycleAdapter.notifyDataSetChanged();
-            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                // Handle possible errors
+
             }
         });
-
-
-
-
-        return view;
     }
 
     private void logoutUser() {
@@ -136,16 +141,13 @@ public class DoctorHomeFragment extends Fragment {
         editor.clear().apply();
     }
 
-
-
-    public static DoctorHomeFragment newInstance(String userName, String profilePictureUri, String name) {
-
+    public static DoctorHomeFragment newInstance(String userName, String profilePictureUri, /*String loggedInUsername,*/ String name) {
         DoctorHomeFragment fragment = new DoctorHomeFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
-        args.putString("name", name);
-
+        //args.putString("loggedInUsername", loggedInUsername);
+        args.putString("name",name);
         fragment.setArguments(args);
         return fragment;
     }
@@ -156,12 +158,8 @@ public class DoctorHomeFragment extends Fragment {
         if (getArguments() != null) {
             userName = getArguments().getString("userName");
             profilePictureUri = getArguments().getString("profilePictureUri");
-
+            loggedInUsername = getArguments().getString("loggedInUsername");
+            name = getArguments().getString("name");
         }
     }
-
-
-
-
-
 }

@@ -169,6 +169,8 @@ public class login extends AppCompatActivity {
                     loginUsername.setError(null);
                     String passwordFromDB = snapshot.child(userUsername).child("password").getValue(String.class);
                     String selectedOpFromDB = snapshot.child(userUsername).child("selectedOp").getValue(String.class);
+                    String name = snapshot.child(userUsername).child("name").getValue(String.class);
+
 
                     if (passwordFromDB.equals(userPassword)) {
                         loginUsername.setError(null);
@@ -178,6 +180,7 @@ public class login extends AppCompatActivity {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.putExtra("userSelectedOp", userSelectedOp);
                             intent.putExtra("userName",userUsername);
+                            intent.putExtra("name",name);
                             startActivity(intent);
                             finish();
                         } else {

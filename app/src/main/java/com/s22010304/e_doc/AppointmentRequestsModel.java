@@ -7,6 +7,7 @@ public class AppointmentRequestsModel {
     private String selectedMode;
     private String loggedusername;
     private String status;
+    private String doctorName;
 
     public AppointmentRequestsModel() {
     }
@@ -57,4 +58,18 @@ public class AppointmentRequestsModel {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    //
+
+
+
+    public String getDoctorName() {
+        return doctorName;
+    }
+
+    public void setDoctorName(String doctorName) {
+        this.doctorName = doctorName;
+    }
+
+
 }
