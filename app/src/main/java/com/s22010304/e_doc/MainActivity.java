@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                         replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name));
                         break;
                     case R.id.appointments:
-                        replaceFragment(new AppointmentsFragment());
+                        replaceFragment(AppointmentsFragment.newInstance(userName,profilePictureUri,name));
                         break;
                     case R.id.profile:
                         replaceFragment(new ProfileFragment());

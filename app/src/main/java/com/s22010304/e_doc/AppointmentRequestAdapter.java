@@ -82,7 +82,9 @@ public class AppointmentRequestAdapter extends RecyclerView.Adapter<AppointmentR
 
                 DatabaseReference approvedAppointmentsRef = FirebaseDatabase.getInstance().getReference()
                         .child("approved_appointments")
-                        .child(model.getLoggedusername());
+                        .child(model.getDoctorName())
+                        .child(model.getLoggedusername())
+                        .child(model.getSelectedDate());
 
                 approvedAppointmentsRef.child("patientUsername").setValue(model.getLoggedusername());
                 approvedAppointmentsRef.child("selectedDate").setValue(model.getSelectedDate());
