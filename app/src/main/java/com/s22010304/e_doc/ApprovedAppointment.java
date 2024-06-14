@@ -3,18 +3,15 @@ package com.s22010304.e_doc;
 public class ApprovedAppointment {
 
     private String selectedDate;
-    private String selectedPhase;
     private String selectedTime;
     private String selectedMode;
     private String patientUsername;
-    private String loggedusername;
+    private String loggedUsername;
 
-    public ApprovedAppointment() {
-    }
+    public ApprovedAppointment() {}
 
-    public ApprovedAppointment(String selectedDate, String selectedPhase, String selectedTime, String selectedMode, String patientName) {
+    public ApprovedAppointment(String selectedDate, String selectedTime, String selectedMode, String patientUsername) {
         this.selectedDate = selectedDate;
-        this.selectedPhase = selectedPhase;
         this.selectedTime = selectedTime;
         this.selectedMode = selectedMode;
         this.patientUsername = patientUsername;
@@ -26,14 +23,6 @@ public class ApprovedAppointment {
 
     public void setSelectedDate(String selectedDate) {
         this.selectedDate = selectedDate;
-    }
-
-    public String getSelectedPhase() {
-        return selectedPhase;
-    }
-
-    public void setSelectedPhase(String selectedPhase) {
-        this.selectedPhase = selectedPhase;
     }
 
     public String getSelectedTime() {
@@ -60,12 +49,11 @@ public class ApprovedAppointment {
         this.patientUsername = patientUsername;
     }
 
-    public String getLoggedusername() {
-        return loggedusername;
+    public String getLoggedUsername() {
+        return loggedUsername;
     }
 
-    public void setLoggedusername(String loggedusername) {
-        this.loggedusername = loggedusername;
+    public void setLoggedUsername(String loggedUsername) {
+        this.loggedUsername = loggedUsername;
     }
-
 }

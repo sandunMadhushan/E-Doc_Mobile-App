@@ -1,27 +1,22 @@
 package com.s22010304.e_doc;
 
 import android.os.Bundle;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.s22010304.e_doc.databinding.FragmentAppointmentsBinding;
-
 import java.util.ArrayList;
-
 
 public class DoctorAppointmentFragment extends Fragment {
 
@@ -35,23 +30,18 @@ public class DoctorAppointmentFragment extends Fragment {
 
     public DoctorAppointmentFragment() {}
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentAppointmentsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
 
-
-
     public static DoctorAppointmentFragment newInstance(String userName, String profilePictureUri, String name) {
-
         DoctorAppointmentFragment fragment = new DoctorAppointmentFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
         args.putString("name", name);
-
         fragment.setArguments(args);
         return fragment;
     }
@@ -84,16 +74,18 @@ public class DoctorAppointmentFragment extends Fragment {
         firebaseDatabase.getReference().child("approved_appointments").child(loggedInName).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot yearSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
-                        for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
-                            ApprovedAppointment appointment = daySnapshot.getValue(ApprovedAppointment.class);
-                            if (appointment != null) {
-                                Log.d(TAG, "Appointment found: " + appointment.getPatientUsername());
-                                recycleList.add(appointment);
-                                Log.d(TAG, "Appointment added: " + appointment.toString());
-                            } else {
-                                Log.d(TAG, "Appointment is null for snapshot: " + daySnapshot.getKey());
+                for (DataSnapshot patientSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot yearSnapshot : patientSnapshot.getChildren()) {
+                        for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
+                            for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
+                                ApprovedAppointment appointment = daySnapshot.getValue(ApprovedAppointment.class);
+                                if (appointment != null) {
+                                    Log.d(TAG, "Appointment found: " + appointment.getPatientUsername());
+                                    recycleList.add(appointment);
+                                    Log.d(TAG, "Appointment added: " + appointment.toString());
+                                } else {
+                                    Log.d(TAG, "Appointment is null for snapshot: " + daySnapshot.getKey());
+                                }
                             }
                         }
                     }
@@ -108,8 +100,5 @@ public class DoctorAppointmentFragment extends Fragment {
                 Log.e(TAG, "Database error: " + error.getMessage());
             }
         });
-
     }
-
-
 }
