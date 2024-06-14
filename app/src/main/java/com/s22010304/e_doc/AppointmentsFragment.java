@@ -40,7 +40,7 @@ public class AppointmentsFragment extends Fragment {
         args.putString("profilePictureUri", profilePictureUri);
         args.putString("name", name);
 
-        Log.d(TAG, "newInstance: userName: " + userName); // Add logging here
+        Log.d(TAG, "newInstance: userName: " + userName);
         fragment.setArguments(args);
         return fragment;
     }
