@@ -179,6 +179,7 @@ public class login extends AppCompatActivity {
                         if (selectedOpFromDB.equals(userSelectedOp)) {
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             intent.putExtra("userSelectedOp", userSelectedOp);
+                            Log.d("login", "onDataChange: "+userSelectedOp);
                             intent.putExtra("userName",userUsername);
                             intent.putExtra("name",name);
                             startActivity(intent);

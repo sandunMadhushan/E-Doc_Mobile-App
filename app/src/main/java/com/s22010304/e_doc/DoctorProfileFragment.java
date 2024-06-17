@@ -60,8 +60,10 @@ public class DoctorProfileFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_doctor_profile, container, false);
 
-        username = UserManager.getInstance().getUsername();
-
+//        username = UserManager.getInstance().getUsername();
+        if (getArguments() != null) {
+            username = getArguments().getString("userName");
+        }
         // Initialize views
         nameTextView = view.findViewById(R.id.nameTextView);
         emailTextView = view.findViewById(R.id.emailTextView);

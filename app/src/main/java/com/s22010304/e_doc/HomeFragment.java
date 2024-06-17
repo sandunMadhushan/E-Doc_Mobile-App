@@ -173,13 +173,14 @@ public class HomeFragment extends Fragment {
     }
 
 
-    public static HomeFragment newInstance(String userName, String profilePictureUri, String name) {
+    public static HomeFragment newInstance(String userName, String profilePictureUri, String name, String userSelectedOp) {
 
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
         args.putString("name", name);
+        args.putString("userSelectedOp",userSelectedOp);
 
         fragment.setArguments(args);
         return fragment;

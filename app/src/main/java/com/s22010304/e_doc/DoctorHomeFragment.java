@@ -1,5 +1,6 @@
 package com.s22010304.e_doc;
 
+import static android.content.ContentValues.TAG;
 import static android.content.Context.MODE_PRIVATE;
 
 import android.content.Intent;
@@ -37,10 +38,10 @@ public class DoctorHomeFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
 
     private String loggedInUsername;
-
     private String userName;
     private String profilePictureUri;
     private String name;
+    private String userSelectedOp;
 
     public DoctorHomeFragment() {}
 
@@ -57,6 +58,11 @@ public class DoctorHomeFragment extends Fragment {
             userName = getArguments().getString("userName");
             profilePictureUri = getArguments().getString("profilePictureUri");
             loggedInUsername = getArguments().getString("loggedInUsername");
+            userSelectedOp = getArguments().getString("userSelectedOp");
+//            name = getArguments().getString("name");
+
+            // Save the user info locally
+            saveUserInfoLocally(userName, profilePictureUri, loggedInUsername, name, userSelectedOp);
         }
 
         if (userName != null) {
@@ -92,36 +98,100 @@ public class DoctorHomeFragment extends Fragment {
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setAdapter(recycleAdapter);
 
-        loadPendingAppointments(recycleAdapter);
+        // Retrieve the saved name and use it
+        String savedName = getSavedName();
+        if (savedName != null) {
+            name = savedName;
+            loadPendingAppointments(recycleAdapter);
+        } else {
+            // Fetch the name from Firebase
+            fetchNameFromFirebaseAndLoadAppointments(recycleAdapter);
+        }
 
         return view;
     }
 
+    private void fetchNameFromFirebaseAndLoadAppointments(AppointmentRequestAdapter recycleAdapter) {
+        firebaseDatabase.getReference().child("users").child(userName).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    name = snapshot.getValue(String.class);
+                    if (name != null) {
+                        saveNameToPreferences(name);
+                        loadPendingAppointments(recycleAdapter);
+                    } else {
+                        Log.e("DoctorHomeFragment", "Name is null in Firebase");
+                    }
+                } else {
+                    Log.e("DoctorHomeFragment", "Name not found in Firebase");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.e("DoctorHomeFragment", "Failed to fetch name from Firebase", error.toException());
+            }
+        });
+    }
+
     private void loadPendingAppointments(AppointmentRequestAdapter recycleAdapter) {
+        if (name == null) {
+            Log.e("DoctorHomeFragment", "Name is null");
+            return; // Exit the method early if name is null
+        }
+
+        // Log the name to see its value
+        Log.d("DoctorHomeFragment", "Name: " + name);
+
         firebaseDatabase.getReference().child("new_appointments").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 recycleList.clear(); // Clear the list to avoid duplicates
-                    for (DataSnapshot yearSnapshot : snapshot.getChildren()) {
-                        for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
-                            for (DataSnapshot dateSnapshot : monthSnapshot.getChildren()) {
-                                for (DataSnapshot appointmentSnapshot : dateSnapshot.getChildren()) {
-                                    AppointmentRequestsModel appointment = appointmentSnapshot.getValue(AppointmentRequestsModel.class);
-                                    if (appointment != null  && "pending".equals(appointment.getStatus())) {
-                                        recycleList.add(appointment);
-                                    }
+                for (DataSnapshot yearSnapshot : snapshot.getChildren()) {
+                    for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
+                        for (DataSnapshot dateSnapshot : monthSnapshot.getChildren()) {
+                            for (DataSnapshot appointmentSnapshot : dateSnapshot.getChildren()) {
+                                AppointmentRequestsModel appointment = appointmentSnapshot.getValue(AppointmentRequestsModel.class);
+                                if (appointment != null && "pending".equals(appointment.getStatus())) {
+                                    recycleList.add(appointment);
                                 }
                             }
                         }
                     }
-                    recycleAdapter.notifyDataSetChanged();
                 }
+                recycleAdapter.notifyDataSetChanged();
+            }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                // Handle error
             }
         });
+    }
+
+    private void saveUserInfoLocally(String userName, String profilePictureUri, String name, String loggedInUsername, String userSelectedOp) {
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
+        editor.putString("userName", userName);
+        editor.putString("profilePictureUri", profilePictureUri);
+        editor.putString("userSelectedOp", userSelectedOp);
+//        editor.putString("name",name);
+        editor.putString("loggedInUsername", loggedInUsername);
+        Log.d("DoctorHomeFragment", "saveUserInfoLocally: " + userSelectedOp);
+        editor.apply();
+    }
+
+    private void saveNameToPreferences(String name) {
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
+        editor.putString("name", name); // Use the key 'name' directly
+        Log.d("doctorhome", "saveNameToPreferences: "+name);
+        editor.apply();
+    }
+
+    private String getSavedName() {
+        SharedPreferences prefs = requireActivity().getSharedPreferences("UserInfo", MODE_PRIVATE);
+        Log.d(TAG, "getSavedName: "+name);
+        return prefs.getString("name", null); // Retrieve the name using the key 'name'
     }
 
     private void logoutUser() {
@@ -141,13 +211,14 @@ public class DoctorHomeFragment extends Fragment {
         editor.clear().apply();
     }
 
-    public static DoctorHomeFragment newInstance(String userName, String profilePictureUri, /*String loggedInUsername,*/ String name) {
+    public static DoctorHomeFragment newInstance(String userName, String profilePictureUri, String name, String userSelectedOp) {
         DoctorHomeFragment fragment = new DoctorHomeFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
-        //args.putString("loggedInUsername", loggedInUsername);
-        args.putString("name",name);
+        args.putString("name", name);
+        Log.d("dctrhomenewinstancew", "newInstance: "+ name);
+        args.putString("userSelectedOp", userSelectedOp);
         fragment.setArguments(args);
         return fragment;
     }
@@ -160,6 +231,7 @@ public class DoctorHomeFragment extends Fragment {
             profilePictureUri = getArguments().getString("profilePictureUri");
             loggedInUsername = getArguments().getString("loggedInUsername");
             name = getArguments().getString("name");
+            userSelectedOp = getArguments().getString("userSelectedOp");
         }
     }
 }
