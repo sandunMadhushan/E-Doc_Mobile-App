@@ -26,7 +26,6 @@ public class DoctorAppointmentFragment extends Fragment {
     FirebaseDatabase firebaseDatabase;
     private FragmentAppointmentsBinding binding;
     private String loggedInUsername;
-    private String loggedInName;
 
     public DoctorAppointmentFragment() {}
 
@@ -36,12 +35,13 @@ public class DoctorAppointmentFragment extends Fragment {
         return binding.getRoot();
     }
 
-    public static DoctorAppointmentFragment newInstance(String userName, String profilePictureUri, String name) {
+    public static DoctorAppointmentFragment newInstance(String userName, String profilePictureUri, String name, String userSelectedOp) {
         DoctorAppointmentFragment fragment = new DoctorAppointmentFragment();
         Bundle args = new Bundle();
         args.putString("userName", userName);
         args.putString("profilePictureUri", profilePictureUri);
         args.putString("name", name);
+        args.putString("userSelectedOp", userSelectedOp);
         fragment.setArguments(args);
         return fragment;
     }
@@ -65,40 +65,72 @@ public class DoctorAppointmentFragment extends Fragment {
         Bundle args = getArguments();
         if (args != null) {
             loggedInUsername = args.getString("userName");
-            loggedInName = args.getString("name");
             Log.d(TAG, "Logged in username: " + loggedInUsername);
-            Log.d(TAG, "Logged in name: " + loggedInName);
         }
 
-        // Query the database for appointments of the logged-in user
-        firebaseDatabase.getReference().child("approved_appointments").child(loggedInName).addListenerForSingleValueEvent(new ValueEventListener() {
+        fetchNameFromFirebase(new NameFetchCallback() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot patientSnapshot : snapshot.getChildren()) {
-                    for (DataSnapshot yearSnapshot : patientSnapshot.getChildren()) {
-                        for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
-                            for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
-                                ApprovedAppointment appointment = daySnapshot.getValue(ApprovedAppointment.class);
-                                if (appointment != null) {
-                                    Log.d(TAG, "Appointment found: " + appointment.getPatientUsername());
-                                    recycleList.add(appointment);
-                                    Log.d(TAG, "Appointment added: " + appointment.toString());
-                                } else {
-                                    Log.d(TAG, "Appointment is null for snapshot: " + daySnapshot.getKey());
+            public void onNameFetched(String name) {
+                Log.d(TAG, "Logged in name: " + name);
+
+                // Query the database for appointments of the logged-in user
+                firebaseDatabase.getReference().child("approved_appointments").child(name).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot patientSnapshot : snapshot.getChildren()) {
+                            for (DataSnapshot yearSnapshot : patientSnapshot.getChildren()) {
+                                for (DataSnapshot monthSnapshot : yearSnapshot.getChildren()) {
+                                    for (DataSnapshot daySnapshot : monthSnapshot.getChildren()) {
+                                        ApprovedAppointment appointment = daySnapshot.getValue(ApprovedAppointment.class);
+                                        if (appointment != null) {
+                                            Log.d(TAG, "Appointment found: " + appointment.getPatientUsername());
+                                            recycleList.add(appointment);
+                                            Log.d(TAG, "Appointment added: " + appointment.toString());
+                                        } else {
+                                            Log.d(TAG, "Appointment is null for snapshot: " + daySnapshot.getKey());
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                }
 
-                recycleAdapter.notifyDataSetChanged();
-                Log.d(TAG, "Appointments list size: " + recycleList.size());
+                        recycleAdapter.notifyDataSetChanged();
+                        Log.d(TAG, "Appointments list size: " + recycleList.size());
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Log.e(TAG, "Database error: " + error.getMessage());
+                    }
+                });
+            }
+        });
+    }
+
+    private void fetchNameFromFirebase(NameFetchCallback callback) {
+        firebaseDatabase.getReference().child("users").child(loggedInUsername).child("name").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String loggedInName = snapshot.getValue(String.class);
+                    Log.d(TAG, "onDataChange: " + loggedInName);
+                    if (loggedInName == null) {
+                        Log.e("DoctorAppointmentFragment", "Name is null in Firebase");
+                    }
+                    callback.onNameFetched(loggedInName);
+                } else {
+                    Log.e("DoctorAppointmentFragment", "Name not found in Firebase");
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.e(TAG, "Database error: " + error.getMessage());
+                Log.e("DoctorAppointmentFragment", "Failed to fetch name from Firebase", error.toException());
             }
         });
+    }
+
+    interface NameFetchCallback {
+        void onNameFetched(String name);
     }
 }

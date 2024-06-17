@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
     private String userName;
     private String profilePictureUri;
     private String name;
+    private String userSelectedOp;
     ActivityMainBinding binding;
     private DrawerLayout drawerLayout;
     BiometricPrompt biometricPrompt;
@@ -70,10 +71,17 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             if (i.hasExtra("nameFromDB")) {
                 nameFromDB = i.getStringExtra("nameFromDB");
             }
+            if (i.hasExtra("userSelectedOp")) {
+                userSelectedOp = i.getStringExtra("userSelectedOp");
+            }
+
+            Log.d("main", "onCreate: "+userSelectedOp);
 
             // Save user info to SharedPreferences
-            saveUserInfoLocally(userName, profilePictureUri, nameFromDB);
+            saveUserInfoLocally(userName, profilePictureUri, nameFromDB, userSelectedOp);
         }
+
+        Log.d("PUBLC1", "onCreate: "+ userSelectedOp);
 
        /* if (userName != null || profilePictureUri != null) {
             replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, nameFromDB));
@@ -86,8 +94,8 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             // Check if user information is retrieved, if not, display placeholder
         if (userName != null || profilePictureUri != null) {
             // Replace the current fragment with HomeFragment and pass user information
-         
-            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
+
+            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
         } else {
             // Display placeholder image and text
             replaceFragment(new HomeFragment());
@@ -99,20 +107,28 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         // Check if user information is passed from LoginActivity
         Intent intent = getIntent();
 
-        if (intent != null)
-            if (intent.hasExtra("userName")){
+      /*  if (intent != null) {
+            if (intent.hasExtra("userName")) {
                 userName = intent.getStringExtra("userName");
             }
             if (intent.hasExtra("profilePictureUri")) {
                 profilePictureUri = intent.getStringExtra("profilePictureUri");
             }
-            if (intent.hasExtra("name")){
+            if (intent.hasExtra("name")) {
                 name = intent.getStringExtra("name");
 
             }
+            if (intent.hasExtra("userSelectedOp")) {
+                userSelectedOp = intent.getStringExtra("userSelectedOp");
+                Log.d("intent0", "onCreate: " + userSelectedOp);
 
-        String userSelectedOp = intent.getStringExtra("userSelectedOp");
+            }
+        }*/
 
+//         userSelectedOp = intent.getStringExtra("userSelectedOp");
+        Log.d("intent1", "onCreate: "+ userSelectedOp);
+
+        Log.d("PUBLC2", "onCreate: "+ userSelectedOp);
 
         String adminUsername = intent.getStringExtra("adminUsername");
 
@@ -121,13 +137,13 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
         if ("Patient".equals(userSelectedOp)) {
             // Replace the current fragment with HomeFragment and pass user information
-            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
+            replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
 
 
-                        replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
+                        replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
 
                         break;
                     case R.id.appointments:
@@ -142,22 +158,22 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
         } else if ("Doctor".equals(userSelectedOp)) {
 
-            replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name));
+            replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
-                        replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name));
+                        replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
                         break;
                     case R.id.appointments:
-                        replaceFragment(AppointmentsFragment.newInstance(userName,profilePictureUri,name));
+                        replaceFragment(DoctorAppointmentFragment.newInstance(userName,profilePictureUri,name,userSelectedOp));
                         break;
                     case R.id.profile:
-                        replaceFragment(new ProfileFragment());
+                        replaceFragment(ProfileFragment.newInstance(userName,profilePictureUri,name));
                         break;
                 }
                 return true;
             });
-        } else if ("edoc_admin".equals(adminUsername)) {
+        } else if ("edoc_admin".equals(adminUsername) || "edoc_admin".equals(userSelectedOp)) {
             intent.putExtra("adminUsername",adminUsername);
             binding.bottomNavigationView.setVisibility(View.GONE);
             replaceFragment(new AdminHome());
@@ -172,14 +188,14 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                 if ("Patient".equals(userSelectedOp)) {
 
 
-                    replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
+                    replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
 
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
-                    replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name));
+                    replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name, userSelectedOp));
                 }
 
-                else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name));
+                else replaceFragment(HomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
 
             }
             else if (itemId == R.id.appointments) {
@@ -187,7 +203,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
                     replaceFragment(AppointmentsFragment.newInstance(userName, profilePictureUri, name));
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
-                    replaceFragment(DoctorAppointmentFragment.newInstance(userName, profilePictureUri, name));
+                    replaceFragment(DoctorAppointmentFragment.newInstance(userName, profilePictureUri, name, userSelectedOp));
                 }
                 else replaceFragment(AppointmentsFragment.newInstance(userName, profilePictureUri, name));
             }
@@ -295,6 +311,8 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         userName = prefs.getString("userName", null);
         profilePictureUri = prefs.getString("profilePictureUri", null);
         nameFromDB = prefs.getString("nameFromDB",null);
+        userSelectedOp = prefs.getString("userSelectedOp",null);
+        Log.d("mainretrive", "retrieveUserInfo: "+ userSelectedOp);
     }
 
     public void onButtonClicked(View view) {
@@ -352,11 +370,13 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         finish(); // Close the current activity to prevent navigating back to ProfileFragment on back press
     }
 
-    private void saveUserInfoLocally(String userName, String profilePictureUri, String nameFromDB) {
+    private void saveUserInfoLocally(String userName, String profilePictureUri, String nameFromDB, String userSelectedOp) {
         SharedPreferences.Editor editor = getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
         editor.putString("userName", userName);
         editor.putString("profilePictureUri", profilePictureUri);
         editor.putString("nameFromDB", nameFromDB);
+        editor.putString("userSelectedOp",userSelectedOp);
+        Log.d("Main Activity", "saveUserInfoLocally: " + userSelectedOp);
         editor.apply();
     }
 
