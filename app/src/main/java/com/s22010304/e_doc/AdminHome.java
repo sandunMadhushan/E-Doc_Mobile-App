@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -33,6 +35,13 @@ public class AdminHome extends Fragment {
         saveUserInfoLocally();
 
 
+        MaterialButton logoutButton = view.findViewById(R.id.btn_logout);
+        logoutButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutUser();
+            }
+        });
 
 
         approvedoctor=view.findViewById(R.id.approvedoctor);
@@ -89,5 +98,20 @@ public class AdminHome extends Fragment {
         editor.putString("userSelectedOp", userSelectedOp);
 
         editor.apply();
+    }
+
+    private void logoutUser() {
+        FirebaseAuth.getInstance().signOut();
+        clearUserInfoLocally();
+        navigateToLoginActivity();
+    }
+    private void clearUserInfoLocally() {
+        SharedPreferences.Editor editor = requireActivity().getSharedPreferences("UserInfo", MODE_PRIVATE).edit();
+        editor.clear().apply();
+    }
+    private void navigateToLoginActivity() {
+        Intent intent = new Intent(requireContext(), login.class);
+        startActivity(intent);
+        requireActivity().finish();
     }
 }
