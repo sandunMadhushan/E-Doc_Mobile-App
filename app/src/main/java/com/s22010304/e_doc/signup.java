@@ -16,6 +16,8 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.UUID;
+
 public class signup extends AppCompatActivity {
 
     TextInputEditText signupName, signupEmail, signupUsername, signupPassword;
@@ -67,7 +69,10 @@ public class signup extends AppCompatActivity {
                         String password = signupPassword.getText().toString();
                         String selectedOp = selectedOption.getSelectedItem().toString();
 
-                        HelperClass helperClass = new HelperClass(name, email, username, password, selectedOp,null,null,null);
+                        String userId = UUID.randomUUID().toString().replaceAll("-", "").substring(0, 28);
+
+
+                        HelperClass helperClass = new HelperClass(name, email, username, password, selectedOp,null,null,null,userId);
                         reference.child(username).setValue(helperClass);
 
                         Toast.makeText(signup.this, "You have signup successfully", Toast.LENGTH_SHORT).show();
