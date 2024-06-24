@@ -1,9 +1,9 @@
 package com.s22010304.e_doc;
 
 public class HelperClass {
-    String name, email, username, password, selectedOp, address, age, contact_no;
+    String name, email, username, password, selectedOp, address, age, contact_no,userID;
 
-    public HelperClass(String name, String email, String username, String password, String selectedOp, String address, String age, String contact_no) {
+    public HelperClass(String name, String email, String username, String password, String selectedOp, String address, String age, String contact_no, String userID) {
         this.name = name;
         this.email = email;
         this.username = username;
@@ -12,6 +12,15 @@ public class HelperClass {
         this.address = address;
         this.age = age;
         this.contact_no = contact_no;
+        this.userID = userID;
+    }
+
+    public String getUserID() {
+        return userID;
+    }
+
+    public void setUserID(String userID) {
+        this.userID = userID;
     }
 
     public String getAddress() {

@@ -1,42 +1,187 @@
-<!-- activity_appointment_details.xml -->
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
+    android:background="@color/accent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="80dp"
+            android:background="@drawable/backbutton_background">
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#00FFFFFF"
+                android:src="@drawable/backicon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/textView20"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:fontFamily="@font/poppins_semibold"
+            android:text="Appointment Details"
+            android:textColor="@color/black"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_below="@+id/linearLayout7"
+        android:id="@+id/details"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Patient Name"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/PatientNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Patient Name"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Date"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Date"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Time"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/timeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Time"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Mode"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/modeTextView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Mode"
+                android:textSize="18sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:text="Doctor Username"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/doctorUsername"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Doctor Username"
+                android:textSize="18sp" />
+        </LinearLayout>
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/PatientNameTextView"
-        android:layout_width="wrap_content"
+        android:id="@+id/calltoPateint"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Patient Name"
-        android:textSize="18sp" />
+        android:layout_below="@+id/details"
+        android:layout_marginStart="30dp"
+        android:text="Call Patient"
+        android:textSize="20sp"
+        android:textColor="?attr/colorSurfaceInverse" />
 
-    <TextView
-        android:id="@+id/dateTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Date"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/timeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Time"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/modeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mode"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/doctorUsername"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Doctor Username"
-        android:textSize="18sp" />
-</LinearLayout>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/calltoPateint"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+</RelativeLayout>

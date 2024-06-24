@@ -2,6 +2,8 @@ package com.s22010304.e_doc;
 
 
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.biometric.BiometricManager;
 import androidx.core.content.ContextCompat;
@@ -28,6 +30,11 @@ import android.view.View;
 
 import java.util.concurrent.Executor;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.s22010304.e_doc.databinding.ActivityMainBinding;
 
 
@@ -162,6 +169,23 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             binding.bottomNavigationView.setOnItemSelectedListener(item -> {
                 switch (item.getItemId()) {
                     case R.id.home:
+                        DatabaseReference doctorRef = FirebaseDatabase.getInstance().getReference()
+                                .child("approved_doctors")
+                                .child(userName)
+                                .child("iurl");
+                        doctorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(DataSnapshot dataSnapshot) {
+                                String profilePictureUri = dataSnapshot.getValue(String.class);
+                                Log.d(TAG, "onDataChange: "+profilePictureUri);
+                                replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
+                            }
+
+                            @Override
+                            public void onCancelled(DatabaseError databaseError) {
+                                // Handle error
+                            }
+                        });
                         replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
                         break;
                     case R.id.appointments:
@@ -192,6 +216,23 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
                 }
                 else if ("Doctor".equals(userSelectedOp)) {
+                    DatabaseReference doctorRef = FirebaseDatabase.getInstance().getReference()
+                            .child("approved_doctors")
+                            .child(userName)
+                            .child("iurl");
+                    doctorRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            String profilePictureUri = dataSnapshot.getValue(String.class);
+                            Log.d(TAG, "onDataChange: "+profilePictureUri);
+                            replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name,userSelectedOp));
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+                            // Handle error
+                        }
+                    });
                     replaceFragment(DoctorHomeFragment.newInstance(userName, profilePictureUri, name, userSelectedOp));
                 }
 
