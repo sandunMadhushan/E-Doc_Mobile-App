@@ -181,7 +181,9 @@
             android:fontFamily="@font/poppins_medium"
             android:text="Details"
             android:textColor="@color/white"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:clickable="true"
+            android:focusable="true"/>
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>
