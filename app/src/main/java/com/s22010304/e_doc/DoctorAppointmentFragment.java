@@ -54,19 +54,21 @@ public class DoctorAppointmentFragment extends Fragment {
         recycleList = new ArrayList<>();
         firebaseDatabase = FirebaseDatabase.getInstance();
 
-        DoctorApprovedAppointmentAdapter recycleAdapter = new DoctorApprovedAppointmentAdapter(recycleList, getContext());
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
-        recyclerView.setLayoutManager(linearLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
-        recyclerView.setNestedScrollingEnabled(false);
-        recyclerView.setAdapter(recycleAdapter);
-
         // Get the logged-in username from the arguments
         Bundle args = getArguments();
         if (args != null) {
             loggedInUsername = args.getString("userName");
             Log.d(TAG, "Logged in username: " + loggedInUsername);
         }
+
+
+        DoctorApprovedAppointmentAdapter recycleAdapter = new DoctorApprovedAppointmentAdapter(recycleList, getContext(),loggedInUsername);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(linearLayoutManager);
+        recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL));
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setAdapter(recycleAdapter);
+
 
         fetchNameFromFirebase(new NameFetchCallback() {
             @Override
