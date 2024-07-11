@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
 
         //Fingerprint auth
 
-        /*drawer_layout = findViewById(R.id.drawer_layout);
+        drawer_layout = findViewById(R.id.drawer_layout);
 
         BiometricManager biometricManager = BiometricManager.from(this);
         switch (biometricManager.canAuthenticate()) {
@@ -334,7 +334,7 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         promptInfo = new BiometricPrompt.PromptInfo.Builder().setTitle("E-DOC")
                 .setDescription("Use your fingerprint to login").setDeviceCredentialAllowed(true).build();
 
-        biometricPrompt.authenticate(promptInfo);*/
+        biometricPrompt.authenticate(promptInfo);
 
 
     }
