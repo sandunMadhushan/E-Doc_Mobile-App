@@ -5,10 +5,15 @@ package com.s22010304.e_doc;
 import static android.content.ContentValues.TAG;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.biometric.BiometricManager;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -37,10 +42,13 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.s22010304.e_doc.databinding.ActivityMainBinding;
 
+import org.imaginativeworld.oopsnointernet.callbacks.ConnectionCallback;
+import org.imaginativeworld.oopsnointernet.dialogs.signal.DialogPropertiesSignal;
+import org.imaginativeworld.oopsnointernet.dialogs.signal.NoInternetDialogSignal;
 
 
 //uncomment this implement part to enable nav drawer
-public class MainActivity extends AppCompatActivity /*implements NavigationView.OnNavigationItemSelectedListener*/ {
+public class MainActivity extends AppCompatActivity/*implements NavigationView.OnNavigationItemSelectedListener*/ {
 
     String username;
     private String nameFromDB;
@@ -58,11 +66,10 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
+        NoInternetDialog();
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
 
         // Retrieve saved user information
         retrieveUserInfo();
@@ -316,6 +323,8 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
             @Override
             public void onAuthenticationError(int errorCode, @NonNull CharSequence errString) {
                 super.onAuthenticationError(errorCode, errString);
+                Toast.makeText(getApplicationContext(), "Fingerprint Authentication failed", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override
@@ -337,6 +346,40 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         biometricPrompt.authenticate(promptInfo);
 
 
+    }
+
+    // No Internet Dialog: Signal
+    private void NoInternetDialog() {
+
+        NoInternetDialogSignal.Builder builder = new NoInternetDialogSignal.Builder(
+                this,
+                getLifecycle()
+        );
+
+        DialogPropertiesSignal properties = builder.getDialogProperties();
+
+        properties.setConnectionCallback(new ConnectionCallback() { // Optional
+            @Override
+            public void hasActiveConnection(boolean hasActiveConnection) {
+                // ...
+            }
+        });
+
+        properties.setCancelable(false); // Optional
+        properties.setNoInternetConnectionTitle("No Internet"); // Optional
+        properties.setNoInternetConnectionMessage("Check your Internet connection and try again"); // Optional
+        properties.setShowInternetOnButtons(true); // Optional
+        properties.setPleaseTurnOnText("Please turn on"); // Optional
+        properties.setWifiOnButtonText("Wifi"); // Optional
+        properties.setMobileDataOnButtonText("Mobile data"); // Optional
+
+        properties.setOnAirplaneModeTitle("No Internet"); // Optional
+        properties.setOnAirplaneModeMessage("You have turned on the airplane mode."); // Optional
+        properties.setPleaseTurnOffText("Please turn off"); // Optional
+        properties.setAirplaneModeOffButtonText("Airplane mode"); // Optional
+        properties.setShowAirplaneModeOffButtons(true); // Optional
+
+        builder.build();
     }
 
     private void replaceFragment(Fragment fragment) {
@@ -419,6 +462,22 @@ public class MainActivity extends AppCompatActivity /*implements NavigationView.
         editor.putString("userSelectedOp",userSelectedOp);
         Log.d("Main Activity", "saveUserInfoLocally: " + userSelectedOp);
         editor.apply();
+    }
+
+    private void showNoInternetDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("No Internet Connection")
+                .setMessage("Internet connection is required to use this app. Please check your connection and try again.")
+                .setCancelable(false)
+                .setPositiveButton("Exit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Exit the app
+                        finish();
+                    }
+                });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
     }
 
 }
