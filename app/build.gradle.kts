@@ -78,5 +78,6 @@ dependencies {
     implementation("com.squareup.picasso:picasso:2.8")
     implementation("com.github.ZEGOCLOUD:zego_uikit_prebuilt_call_android:+")
     implementation ("com.github.ZEGOCLOUD:zego_uikit_signaling_plugin_android:+")
+    implementation ("org.imaginativeworld.oopsnointernet:oopsnointernet:2.0.0")
 
 }
