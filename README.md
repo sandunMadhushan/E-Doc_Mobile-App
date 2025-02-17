@@ -92,4 +92,4 @@ This project is licensed under the **MIT License**.
 
 ---
 
-Thank you for checking out the **E-Doc Mobile App**! We hope you find it useful for managing and organizing your electronic documents with ease and security.
+Thank you for checking out the E-Doc Mobile App! We hope you find it useful for managing your healthcare needs and accessing medical services with ease and convenience.
